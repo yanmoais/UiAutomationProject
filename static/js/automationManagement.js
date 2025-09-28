@@ -6684,7 +6684,7 @@ class AutomationManagement {
                             delete step.id;
                             delete step.index;
                             
-                            // // 1) 登录/注册：清空配置与临时账号，需用户再次点击“配置”后才生效
+                            // // 1) 登录/注册：清空配置与临时账号，需用户再次点击"配置"后才生效
                             // if (step && step.operation_type === 'web' && (step.operation_event === 'login' || step.operation_event === 'register')) {
                             //     step.auth_config = {};
                             //     step.auth_temp_credentials_list = [];
@@ -7557,6 +7557,13 @@ class AutomationManagement {
                         }
                     </div>
                 </div>
+                <!-- 复制步骤按钮 -->
+                <div class="step-copy-container">
+                    <button type="button" class="step-copy-btn" onclick="automationManagement.copyTestStep(${index})" title="复制此步骤">
+                        <i class="fas fa-copy"></i>
+                        <span>复制步骤</span>
+                    </button>
+                </div>
             </div>
         `;
     }
@@ -7729,6 +7736,61 @@ class AutomationManagement {
         this.recalculateStepTabIndexes();
         
         this.renderTestSteps();
+    }
+
+    // 复制测试步骤
+    copyTestStep(index) {
+        const originalStep = this.testSteps[index];
+        if (!originalStep) return;
+
+        // 深度复制步骤数据
+        const copiedStep = JSON.parse(JSON.stringify(originalStep));
+        
+        // 修改复制步骤的名称，添加"副本"标识
+        if (copiedStep.step_name) {
+            copiedStep.step_name = copiedStep.step_name + ' - 副本';
+        } else {
+            copiedStep.step_name = '测试步骤副本';
+        }
+
+        // 如果是游戏操作且有图片，需要处理图片复制
+        if (copiedStep.operation_type === 'game' && copiedStep.operation_params) {
+            // 这里可以根据需要处理图片文件的复制逻辑
+            // 暂时保持原有的图片路径，实际使用时可能需要复制图片文件
+        }
+
+        // 在原步骤后面插入复制的步骤
+        this.testSteps.splice(index + 1, 0, copiedStep);
+        
+        // 如果是编辑模式，同时更新编辑副本
+        if (this.isEditing && this.editingTestSteps) {
+            this.editingTestSteps.splice(index + 1, 0, JSON.parse(JSON.stringify(copiedStep)));
+        }
+        
+        // 重新计算所有步骤的标签页索引
+        this.recalculateStepTabIndexes();
+        
+        // 重新渲染测试步骤
+        this.renderTestSteps();
+
+        // 显示成功提示
+        showToast('步骤复制成功！', 'success');
+        
+        // 滚动到新复制的步骤
+        setTimeout(() => {
+            const newStepElement = document.querySelector(`[data-index="${index + 1}"]`);
+            if (newStepElement) {
+                newStepElement.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center' 
+                });
+                // 添加高亮效果
+                newStepElement.classList.add('step-highlight');
+                setTimeout(() => {
+                    newStepElement.classList.remove('step-highlight');
+                }, 2000);
+            }
+        }, 100);
     }
 
     // 切换标签页跳转功能

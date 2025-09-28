@@ -2191,7 +2191,100 @@ body::before {
     margin-bottom: 0;
 }
 
+/* 复制步骤按钮样式 */
+.step-copy-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 0;
+    overflow: hidden;
+    transition: height 0.3s ease;
+    background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.95) 20%, rgba(255,255,255,1) 100%);
+    border-radius: 0 0 12px 12px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 12px;
+    z-index: 10;
+}
 
+.test-step:hover .step-copy-container {
+    height: 50px;
+}
+
+.step-copy-btn {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 8px 16px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    transform: translateY(10px);
+    opacity: 0;
+    min-width: 120px;
+    justify-content: center;
+}
+
+.test-step:hover .step-copy-btn {
+    transform: translateY(0);
+    opacity: 1;
+    transition-delay: 0.1s;
+}
+
+.step-copy-btn:hover {
+    background: linear-gradient(135deg, #5a6fd8, #6b46a3);
+    box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+    transform: translateY(-2px);
+}
+
+.step-copy-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.step-copy-btn i {
+    font-size: 0.875rem;
+}
+
+.step-copy-btn span {
+    font-size: 0.875rem;
+    white-space: nowrap;
+}
+
+/* 步骤高亮动画效果 */
+.step-highlight {
+    animation: stepHighlight 2s ease;
+}
+
+@keyframes stepHighlight {
+    0% {
+        background: white;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+    25% {
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        transform: translateY(-4px);
+    }
+    75% {
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        transform: translateY(-4px);
+    }
+    100% {
+        background: white;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        transform: translateY(0);
+    }
+}
 
 .btn-sm {
     padding: 0.5rem 1rem;
