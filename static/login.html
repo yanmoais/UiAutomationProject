@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录 - 星火自动化测试平台</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <!-- 页面头部 -->
+            <div class="auth-header">
+                <div class="logo">
+                    <i class="fas fa-rocket"></i>
+                    <span>星火自动化测试平台</span>
+                </div>
+                <p class="auth-subtitle">欢迎回来,请登录您的账户</p>
+            </div>
+
+            <!-- 登录表单 -->
+            <form class="auth-form" id="loginForm">
+                <!-- 用户名输入 -->
+                <div class="form-group">
+                    <label for="username">
+                        <i class="fas fa-user"></i>
+                        用户名
+                    </label>
+                    <input type="text" id="username" name="username" placeholder="请输入用户名" required>
+                </div>
+
+                <!-- 密码输入 -->
+                <div class="form-group">
+                    <label for="password">
+                        <i class="fas fa-lock"></i>
+                        密码
+                    </label>
+                    <div class="password-input">
+                        <input type="password" id="password" name="password" placeholder="请输入密码" required>
+                        <button type="button" class="password-toggle" onclick="togglePassword()">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 登录按钮 -->
+                <button type="submit" class="auth-btn" id="loginBtn">
+                    <i class="fas fa-arrow-right"></i>
+                    登录
+                </button>
+
+                <!-- 消息提示 -->
+                <div class="message" id="message"></div>
+            </form>
+
+            <!-- 底部链接 -->
+            <div class="auth-links">
+                还没有账户?<a href="{{ url_for('register') }}" class="link-btn">立即注册</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 切换密码显示/隐藏
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleBtn = document.querySelector('.password-toggle i');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleBtn.className = 'fas fa-eye-slash';
+            } else {
+                passwordInput.type = 'password';
+                toggleBtn.className = 'fas fa-eye';
+            }
+        }
+
+        // 表单提交处理
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const loginBtn = document.getElementById('loginBtn');
+            const message = document.getElementById('message');
+            
+            // 显示加载状态
+            loginBtn.disabled = true;
+            loginBtn.classList.add('loading');
+            loginBtn.innerHTML = '<i class="fas fa-spinner"></i> 登录中...';
+            
+            // 隐藏之前的消息
+            message.style.display = 'none';
+            
+            const formData = new FormData(this);
+            
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username: formData.get('username'),
+                        password: formData.get('password')
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    message.className = 'message success';
+                    message.textContent = result.message || '登录成功！正在跳转...';
+                    message.style.display = 'block';
+                    
+                    // 延迟跳转
+                    setTimeout(() => {
+                        window.location.href = '/';
+                    }, 1000);
+                } else {
+                    message.className = 'message error';
+                    message.textContent = result.message || '登录失败，请检查用户名和密码';
+                    message.style.display = 'block';
+                }
+            } catch (error) {
+                message.className = 'message error';
+                message.textContent = '网络错误，请稍后重试';
+                message.style.display = 'block';
+            } finally {
+                // 恢复按钮状态
+                loginBtn.disabled = false;
+                loginBtn.classList.remove('loading');
+                loginBtn.innerHTML = '<i class="fas fa-arrow-right"></i> 登录';
+            }
+        });
+
+        // 输入验证
+        document.getElementById('username').addEventListener('input', function() {
+            this.classList.remove('valid', 'invalid');
+            if (this.value.trim()) {
+                this.classList.add('valid');
+            }
+        });
+
+        document.getElementById('password').addEventListener('input', function() {
+            this.classList.remove('valid', 'invalid');
+            if (this.value.trim()) {
+                this.classList.add('valid');
+            }
+        });
+    </script>
+</body>
+</html> 

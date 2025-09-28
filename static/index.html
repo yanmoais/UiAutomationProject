@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>星火自动化测试平台</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/dracula.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/scroll/simplescrollbars.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/dialog/dialog.css" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- 顶部导航栏 -->
+        <header class="top-header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-rocket"></i>
+                    <span>星火自动化测试平台</span>
+                </div>
+                <div class="user-info">
+                    <i class="fas fa-user-circle"></i>
+                    <span>加载中...</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-container">
+            <!-- 左侧导航栏 -->
+            <nav class="sidebar">
+                <button class="sidebar-collapse-btn" id="sidebarCollapseBtn" title="收起侧边栏">
+                    <i class="fas fa-angle-left"></i>
+                </button>
+                <div class="nav-item dashboard-nav" id="dashboardNav">
+                    <div class="nav-header" onclick="loadDashboard()">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>仪表盘</span>
+                    </div>
+                </div>
+                <div class="nav-item" id="gameAutomation">
+                    <div class="nav-header" onclick="toggleNavItem('gameAutomation')">
+                        <i class="fas fa-gamepad"></i>
+                        <span>游戏自动化测试平台</span>
+                        <i class="fas fa-chevron-down nav-arrow"></i>
+                    </div>
+                    <div class="nav-submenu">
+                        <div class="nav-subitem active" onclick="loadProductManagement()">
+                            <i class="fas fa-code-branch"></i>
+                            <span>产品管理</span>
+                        </div>
+                        <div class="nav-subitem" onclick="loadAutomationManagement()">
+                            <i class="fas fa-robot"></i>
+                            <span>自动化管理</span>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <button class="sidebar-expand-btn" id="sidebarExpandBtn" title="展开侧边栏">
+                <i class="fas fa-angle-right"></i>
+            </button>
+
+            <!-- 主内容区域 -->
+            <main class="main-content">
+                <div id="content-area">
+                    <!-- 版本管理页面将在这里加载 -->
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- 批量执行进度面板 -->
+    <div id="batchExecutionPanel" class="batch-execution-panel hidden">
+        <div class="panel-header">
+            <div class="panel-title">
+                <i class="fas fa-tasks"></i>
+                <span>批量执行进度</span>
+            </div>
+            <div class="panel-controls">
+                <button class="panel-minimize-btn" onclick="automationManagement.toggleBatchPanel()" title="最小化/展开">
+                    <i class="fas fa-minus"></i>
+                </button>
+                <button class="panel-close-btn" onclick="automationManagement.closeBatchPanel()" title="关闭">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div class="panel-body">
+            <!-- 总体进度 -->
+            <div class="overall-progress">
+                <div class="progress-header">
+                    <span class="progress-title">总体进度</span>
+                    <span class="progress-text" id="overallProgressText">0/0</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="overallProgressFill" style="width: 0%"></div>
+                </div>
+                <div class="progress-stats">
+                    <span class="stat-item success">成功: <span id="successCount">0</span></span>
+                    <span class="stat-item error">失败: <span id="errorCount">0</span></span>
+                    <span class="stat-item info">剩余: <span id="remainingCount">0</span></span>
+                </div>
+            </div>
+            
+            <!-- 当前执行项目 -->
+            <div class="current-project">
+                <div class="current-project-header">
+                    <span class="current-project-title">当前执行项目</span>
+                    <span class="current-project-status" id="currentProjectStatus">准备中</span>
+                </div>
+                <div class="current-project-name" id="currentProjectName">暂无</div>
+                <div class="current-project-progress">
+                    <div class="project-progress-bar">
+                        <div class="project-progress-fill" id="currentProjectProgressFill"></div>
+                    </div>
+                    <span class="project-progress-text" id="currentProjectProgressText">等待开始</span>
+                </div>
+            </div>
+            
+            <!-- 项目列表 -->
+            <div class="project-list">
+                <div class="project-list-header">
+                    <span>执行队列</span>
+                    <button class="expand-list-btn" onclick="automationManagement.toggleProjectList()" id="expandListBtn">
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                </div>
+                <div class="project-list-content" id="projectListContent">
+                    <!-- 项目列表将在这里动态生成 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 项目编辑弹窗 -->
+    <div id="projectModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>项目编辑</h2>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <form id="projectForm" class="modal-body">
+                <!-- 第一行：产品包名和图片上传 -->
+                <div class="form-group full-width">
+                    <label for="productPackageName">产品包名 <span class="required">*</span></label>
+                    <div class="input-with-upload">
+                        <input type="text" id="productPackageName" name="productPackageName" required>
+                        <div class="upload-section">
+                            <input type="file" id="productImageInput" accept="image/*" style="display: none;">
+                            <button type="button" class="upload-btn" onclick="document.getElementById('productImageInput').click()">
+                                <i class="fas fa-upload"></i> 上传产品图片
+                            </button>
+                        </div>
+                            <div id="imagePreview" class="image-preview"></div>
+                    </div>
+                </div>
+
+                <!-- 网格布局区域 -->
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="productAddress">产品地址 <span class="required">*</span></label>
+                        <div class="multi-address-container" id="multiAddressContainer">
+                            <div class="address-input-group">
+                                <button type="button" class="add-address-btn" onclick="addAddressInput()" title="添加更多地址">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                                <input type="url" class="address-input" data-index="0" placeholder="请输入产品地址" required>
+                            </div>
+                        </div>
+                        <input type="hidden" id="productAddress" name="productAddress">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="productId">产品ID</label>
+                        <input type="text" id="productId" name="productId">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="isAutomated">是否自动化 <span class="required">*</span></label>
+                        <select id="isAutomated" name="isAutomated" required>
+                            <option value="">请选择</option>
+                            <option value="是">是</option>
+                            <option value="否">否</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="versionNumber">产品版本号</label>
+                        <input type="text" id="versionNumber" name="versionNumber">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="systemType">系统</label>
+                        <div class="custom-select-container">
+                            <input type="text" id="systemType" name="systemType" class="custom-select-input" placeholder="请选择或输入系统类型">
+                            <div class="custom-select-dropdown" id="systemTypeDropdown"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="productType">产品类型</label>
+                        <div class="custom-select-container">
+                            <input type="text" id="productType" name="productType" class="custom-select-input" placeholder="请选择或输入产品类型">
+                            <div class="custom-select-dropdown" id="productTypeDropdown"></div>
+                        </div>
+                        
+                    </div>
+
+                    <div class="form-group">
+                        <label for="environment">环境</label>
+                        <select id="environment" name="environment">
+                            <option value="">请选择环境</option>
+                            <option value="release">release</option>
+                            <option value="test">test</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 备注字段单独一行 -->
+                <div class="form-group full-width">
+                    <label for="remarks">备注</label>
+                    <textarea id="remarks" name="remarks" maxlength="200" placeholder="请输入备注信息（最多200字符）"></textarea>
+                    <div class="char-count">
+                        <span id="remarksCount">0</span>/200
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">取消</button>
+                    <button type="submit" class="btn btn-primary">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 自动化管理弹窗 -->
+    <div id="automationModal" class="modal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h2 id="automation-modal-title">自动化配置</h2>
+                <span class="close" onclick="automationManagement.closeModal()">&times;</span>
+            </div>
+            <form id="automationForm" class="modal-body" novalidate>
+                <!-- 第一行：流程名称 -->
+                <div class="form-group full-width">
+                    <label for="processName">流程名称 <span class="required">*</span></label>
+                    <input type="text" id="processName" name="processName" required placeholder="请输入流程名称">
+                </div>
+
+                <!-- 第二行：产品ID多选 -->
+                <div class="form-group full-width">
+                    <label for="productIds">产品ID <span class="required">*</span></label>
+                    <div class="custom-multiselect-container">
+                        <div class="multiselect-input" id="productIdsInput">
+                            <div id="productIdsSelected" class="multiselect-selected"></div>
+                            <div class="multiselect-placeholder">请选择产品ID</div>
+                            <div class="multiselect-arrow">
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                        <div class="multiselect-dropdown" id="productIdsDropdown"></div>
+                    </div>
+                    <small class="form-text text-muted">可多选，但必须是同一系统</small>
+                </div>
+
+                <!-- 系统字段 -->
+                <div class="form-group">
+                    <label for="automationSystem">系统</label>
+                    <div class="custom-select-container">
+                        <input type="text" id="automationSystem" name="automationSystem" class="custom-select-input" placeholder="请选择或输入系统类型">
+                        <div class="custom-select-dropdown" id="automationSystemDropdown"></div>
+                    </div>
+                </div>
+
+                <!-- 网格布局区域 -->
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="automationProductType">产品类型</label>
+                        <div class="custom-select-container">
+                            <input type="text" id="automationProductType" name="automationProductType" class="custom-select-input" placeholder="请选择或输入产品类型">
+                            <div class="custom-select-dropdown" id="automationProductTypeDropdown"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="automationEnvironment">环境</label>
+                        <div class="custom-select-container">
+                            <input type="text" id="automationEnvironment" name="automationEnvironment" class="custom-select-input" placeholder="请选择或输入环境">
+                            <div class="custom-select-dropdown" id="automationEnvironmentDropdown"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 产品地址字段 - 单独一行 -->
+                <div class="form-group">
+                    <label for="automationProductAddress">产品地址</label>
+                    <div id="productAddressContainer">
+                        <!-- 单产品地址输入 -->
+                        <input type="url" id="automationProductAddress" name="automationProductAddress" placeholder="请输入产品地址" style="display: none;">
+                        
+                        <!-- 多产品地址展示 -->
+                        <div id="multiProductAddresses" class="multi-product-addresses" style="display: none;">
+                            <div class="address-list-header">
+                                <span class="address-count">已选择 <span id="selectedProductCount">0</span> 个产品</span>
+                                <button type="button" class="btn btn-sm btn-outline-primary" onclick="automationManagement.toggleAddressList()">
+                                    <i class="fas fa-chevron-down"></i>
+                                    查看地址详情
+                                </button>
+                            </div>
+                            <div id="addressListContainer" class="address-list-container">
+                                <!-- 动态生成的地址列表 -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 测试步骤区域 -->
+                <div class="form-group full-width">
+                    <label>测试步骤 <span class="required">*</span></label>
+                    <div class="test-steps-container-enhanced">
+                        <div class="test-steps-header-enhanced">
+                            <h4><i class="fas fa-list-ol"></i> 测试步骤配置</h4>
+                            <div class="test-steps-actions">
+                                <button type="button" class="btn btn-secondary btn-sm" onclick="automationManagement.openImportTestStepsModal()">
+                                    <i class="fas fa-download"></i>
+                                    导入测试步骤
+                                </button>
+                            <button type="button" class="btn btn-primary btn-sm" onclick="automationManagement.addTestStep()">
+                                <i class="fas fa-plus"></i>
+                                添加测试步骤
+                            </button>
+                            </div>
+                        </div>
+                        <div id="testStepsList" class="test-steps-list-enhanced">
+                            <div class="no-steps">
+                                <i class="fas fa-clipboard-list" style="font-size: 3rem; opacity: 0.3; margin-bottom: 1rem;"></i>
+                                <p>暂无测试步骤，点击上方按钮添加第一个步骤</p>
+                            </div>
+                        </div>
+        </div>
+    </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="automationManagement.closeModal()">取消</button>
+                    <button type="submit" class="btn btn-primary">保存配置</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 执行记录弹窗 -->
+    <div id="executionHistoryModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>执行记录</h2>
+                <span class="close" onclick="automationManagement.closeExecutionHistoryModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="execution-history-list">
+                    <!-- 执行记录列表 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 执行日志详情弹窗 -->
+    <div id="executionLogModal" class="modal">
+        <div class="modal-content extra-large">
+            <div class="modal-header">
+                <h2 id="executionLogTitle">执行日志详情</h2>
+                <span class="close" onclick="automationManagement.closeExecutionLogModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <!-- 执行信息概览 -->
+                <div class="execution-overview">
+                    <div class="overview-grid">
+                        <div class="overview-item">
+                            <label>执行状态:</label>
+                            <span id="executionLogStatus" class="execution-status">未知</span>
+                        </div>
+                        <div class="overview-item">
+                            <label>执行用户:</label>
+                            <span id="executionLogOperator">未知</span>
+                        </div>
+                        <div class="overview-item">
+                            <label>开始时间:</label>
+                            <span id="executionLogStartTime">未知</span>
+                        </div>
+                        <div class="overview-item">
+                            <label>结束时间:</label>
+                            <span id="executionLogEndTime">未知</span>
+                        </div>
+                        <div class="overview-item">
+                            <label>执行时长:</label>
+                            <span id="executionLogDuration">计算中...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 日志操作工具栏 -->
+                <div class="log-toolbar">
+                    <div class="log-actions">
+                        <button type="button" class="btn btn-secondary btn-sm" id="copyLogBtn">
+                            <i class="fas fa-copy"></i>
+                            复制日志
+                        </button>
+                        <button type="button" class="btn btn-secondary btn-sm" id="downloadLogBtn">
+                            <i class="fas fa-download"></i>
+                            下载日志
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 日志内容区域 -->
+                <div class="log-content-container">
+                    <!-- 统计信息头部 -->
+                    <div class="log-stats-header">
+                        <div class="log-stats-grid">
+                            <div class="log-stat-item">
+                                <div class="stat-icon"><i class="fas fa-list-ol"></i></div>
+                                <div class="stat-content">
+                                    <div class="stat-label">测试步骤</div>
+                                    <div id="testStepsCount" class="stat-value">0</div>
+                                </div>
+                            </div>
+                            <div class="log-stat-item">
+                                <div class="stat-icon"><i class="fas fa-code"></i></div>
+                                <div class="stat-content">
+                                    <div class="stat-label">测试方法</div>
+                                    <div id="testMethodsCount" class="stat-value">0</div>
+                                </div>
+                            </div>
+                            <div class="log-stat-item">
+                                <div class="stat-icon"><i class="fas fa-camera"></i></div>
+                                <div class="stat-content">
+                                    <div class="stat-label">截图数量</div>
+                                    <div id="screenshotsCount" class="stat-value">0</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 测试步骤分组显示 -->
+                    <div class="log-content-header">
+                        <h3>详细日志</h3>
+                    </div>
+                    <div class="log-content-wrapper">
+                        <div id="executionLogContent" class="log-steps-container">
+                            <!-- 日志内容将在这里显示 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 导入测试步骤弹窗 -->
+    <div id="importTestStepsModal" class="modal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h2><i class="fas fa-download"></i> 导入测试步骤</h2>
+                <span class="close" onclick="automationManagement.closeImportTestStepsModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="import-steps-container">
+                    <!-- 搜索框 - 单独在顶部 -->
+                    <div class="import-search-section-top">
+                        <div class="search-box-top">
+                            <input type="text" id="projectSearchInput" placeholder="搜索项目、测试案例或测试步骤..." class="form-control">
+                            <button type="button" class="search-btn" onclick="automationManagement.performSearch()">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 三列内容区域 -->
+                    <div class="import-steps-content">
+                        <!-- 左侧：可用项目 -->
+                        <div class="import-section import-products">
+                            <div class="section-header">
+                                <h3><i class="fas fa-folder-open"></i> 可用项目</h3>
+                            </div>
+                            <div id="productsList" class="products-list">
+                                <!-- 产品分组列表将在这里动态加载 -->
+                            </div>
+                        </div>
+                        
+                        <!-- 中间：测试案例 -->
+                        <div class="import-section import-projects">
+                            <div class="section-header">
+                                <h3><i class="fas fa-cube"></i> 测试案例</h3>
+                            </div>
+                            <div id="projectsList" class="projects-list">
+                                <div class="no-selection">
+                                    <i class="fas fa-cube" style="font-size: 2.5rem; opacity: 0.3; margin-bottom: 0.5rem;"></i>
+                                    <p>请先选择一个产品包名</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 右侧：测试步骤 -->
+                        <div class="import-section import-steps">
+                            <div class="section-header">
+                                <h3><i class="fas fa-list-ol"></i> 测试步骤</h3>
+                                <div class="step-controls">
+                                    <button type="button" class="btn-link" id="selectAllStepsBtn" onclick="automationManagement.selectAllSteps()" disabled>全选</button>
+                                    <button type="button" class="btn-link" id="deselectAllStepsBtn" onclick="automationManagement.deselectAllSteps()" disabled>取消</button>
+                                </div>
+                            </div>
+                            <div id="stepsPreviewContainer" class="steps-preview-container">
+                                <div class="no-selection">
+                                    <i class="fas fa-list-ol" style="font-size: 2.5rem; opacity: 0.3; margin-bottom: 0.5rem;"></i>
+                                    <p>请先选择一个测试案例</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="import-summary">
+                    <span id="selectedStepsCount">已选择 0 个步骤</span>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="automationManagement.closeImportTestStepsModal()">取消</button>
+                    <button type="button" id="importStepsBtn" class="btn btn-primary" onclick="automationManagement.importSelectedSteps()" disabled>
+                        <i class="fas fa-download"></i> 导入步骤
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 代码管理弹窗 -->
+    <div id="codeManagementModal" class="modal">
+        <div class="modal-content extra-large">
+            <div class="modal-header">
+                <h2 id="code-modal-title">代码管理</h2>
+                <span class="close" onclick="automationManagement.closeCodeManagementModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="code-editor-container">
+                    <div class="code-editor-header">
+                        <div class="file-info">
+                            <i class="fas fa-file-code"></i>
+                            <span id="code-file-name">test_file.py</span>
+                        </div>
+                        <div class="code-actions">
+                            <button type="button" class="btn btn-secondary btn-sm" onclick="automationManagement.resetCode()">
+                                <i class="fas fa-undo"></i>
+                                重置
+                            </button>
+                            <button type="button" class="btn btn-primary btn-sm" onclick="automationManagement.saveCode()">
+                                <i class="fas fa-save"></i>
+                                保存
+                            </button>
+                        </div>
+                    </div>
+                    <div class="code-editor-wrapper">
+                        <textarea id="codeEditor" class="code-editor"></textarea>
+                    </div>
+                    <div class="code-editor-footer">
+                        <div class="code-status">
+                            <span id="code-status-text">就绪</span>
+                        </div>
+                        <div class="code-info">
+                            <span id="code-line-count">0 行</span>
+                            <span id="code-char-count">0 字符</span>
+                        </div>
+                        <div class="code-footer-actions">
+                            <button type="button" class="btn btn-secondary btn-sm" onclick="automationManagement.closeCodeManagementModal()">取消</button>
+                            <button type="button" class="btn btn-success btn-sm" onclick="automationManagement.saveCodeAndClose()">
+                                <i class="fas fa-save"></i>
+                                保存文件
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 消息提示 -->
+    <div id="toast" class="toast"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/python/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/scroll/simplescrollbars.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/edit/closebrackets.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/edit/matchbrackets.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/edit/trailingspace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/selection/active-line.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/fold/foldcode.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/fold/foldgutter.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/fold/brace-fold.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/fold/indent-fold.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/fold/comment-fold.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/search/search.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/search/searchcursor.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/dialog/dialog.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/search/jump-to-line.js"></script>
+    <!-- 标签页跳转配置弹框 -->
+    <div id="tabSwitchModal" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <i class="fas fa-external-link-alt"></i>
+                    <span>标签页跳转配置</span>
+                    <span class="feature-badge">标签页跳转</span>
+                </div>
+                <button class="modal-close" onclick="automationManagement.closeTabSwitchModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="tab-switch-info">
+                    <i class="fas fa-info-circle"></i>
+                    <div class="info-content">
+                        <h4>配置新标签页跳转</h4>
+                        <p>当前步骤位于 <strong>标签页 #1</strong>，将跳转到新的标签页进行后续操作。</p>
+                    </div>
+                </div>
+                
+                <div class="tab-switch-config">
+                    <div class="config-row">
+                        <label for="modal-tab-target-url">目标标签页网址 <span class="required">*</span></label>
+                        <input type="url" id="modal-tab-target-url" class="config-input" placeholder="https://example.com/target-page">
+                    </div>
+                    <div class="config-row">
+                        <label for="modal-tab-target-index">目标标签页索引 <span class="help-text">(自动计算)</span></label>
+                        <input type="number" id="modal-tab-target-index" class="config-input" placeholder="2" min="1" readonly>
+                    </div>
+                </div>
+                
+                <div class="tab-navigation">
+                    <div class="tab-nav-title">标签页导航图</div>
+                    <div id="tab-flow-container" class="tab-flow">
+                        <!-- 动态生成的标签页导航图 -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="automationManagement.closeTabSwitchModal()">
+                    <i class="fas fa-times"></i>
+                    取消
+                </button>
+                <button class="btn-primary" onclick="automationManagement.saveTabSwitchConfig()">
+                    <i class="fas fa-save"></i>
+                    保存配置
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 断言配置弹框 -->
+    <div id="assertionModal" class="assertion-modal-overlay">
+        <div class="assertion-modal-container">
+            <div class="assertion-modal-header">
+                <div class="assertion-modal-title">
+                    <i class="fas fa-check-circle"></i>
+                    <span>断言设置</span>
+                    <span class="feature-badge assertion-badge">断言设置</span>
+                </div>
+                <button class="assertion-modal-close" onclick="automationManagement.closeAssertionModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="assertion-modal-body">
+                <div class="assertion-info">
+                    <p>添加和配置断言以验证测试结果，支持pytest常用的UI和图片断言方法</p>
+                    <div class="assertion-reference">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Python断言参考: UI断言通常使用pytest-selenium，图片断言可使用pytest-mpl或OpenCV，自定义断言可使用pytest_assert</span>
+                    </div>
+                </div>
+                
+                <div class="assertion-tabs">
+                    <button class="assertion-tab-btn active" data-tab="ui" onclick="automationManagement.showAssertionTab('ui')">
+                        <i class="fas fa-desktop"></i>
+                        UI断言
+                    </button>
+                    <button class="assertion-tab-btn" data-tab="image" onclick="automationManagement.showAssertionTab('image')">
+                        <i class="fas fa-image"></i>
+                        图片断言
+                    </button>
+                    <button class="assertion-tab-btn" data-tab="custom" onclick="automationManagement.showAssertionTab('custom')">
+                        <i class="fas fa-code"></i>
+                        自定义断言
+                    </button>
+                </div>
+                
+                <!-- UI断言选项卡 -->
+                <div class="assertion-tab-content active" data-tab="ui">
+                    <div class="assertion-tab-header">
+                        <h3>UI断言配置</h3>
+                        <button class="add-assertion-btn" onclick="automationManagement.addUIAssertion()">
+                            <i class="fas fa-plus"></i>
+                            添加UI断言
+                        </button>
+                    </div>
+                    <div id="ui-assertions-list">
+                        <div class="no-assertions">
+                            <i class="fas fa-clipboard-list"></i>
+                            <p>尚未添加断言</p>
+                            <span>点击上方按钮添加断言</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 图片断言选项卡 -->
+                <div class="assertion-tab-content" data-tab="image">
+                    <div class="assertion-tab-header">
+                        <h3>图片断言配置</h3>
+                        <button class="add-assertion-btn" onclick="automationManagement.addImageAssertion()">
+                            <i class="fas fa-plus"></i>
+                            添加图片断言
+                        </button>
+                    </div>
+                    <div id="image-assertions-list">
+                        <div class="no-assertions">
+                            <i class="fas fa-clipboard-list"></i>
+                            <p>尚未添加断言</p>
+                            <span>点击上方按钮添加断言</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 自定义断言选项卡 -->
+                <div class="assertion-tab-content" data-tab="custom">
+                    <div class="assertion-tab-header">
+                        <h3>自定义断言配置</h3>
+                        <button class="add-assertion-btn" onclick="automationManagement.addCustomAssertion()">
+                            <i class="fas fa-plus"></i>
+                            添加自定义断言
+                        </button>
+                    </div>
+                    <div id="custom-assertions-list">
+                        <div class="no-assertions">
+                            <i class="fas fa-clipboard-list"></i>
+                            <p>尚未添加断言</p>
+                            <span>点击上方按钮添加断言</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="assertion-modal-footer">
+                <button class="btn-secondary" onclick="automationManagement.closeAssertionModal()">
+                    <i class="fas fa-times"></i>
+                    取消
+                </button>
+                <button class="btn-primary" onclick="automationManagement.saveAssertionConfig()">
+                    <i class="fas fa-save"></i>
+                    保存配置
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- UI断言编辑弹框 -->
+            <div id="uiAssertionModal" class="ui-assertion-modal-overlay">
+                <div class="ui-assertion-modal-container">
+                    <div class="ui-assertion-modal-header">
+                        <h3>UI断言</h3>
+                        <button class="ui-assertion-modal-close" onclick="automationManagement.closeUIAssertionModal()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="ui-assertion-modal-body">
+                        <div class="form-group">
+                            <label>UI断言类型</label>
+                            <select id="ui-assertion-type" class="form-control" onchange="automationManagement.handleUIAssertionTypeChange()">
+                                <option value="exists">元素存在</option>
+                                <option value="visible">元素可见</option>
+                                <option value="text_contains">文本包含</option>
+                                <option value="attribute_match">属性匹配</option>
+                                <option value="element_count">元素数量</option>
+                            </select>
+                        </div>
+                        
+                        <!-- 元素存在/可见的配置 -->
+                        <div id="basic-assertion-config" class="assertion-extra-config">
+                            <div class="form-field">
+                                <label>目标元素 <span class="required">*</span></label>
+                                <input type="text" id="ui-target-element" class="form-control" placeholder="元素选择器，如：.button-submit 或 //button[@id='submit']">
+                                <div class="help-text">
+                                    <i class="fas fa-info-circle"></i>
+                                    支持CSS选择器（#submit-btn、.button）或XPath（//div[@class='title']）等定位方法
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 文本包含的额外配置 -->
+                        <div id="text-contains-config" class="assertion-extra-config" style="display: none;">
+                            <div class="form-field">
+                                <label>目标元素 <span class="required">*</span></label>
+                                <input type="text" id="text-target-element" class="form-control" placeholder="元素选择器，如：.title 或 //h1[@class='title']">
+                                <div class="help-text">
+                                    <i class="fas fa-info-circle"></i>
+                                    支持CSS选择器（.success-message、h1）或XPath（//span[contains(@class,'alert')]）等定位方法
+                                </div>
+                            </div>
+                            <div class="form-field">
+                                <label>预期文本内容 <span class="required">*</span></label>
+                                <input type="text" id="text-expected-value" class="form-control" placeholder="预期包含的文本内容">
+                                <div class="help-text">
+                                    <i class="fas fa-info-circle"></i>
+                                    元素应包含的文本内容，支持部分匹配
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 属性匹配的额外配置 -->
+                        <div id="attribute-match-config" class="assertion-extra-config" style="display: none;">
+                            <div class="form-field">
+                                <label>目标元素 <span class="required">*</span></label>
+                                <input type="text" id="attr-target-element" class="form-control" placeholder="元素选择器，如：.title 或 //input[@name='username']">
+                                <div class="help-text">
+                                    <i class="fas fa-info-circle"></i>
+                                    支持CSS选择器（#username、.submit-btn）或XPath（//input[@name='username']）等定位方法
+                                </div>
+                            </div>
+                            <div class="form-field">
+                                <label>属性验证规则 <span class="required">*</span></label>
+                                <input type="text" id="attr-expected-value" class="form-control" placeholder="属性名:预期值，如：disabled:true">
+                                <div class="help-text">
+                                    <i class="fas fa-info-circle"></i>
+                                    格式：属性名:预期值，例如：disabled:true、class:active、href:/login
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 元素数量的额外配置 -->
+                        <div id="element-count-config" class="assertion-extra-config" style="display: none;">
+                            <div class="form-field">
+                                <label>目标元素 <span class="required">*</span></label>
+                                <input type="text" id="count-target-element" class="form-control" placeholder="元素选择器，如：.list-item 或 //tr[@class='data-row']">
+                                <div class="help-text">
+                                    <i class="fas fa-info-circle"></i>
+                                    支持CSS选择器（.list-item、tr）或XPath（//tr[@class='data-row']）等定位方法
+                                </div>
+                            </div>
+                            <div class="form-field">
+                                <label>预期数量 <span class="required">*</span></label>
+                                <input type="number" id="count-expected-value" class="form-control" placeholder="预期数量" min="0">
+                                <div class="help-text">
+                                    <i class="fas fa-info-circle"></i>
+                                    期望匹配的元素数量，必须是非负整数
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-assertion-modal-footer">
+                        <button class="btn-secondary" onclick="automationManagement.closeUIAssertionModal()">取消</button>
+                        <button class="btn-primary" onclick="automationManagement.saveUIAssertion()">保存</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 图片断言编辑弹框 -->
+            <div id="imageAssertionModal" class="image-assertion-modal-overlay">
+                <div class="image-assertion-modal-container">
+                    <div class="image-assertion-modal-header">
+                        <h3>图片断言</h3>
+                        <button class="image-assertion-modal-close" onclick="automationManagement.closeImageAssertionModal()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="image-assertion-modal-body">
+                        <div class="form-group">
+                            <label>上传基准图片</label>
+                            <div class="image-upload-area" onclick="document.getElementById('image-file-input').click()">
+                                <div class="upload-icon">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                </div>
+                                <div class="upload-text">
+                                    <span>上传图片 或拖放</span>
+                                    <small>PNG, JPG 或 GIF (最大 2MB)</small>
+                                </div>
+                                <input type="file" id="image-file-input" accept="image/*" style="display: none;" onchange="automationManagement.handleImageUpload(event)">
+                            </div>
+                            <div id="image-preview" class="image-preview" style="display: none;">
+                                <img id="preview-img" src="" alt="预览图片">
+                                <button class="remove-image-btn" onclick="automationManagement.removeImage()">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>基础设置</label>
+                            <div class="form-group">
+                                <label>比较方法</label>
+                                <select id="image-comparison-method" class="form-control" onchange="automationManagement.handleImageMethodChange()">
+                                    <option value="ssim">结构相似性指数 (SSIM)</option>
+                                    <option value="mse">均方误差 (MSE)</option>
+                                    <option value="phash">感知哈希</option>
+                                    <option value="template">模板匹配</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>高级设置</label>
+                            <div class="advanced-settings">
+                                <div class="form-group">
+                                    <label>相似度阈值 (0-1)</label>
+                                    <input type="number" id="similarity-threshold" class="form-control" value="0.9" min="0" max="1" step="0.1">
+                                </div>
+                                <div class="form-group">
+                                    <label>容差 (像素)</label>
+                                    <input type="number" id="tolerance-pixels" class="form-control" value="0" min="0">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="image-assertion-modal-footer">
+                        <button class="btn-secondary" onclick="automationManagement.closeImageAssertionModal()">取消</button>
+                        <button class="btn-primary" onclick="automationManagement.saveImageAssertion()">保存</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 自定义断言编辑弹框 -->
+            <div id="customAssertionModal" class="custom-assertion-modal-overlay">
+                <div class="custom-assertion-modal-container">
+                    <div class="custom-assertion-modal-header">
+                        <h3>自定义断言</h3>
+                        <button class="custom-assertion-modal-close" onclick="automationManagement.closeCustomAssertionModal()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="custom-assertion-modal-body">
+                        <div class="form-group">
+                            <label>目标元素</label>
+                            <input type="text" id="custom-target-element" class="form-control" placeholder="断言目标描述">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>预期结果</label>
+                            <input type="text" id="custom-expected-result" class="form-control" placeholder="预期结果描述">
+                        </div>
+                        
+                        <div class="form-group">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                                <label>自定义脚本</label>
+                                <button type="button" class="btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="automationManagement.toggleCodeTheme()">
+                                    <i class="fas fa-adjust"></i> 切换主题
+                                </button>
+                            </div>
+                            <textarea id="custom-assertion-code" class="form-control code-textarea" rows="10" placeholder="// 编写自定义验证逻辑，例如：&#10;// assert element.text == '预期文本'&#10;// assert element.is_displayed()&#10;// 留空时将使用目标元素和预期结果进行简单文本断言"></textarea>
+                        </div>
+                    </div>
+                    <div class="custom-assertion-modal-footer">
+                        <button class="btn-secondary" onclick="automationManagement.closeCustomAssertionModal()">取消</button>
+                        <button class="btn-primary" onclick="automationManagement.saveCustomAssertion()">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 登录/注册配置弹窗 -->
+    <div id="authConfigModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>登录/注册配置</h2>
+                <span class="close" onclick="automationManagement.closeAuthConfigModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>邮箱元素定位参数 <span class="required">*</span></label>
+                        <input type="text" id="auth-email-selector" class="form-control" placeholder="请输入邮箱输入框的元素定位参数（如：id=email 或 xpath=//input[@name='email']）">
+                    </div>
+                    <div class="form-group">
+                        <label>密码元素定位参数 <span class="required">*</span></label>
+                        <input type="text" id="auth-password-selector" class="form-control" placeholder="请输入密码输入框的元素定位参数（如：id=password 或 xpath=//input[@name='password']）">
+                    </div>
+                    <div class="form-group">
+                        <label>重复密码元素定位参数（可选）</label>
+                        <input type="text" id="auth-repeat-password-selector" class="form-control" placeholder="请输入重复密码输入框的元素定位参数（如：id=confirm_password 或 xpath=//input[@name='confirm_password']）">
+                    </div>
+                    <div class="form-group">
+                        <label>提交按钮元素定位参数 <span class="required">*</span></label>
+                        <input type="text" id="auth-submit-selector" class="form-control" placeholder="请输入提交按钮的元素定位参数（如：id=submit 或 xpath=//button[@type='submit']）">
+                    </div>
+                </div>
+                <div class="form-group full-width">
+                    <label>产品地址与账号</label>
+                    <div id="auth-address-list" class="auth-address-list"></div>
+                    <small class="form-text text-muted auth-config-tip">每个产品地址下配置邮箱账号与密码。注册时会自动分配唯一邮箱，密码默认 123456；登录时将从历史数据自动填充。</small>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="automationManagement.closeAuthConfigModal()">取消</button>
+                <button type="button" class="btn btn-primary" onclick="automationManagement.saveAuthConfig()">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 截图配置弹框 -->
+    <div id="screenshotModal" class="screenshot-modal-overlay">
+        <div class="screenshot-modal-container">
+            <div class="screenshot-modal-header">
+                <div class="screenshot-modal-title">
+                    <i class="fas fa-camera"></i>
+                    <span>截图设置</span>
+                </div>
+                <button class="screenshot-modal-close" onclick="automationManagement.cancelScreenshotModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="screenshot-modal-body">
+                <p class="screenshot-description">配置测试步骤执行时是否以及何时进行截图</p>
+                
+                <div class="screenshot-timing-section">
+                    <label class="timing-label">截图时机</label>
+                    <div class="timing-buttons">
+                        <button class="timing-btn active" data-timing="after">步骤后</button>
+                        <button class="timing-btn" data-timing="before">步骤前</button>
+                        <button class="timing-btn" data-timing="both">前后都</button>
+                        <button class="timing-btn" data-timing="on_failure">失败时</button>
+                    </div>
+                </div>
+            </div>
+            <div class="screenshot-modal-footer">
+                <button class="btn-secondary" onclick="automationManagement.cancelScreenshotModal()">
+                    <i class="fas fa-times"></i>
+                    取消
+                </button>
+                <button class="btn-primary" onclick="automationManagement.saveScreenshotConfig()">
+                    <i class="fas fa-save"></i>
+                    保存配置
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/versionManagement.js"></script>
+    <script src="js/automationManagement.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html> 

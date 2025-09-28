@@ -1,0 +1,1126 @@
+2025-09-26 16:51:19 - UiAutomationProject - INFO - lookup_accounts_for_addresses called with 1 addresses: ['https://letsgogogold.com/']
+2025-09-26 16:51:19 - UiAutomationProject - INFO - Flattened keys: []
+2025-09-26 16:51:19 - UiAutomationProject - INFO - Grouped keys: []
+2025-09-26 16:51:19 - UiAutomationProject - INFO - Processing address https://letsgogogold.com/, occurrence #1
+2025-09-26 16:51:50 - UiAutomationProject - INFO - 创建新的文件映射 - 项目ID: 121, 文件名: SCS_Web_test_6.py
+2025-09-26 16:51:50 - UiAutomationProject - INFO - auth_cfg: {'email_selector': 'RWEREWR', 'password_selector': 'WERWER', 'repeat_password_selector': 'WERWER', 'submit_selector': 'EWRWE', 'address_credentials': {'https://letsgogogold.com/': {'email': 'hernandezbenjamin@example.com', 'password': '123456'}}, 'address_credentials_list': [{'address': 'https://letsgogogold.com/', 'email': 'hernandezbenjamin@example.com', 'password': '123456'}]}
+2025-09-26 16:51:50 - UiAutomationProject - INFO - email_selector: RWEREWR, password_selector: WERWER, repeat_password_selector: WERWER, submit_selector: EWRWE, email: hernandezbenjamin@example.com, password: 123456
+2025-09-26 16:52:10 - UiAutomationProject - INFO - lookup_accounts_for_addresses called with 1 addresses: ['https://h7055.slotcash666.com/']
+2025-09-26 16:52:10 - UiAutomationProject - INFO - Flattened keys: ['https://letsgogogold.com/']
+2025-09-26 16:52:10 - UiAutomationProject - INFO - Grouped keys: []
+2025-09-26 16:52:10 - UiAutomationProject - INFO - Processing address https://h7055.slotcash666.com/, occurrence #1
+2025-09-26 16:52:21 - UiAutomationProject - INFO - lookup_accounts_for_addresses called with 1 addresses: ['https://letsgogogold.com/']
+2025-09-26 16:52:21 - UiAutomationProject - INFO - Flattened keys: ['https://letsgogogold.com/']
+2025-09-26 16:52:21 - UiAutomationProject - INFO - Grouped keys: []
+2025-09-26 16:52:21 - UiAutomationProject - INFO - Processing address https://letsgogogold.com/, occurrence #1
+2025-09-26 16:52:21 - UiAutomationProject - INFO - Returning 1 accounts and 1 accounts_list items
+2025-09-26 16:52:21 - UiAutomationProject - INFO - accounts_list: [{'address': 'https://letsgogogold.com/', 'email': 'hernandezbenjamin@example.com', 'password': '123456'}]
+2025-09-26 17:11:06 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-26 17:11:06 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-26 17:11:06 - UiAutomationProject - INFO - ==================================================
+2025-09-26 17:11:06 - UiAutomationProject - INFO - 星火自动化测试平台启动中...
+2025-09-26 17:11:06 - UiAutomationProject - INFO - ==================================================
+2025-09-26 17:11:06 - UiAutomationProject - INFO - 当前数据库类型: mysql
+2025-09-26 17:11:06 - UiAutomationProject - INFO - MySQL配置: localhost:3306
+2025-09-26 17:11:06 - UiAutomationProject - INFO - 正在创建Flask应用...
+2025-09-26 17:11:06 - UiAutomationProject - INFO - 上传目录已创建: static/uploads
+2025-09-26 17:11:06 - UiAutomationProject - INFO - Game_Img目录已创建
+2025-09-26 17:11:06 - UiAutomationProject - INFO - 正在初始化数据库...
+2025-09-26 17:11:06 - UiAutomationProject - INFO - 数据库初始化完成
+2025-09-26 17:11:06 - UiAutomationProject - INFO - 所有蓝图已注册完成
+2025-09-26 17:11:06 - UiAutomationProject - INFO - Flask应用创建完成
+2025-09-26 17:11:06 - UiAutomationProject - INFO - 应用启动成功，监听地址: http://0.0.0.0:5000
+2025-09-26 17:11:06 - UiAutomationProject - INFO - 💡 提示: 建议使用 python scripts/quick_start.py 启动应用
+2025-09-26 17:11:06 - UiAutomationProject - INFO - 按 Ctrl+C 停止应用
+2025-09-26 17:11:06 - UiAutomationProject - INFO - --------------------------------------------------
+2025-09-26 17:11:07 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-26 17:11:07 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-26 17:11:07 - UiAutomationProject - INFO - ==================================================
+2025-09-26 17:11:07 - UiAutomationProject - INFO - 星火自动化测试平台启动中...
+2025-09-26 17:11:07 - UiAutomationProject - INFO - ==================================================
+2025-09-26 17:11:07 - UiAutomationProject - INFO - 当前数据库类型: mysql
+2025-09-26 17:11:07 - UiAutomationProject - INFO - MySQL配置: localhost:3306
+2025-09-26 17:11:07 - UiAutomationProject - INFO - 正在创建Flask应用...
+2025-09-26 17:11:07 - UiAutomationProject - INFO - 上传目录已创建: static/uploads
+2025-09-26 17:11:07 - UiAutomationProject - INFO - Game_Img目录已创建
+2025-09-26 17:11:07 - UiAutomationProject - INFO - 正在初始化数据库...
+2025-09-26 17:11:07 - UiAutomationProject - INFO - 数据库初始化完成
+2025-09-26 17:11:07 - UiAutomationProject - INFO - 所有蓝图已注册完成
+2025-09-26 17:11:07 - UiAutomationProject - INFO - Flask应用创建完成
+2025-09-26 17:11:07 - UiAutomationProject - INFO - 应用启动成功，监听地址: http://0.0.0.0:5000
+2025-09-26 17:11:07 - UiAutomationProject - INFO - 💡 提示: 建议使用 python scripts/quick_start.py 启动应用
+2025-09-26 17:11:07 - UiAutomationProject - INFO - 按 Ctrl+C 停止应用
+2025-09-26 17:11:07 - UiAutomationProject - INFO - --------------------------------------------------
+2025-09-26 17:13:36 - UiAutomationProject - INFO - lookup_accounts_for_addresses called with 1 addresses: ['https://h7055.slotcash666.com/']
+2025-09-26 17:13:36 - UiAutomationProject - INFO - Flattened keys: ['https://letsgogogold.com/']
+2025-09-26 17:13:36 - UiAutomationProject - INFO - Grouped keys: []
+2025-09-26 17:13:36 - UiAutomationProject - INFO - Processing address https://h7055.slotcash666.com/, occurrence #1
+2025-09-26 17:13:38 - UiAutomationProject - INFO - lookup_accounts_for_addresses called with 1 addresses: ['https://h7055.slotcash666.com/']
+2025-09-26 17:13:38 - UiAutomationProject - INFO - Flattened keys: ['https://letsgogogold.com/']
+2025-09-26 17:13:38 - UiAutomationProject - INFO - Grouped keys: []
+2025-09-26 17:13:38 - UiAutomationProject - INFO - Processing address https://h7055.slotcash666.com/, occurrence #1
+2025-09-26 17:14:09 - UiAutomationProject - INFO - lookup_accounts_for_addresses called with 1 addresses: ['https://letsgogogold.com/']
+2025-09-26 17:14:09 - UiAutomationProject - INFO - Flattened keys: ['https://letsgogogold.com/']
+2025-09-26 17:14:09 - UiAutomationProject - INFO - Grouped keys: []
+2025-09-26 17:14:09 - UiAutomationProject - INFO - Processing address https://letsgogogold.com/, occurrence #1
+2025-09-26 17:14:09 - UiAutomationProject - INFO - Returning 1 accounts and 1 accounts_list items
+2025-09-26 17:14:09 - UiAutomationProject - INFO - accounts_list: [{'address': 'https://letsgogogold.com/', 'email': 'hernandezbenjamin@example.com', 'password': '123456'}]
+2025-09-26 17:14:27 - UiAutomationProject - INFO - lookup_accounts_for_addresses called with 1 addresses: ['https://h7055.slotcash666.com/']
+2025-09-26 17:14:27 - UiAutomationProject - INFO - Flattened keys: ['https://letsgogogold.com/']
+2025-09-26 17:14:27 - UiAutomationProject - INFO - Grouped keys: []
+2025-09-26 17:14:27 - UiAutomationProject - INFO - Processing address https://h7055.slotcash666.com/, occurrence #1
+2025-09-26 17:16:57 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-26 17:16:57 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-26 17:16:57 - UiAutomationProject - INFO - ==================================================
+2025-09-26 17:16:57 - UiAutomationProject - INFO - 星火自动化测试平台启动中...
+2025-09-26 17:16:57 - UiAutomationProject - INFO - ==================================================
+2025-09-26 17:16:57 - UiAutomationProject - INFO - 当前数据库类型: mysql
+2025-09-26 17:16:57 - UiAutomationProject - INFO - MySQL配置: localhost:3306
+2025-09-26 17:16:57 - UiAutomationProject - INFO - 正在创建Flask应用...
+2025-09-26 17:16:57 - UiAutomationProject - INFO - 上传目录已创建: static/uploads
+2025-09-26 17:16:57 - UiAutomationProject - INFO - Game_Img目录已创建
+2025-09-26 17:16:57 - UiAutomationProject - INFO - 正在初始化数据库...
+2025-09-26 17:16:57 - UiAutomationProject - INFO - 数据库初始化完成
+2025-09-26 17:16:57 - UiAutomationProject - INFO - 所有蓝图已注册完成
+2025-09-26 17:16:57 - UiAutomationProject - INFO - Flask应用创建完成
+2025-09-26 17:16:57 - UiAutomationProject - INFO - 应用启动成功，监听地址: http://0.0.0.0:5000
+2025-09-26 17:16:57 - UiAutomationProject - INFO - 💡 提示: 建议使用 python scripts/quick_start.py 启动应用
+2025-09-26 17:16:57 - UiAutomationProject - INFO - 按 Ctrl+C 停止应用
+2025-09-26 17:16:57 - UiAutomationProject - INFO - --------------------------------------------------
+2025-09-26 17:19:27 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-26 17:19:27 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-26 17:19:27 - UiAutomationProject - INFO - ==================================================
+2025-09-26 17:19:27 - UiAutomationProject - INFO - 星火自动化测试平台启动中...
+2025-09-26 17:19:27 - UiAutomationProject - INFO - ==================================================
+2025-09-26 17:19:27 - UiAutomationProject - INFO - 当前数据库类型: mysql
+2025-09-26 17:19:27 - UiAutomationProject - INFO - MySQL配置: localhost:3306
+2025-09-26 17:19:27 - UiAutomationProject - INFO - 正在创建Flask应用...
+2025-09-26 17:19:27 - UiAutomationProject - INFO - 上传目录已创建: static/uploads
+2025-09-26 17:19:27 - UiAutomationProject - INFO - Game_Img目录已创建
+2025-09-26 17:19:27 - UiAutomationProject - INFO - 正在初始化数据库...
+2025-09-26 17:19:27 - UiAutomationProject - INFO - 数据库初始化完成
+2025-09-26 17:19:27 - UiAutomationProject - INFO - 所有蓝图已注册完成
+2025-09-26 17:19:27 - UiAutomationProject - INFO - Flask应用创建完成
+2025-09-26 17:19:27 - UiAutomationProject - INFO - 应用启动成功，监听地址: http://0.0.0.0:5000
+2025-09-26 17:19:27 - UiAutomationProject - INFO - 💡 提示: 建议使用 python scripts/quick_start.py 启动应用
+2025-09-26 17:19:27 - UiAutomationProject - INFO - 按 Ctrl+C 停止应用
+2025-09-26 17:19:27 - UiAutomationProject - INFO - --------------------------------------------------
+2025-09-26 17:21:01 - UiAutomationProject - INFO - lookup_accounts_for_addresses called with 1 addresses: ['https://h7055.slotcash666.com/']
+2025-09-26 17:21:01 - UiAutomationProject - INFO - Flattened keys: ['https://letsgogogold.com/']
+2025-09-26 17:21:01 - UiAutomationProject - INFO - Grouped keys: []
+2025-09-26 17:21:01 - UiAutomationProject - INFO - Processing address https://h7055.slotcash666.com/, occurrence #1
+2025-09-26 17:21:01 - UiAutomationProject - INFO - No existing accounts found for addresses: ['https://h7055.slotcash666.com/']. Generating new accounts.
+2025-09-26 17:23:52 - UiAutomationProject - INFO - lookup_accounts_for_addresses called with 1 addresses: ['https://h7055.slotcash666.com/']
+2025-09-26 17:23:52 - UiAutomationProject - INFO - Flattened keys: ['https://letsgogogold.com/']
+2025-09-26 17:23:52 - UiAutomationProject - INFO - Grouped keys: []
+2025-09-26 17:23:52 - UiAutomationProject - INFO - Processing address https://h7055.slotcash666.com/, occurrence #1
+2025-09-26 17:23:52 - UiAutomationProject - INFO - No existing accounts found for addresses: ['https://h7055.slotcash666.com/']. Generating new accounts.
+2025-09-26 17:24:05 - UiAutomationProject - INFO - lookup_accounts_for_addresses called with 1 addresses: ['https://h7055.slotcash666.com/']
+2025-09-26 17:24:05 - UiAutomationProject - INFO - Flattened keys: ['https://letsgogogold.com/']
+2025-09-26 17:24:05 - UiAutomationProject - INFO - Grouped keys: []
+2025-09-26 17:24:05 - UiAutomationProject - INFO - Processing address https://h7055.slotcash666.com/, occurrence #1
+2025-09-26 17:24:05 - UiAutomationProject - INFO - No existing accounts found for addresses: ['https://h7055.slotcash666.com/']. Generating new accounts.
+2025-09-26 17:25:24 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-26 17:25:24 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-26 17:25:24 - UiAutomationProject - INFO - ==================================================
+2025-09-26 17:25:24 - UiAutomationProject - INFO - 星火自动化测试平台启动中...
+2025-09-26 17:25:24 - UiAutomationProject - INFO - ==================================================
+2025-09-26 17:25:24 - UiAutomationProject - INFO - 当前数据库类型: mysql
+2025-09-26 17:25:24 - UiAutomationProject - INFO - MySQL配置: localhost:3306
+2025-09-26 17:25:24 - UiAutomationProject - INFO - 正在创建Flask应用...
+2025-09-26 17:25:24 - UiAutomationProject - INFO - 上传目录已创建: static/uploads
+2025-09-26 17:25:24 - UiAutomationProject - INFO - Game_Img目录已创建
+2025-09-26 17:25:24 - UiAutomationProject - INFO - 正在初始化数据库...
+2025-09-26 17:25:24 - UiAutomationProject - INFO - 数据库初始化完成
+2025-09-26 17:25:24 - UiAutomationProject - INFO - 所有蓝图已注册完成
+2025-09-26 17:25:24 - UiAutomationProject - INFO - Flask应用创建完成
+2025-09-26 17:25:24 - UiAutomationProject - INFO - 应用启动成功，监听地址: http://0.0.0.0:5000
+2025-09-26 17:25:24 - UiAutomationProject - INFO - 💡 提示: 建议使用 python scripts/quick_start.py 启动应用
+2025-09-26 17:25:24 - UiAutomationProject - INFO - 按 Ctrl+C 停止应用
+2025-09-26 17:25:24 - UiAutomationProject - INFO - --------------------------------------------------
+2025-09-26 17:26:00 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-26 17:26:00 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-26 17:26:00 - UiAutomationProject - INFO - ==================================================
+2025-09-26 17:26:00 - UiAutomationProject - INFO - 星火自动化测试平台启动中...
+2025-09-26 17:26:00 - UiAutomationProject - INFO - ==================================================
+2025-09-26 17:26:00 - UiAutomationProject - INFO - 当前数据库类型: mysql
+2025-09-26 17:26:00 - UiAutomationProject - INFO - MySQL配置: localhost:3306
+2025-09-26 17:26:00 - UiAutomationProject - INFO - 正在创建Flask应用...
+2025-09-26 17:26:00 - UiAutomationProject - INFO - 上传目录已创建: static/uploads
+2025-09-26 17:26:00 - UiAutomationProject - INFO - Game_Img目录已创建
+2025-09-26 17:26:00 - UiAutomationProject - INFO - 正在初始化数据库...
+2025-09-26 17:26:00 - UiAutomationProject - INFO - 数据库初始化完成
+2025-09-26 17:26:00 - UiAutomationProject - INFO - 所有蓝图已注册完成
+2025-09-26 17:26:00 - UiAutomationProject - INFO - Flask应用创建完成
+2025-09-26 17:26:00 - UiAutomationProject - INFO - 应用启动成功，监听地址: http://0.0.0.0:5000
+2025-09-26 17:26:00 - UiAutomationProject - INFO - 💡 提示: 建议使用 python scripts/quick_start.py 启动应用
+2025-09-26 17:26:00 - UiAutomationProject - INFO - 按 Ctrl+C 停止应用
+2025-09-26 17:26:00 - UiAutomationProject - INFO - --------------------------------------------------
+2025-09-26 17:26:53 - UiAutomationProject - INFO - lookup_accounts_for_addresses called with 1 addresses: ['https://h7055.slotcash666.com/']
+2025-09-26 17:26:53 - UiAutomationProject - INFO - Flattened keys: ['https://letsgogogold.com/']
+2025-09-26 17:26:53 - UiAutomationProject - INFO - Grouped keys: []
+2025-09-26 17:26:53 - UiAutomationProject - INFO - Processing address https://h7055.slotcash666.com/, occurrence #1
+2025-09-26 17:26:53 - UiAutomationProject - INFO - Returning 0 accounts and 1 accounts_list items
+2025-09-26 17:26:53 - UiAutomationProject - INFO - accounts_list: [{'address': 'https://h7055.slotcash666.com/', 'email': '', 'password': ''}]
+2025-09-26 17:27:39 - UiAutomationProject - INFO - lookup_accounts_for_addresses called with 1 addresses: ['https://h7055.slotcash666.com/']
+2025-09-26 17:27:39 - UiAutomationProject - INFO - Flattened keys: ['https://letsgogogold.com/']
+2025-09-26 17:27:39 - UiAutomationProject - INFO - Grouped keys: []
+2025-09-26 17:27:39 - UiAutomationProject - INFO - Processing address https://h7055.slotcash666.com/, occurrence #1
+2025-09-26 17:27:39 - UiAutomationProject - INFO - Returning 0 accounts and 1 accounts_list items
+2025-09-26 17:27:39 - UiAutomationProject - INFO - accounts_list: [{'address': 'https://h7055.slotcash666.com/', 'email': '', 'password': ''}]
+2025-09-26 17:28:18 - UiAutomationProject - INFO - lookup_accounts_for_addresses called with 1 addresses: ['https://h7055.slotcash666.com/']
+2025-09-26 17:28:18 - UiAutomationProject - INFO - Flattened keys: ['https://letsgogogold.com/']
+2025-09-26 17:28:18 - UiAutomationProject - INFO - Grouped keys: []
+2025-09-26 17:28:18 - UiAutomationProject - INFO - Processing address https://h7055.slotcash666.com/, occurrence #1
+2025-09-26 17:28:18 - UiAutomationProject - INFO - Returning 0 accounts and 1 accounts_list items
+2025-09-26 17:28:18 - UiAutomationProject - INFO - accounts_list: [{'address': 'https://h7055.slotcash666.com/', 'email': '', 'password': ''}]
+2025-09-26 17:36:15 - UiAutomationProject - INFO - lookup_accounts_for_addresses called with 1 addresses: ['https://h7055.slotcash666.com/']
+2025-09-26 17:36:15 - UiAutomationProject - INFO - Flattened keys: ['https://letsgogogold.com/']
+2025-09-26 17:36:15 - UiAutomationProject - INFO - Grouped keys: []
+2025-09-26 17:36:15 - UiAutomationProject - INFO - Processing address https://h7055.slotcash666.com/, occurrence #1
+2025-09-26 17:36:15 - UiAutomationProject - INFO - Returning 0 accounts and 1 accounts_list items
+2025-09-26 17:36:15 - UiAutomationProject - INFO - accounts_list: [{'address': 'https://h7055.slotcash666.com/', 'email': '', 'password': ''}]
+2025-09-26 17:36:23 - UiAutomationProject - INFO - lookup_accounts_for_addresses called with 1 addresses: ['https://h7055.slotcash666.com/']
+2025-09-26 17:36:23 - UiAutomationProject - INFO - Flattened keys: ['https://letsgogogold.com/']
+2025-09-26 17:36:23 - UiAutomationProject - INFO - Grouped keys: []
+2025-09-26 17:36:23 - UiAutomationProject - INFO - Processing address https://h7055.slotcash666.com/, occurrence #1
+2025-09-26 17:36:23 - UiAutomationProject - INFO - Returning 0 accounts and 1 accounts_list items
+2025-09-26 17:36:23 - UiAutomationProject - INFO - accounts_list: [{'address': 'https://h7055.slotcash666.com/', 'email': '', 'password': ''}]
+2025-09-26 17:36:36 - UiAutomationProject - INFO - lookup_accounts_for_addresses called with 1 addresses: ['https://letsgogogold.com/']
+2025-09-26 17:36:36 - UiAutomationProject - INFO - Flattened keys: ['https://letsgogogold.com/']
+2025-09-26 17:36:36 - UiAutomationProject - INFO - Grouped keys: []
+2025-09-26 17:36:36 - UiAutomationProject - INFO - Processing address https://letsgogogold.com/, occurrence #1
+2025-09-26 17:36:36 - UiAutomationProject - INFO - Returning 1 accounts and 1 accounts_list items
+2025-09-26 17:36:36 - UiAutomationProject - INFO - accounts_list: [{'address': 'https://letsgogogold.com/', 'email': 'hernandezbenjamin@example.com', 'password': '123456'}]
+2025-09-26 17:37:44 - UiAutomationProject - INFO - lookup_accounts_for_addresses called with 3 addresses: ['https://letsgogogold.com/', 'https://letsgogogold.com/', 'https://letsgogogold.com/']
+2025-09-26 17:37:44 - UiAutomationProject - INFO - Flattened keys: ['https://letsgogogold.com/']
+2025-09-26 17:37:44 - UiAutomationProject - INFO - Grouped keys: []
+2025-09-26 17:37:44 - UiAutomationProject - INFO - Processing address https://letsgogogold.com/, occurrence #1
+2025-09-26 17:37:44 - UiAutomationProject - INFO - Processing address https://letsgogogold.com/, occurrence #2
+2025-09-26 17:37:44 - UiAutomationProject - INFO - Processing address https://letsgogogold.com/, occurrence #3
+2025-09-26 17:37:44 - UiAutomationProject - INFO - Returning 1 accounts and 3 accounts_list items
+2025-09-26 17:37:44 - UiAutomationProject - INFO - accounts_list: [{'address': 'https://letsgogogold.com/', 'email': 'hernandezbenjamin@example.com', 'password': '123456'}, {'address': 'https://letsgogogold.com/', 'email': 'hernandezbenjamin@example.com', 'password': '123456'}, {'address': 'https://letsgogogold.com/', 'email': 'hernandezbenjamin@example.com', 'password': '123456'}]
+2025-09-26 17:46:34 - UiAutomationProject - INFO - 更新自动化项目: {'process_name': 'Elephant-进入游戏', 'system': 'Web', 'product_type': 'web', 'environment': 'test', 'product_address': '{"SCS_1":"https://letsgogogold.com/","SCS_2":"https://letsgogogold.com/","SCS_3":"https://letsgogogold.com/"}', 'product_ids': ['SCS'], 'product_package_names': ['Elephant'], 'test_steps': [{'assertion_config': {'custom_assertions': [], 'image_assertions': [], 'ui_assertions': []}, 'assertion_enabled': 'no', 'assertion_method': 'pytest-selenium', 'assertion_params': '', 'assertion_type': 'ui', 'auth_config': {'email_selector': 'RWEREWR', 'password_selector': 'WERWER', 'repeat_password_selector': 'WERWER', 'submit_selector': 'EWRWE', 'address_credentials': {'https://letsgogogold.com/': {'email': 'schmidttimothy@example.org', 'password': '123456'}}, 'address_credentials_list': [{'address': 'https://letsgogogold.com/', 'email': 'david74@example.net', 'password': '123456'}, {'address': 'https://letsgogogold.com/', 'email': 'lsmith@example.com', 'password': '123456'}, {'address': 'https://letsgogogold.com/', 'email': 'schmidttimothy@example.org', 'password': '123456'}], 'credentials_source': 'register'}, 'auth_regen_on_open': False, 'auth_temp_credentials_list': [{'address': 'https://letsgogogold.com/', 'email': 'david74@example.net', 'password': '123456'}, {'address': 'https://letsgogogold.com/', 'email': 'lsmith@example.com', 'password': '123456'}, {'address': 'https://letsgogogold.com/', 'email': 'schmidttimothy@example.org', 'password': '123456'}], 'current_tab_index': 1, 'input_value': '', 'operation_count': 1, 'operation_event': 'register', 'operation_params': '', 'operation_type': 'web', 'pause_time': 1, 'screenshot_config': {'format': 'png', 'full_page': False, 'path': 'screenshots/', 'prefix': 'screenshot_step', 'quality': 90, 'timing': 'after'}, 'screenshot_enabled': 'no', 'step_name': '注册', 'auth_temp_source': 'register'}]}
+2025-09-26 17:46:34 - UiAutomationProject - INFO - 地址 https://letsgogogold.com/ 使用第 1 个账号: schmidttimothy@example.org（共4个账号）
+2025-09-26 17:46:34 - UiAutomationProject - INFO - 2当前的地址是https://letsgogogold.com/，当前的邮箱是schmidttimothy@example.org，当前的密码是123456, 账号索引:0
+2025-09-26 17:46:34 - UiAutomationProject - INFO - 地址 https://letsgogogold.com/ 使用第 2 个账号: david74@example.net（共4个账号）
+2025-09-26 17:46:34 - UiAutomationProject - INFO - 2当前的地址是https://letsgogogold.com/，当前的邮箱是david74@example.net，当前的密码是123456, 账号索引:1
+2025-09-26 17:46:34 - UiAutomationProject - INFO - 地址 https://letsgogogold.com/ 使用第 3 个账号: lsmith@example.com（共4个账号）
+2025-09-26 17:46:34 - UiAutomationProject - INFO - 2当前的地址是https://letsgogogold.com/，当前的邮箱是lsmith@example.com，当前的密码是123456, 账号索引:2
+2025-09-26 17:46:35 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-26 17:46:35 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-26 17:46:35 - UiAutomationProject - INFO - ==================================================
+2025-09-26 17:46:35 - UiAutomationProject - INFO - 星火自动化测试平台启动中...
+2025-09-26 17:46:35 - UiAutomationProject - INFO - ==================================================
+2025-09-26 17:46:35 - UiAutomationProject - INFO - 当前数据库类型: mysql
+2025-09-26 17:46:35 - UiAutomationProject - INFO - MySQL配置: localhost:3306
+2025-09-26 17:46:35 - UiAutomationProject - INFO - 正在创建Flask应用...
+2025-09-26 17:46:35 - UiAutomationProject - INFO - 上传目录已创建: static/uploads
+2025-09-26 17:46:35 - UiAutomationProject - INFO - Game_Img目录已创建
+2025-09-26 17:46:35 - UiAutomationProject - INFO - 正在初始化数据库...
+2025-09-26 17:46:35 - UiAutomationProject - INFO - 数据库初始化完成
+2025-09-26 17:46:35 - UiAutomationProject - INFO - 所有蓝图已注册完成
+2025-09-26 17:46:35 - UiAutomationProject - INFO - Flask应用创建完成
+2025-09-26 17:46:35 - UiAutomationProject - INFO - 应用启动成功，监听地址: http://0.0.0.0:5000
+2025-09-26 17:46:35 - UiAutomationProject - INFO - 💡 提示: 建议使用 python scripts/quick_start.py 启动应用
+2025-09-26 17:46:35 - UiAutomationProject - INFO - 按 Ctrl+C 停止应用
+2025-09-26 17:46:35 - UiAutomationProject - INFO - --------------------------------------------------
+2025-09-26 17:47:23 - UiAutomationProject - INFO - 已删除文件: Test_Case\SCS_Web_test_6.py
+2025-09-26 17:47:55 - UiAutomationProject - INFO - lookup_accounts_for_addresses called with 3 addresses: ['https://letsgogogold.com/', 'https://letsgogogold.com/', 'https://letsgogogold.com/']
+2025-09-26 17:47:55 - UiAutomationProject - INFO - Flattened keys: ['https://letsgogogold.com/']
+2025-09-26 17:47:55 - UiAutomationProject - INFO - Grouped keys: ['https://letsgogogold.com/']
+2025-09-26 17:47:55 - UiAutomationProject - INFO -   https://letsgogogold.com/: 3 accounts
+2025-09-26 17:47:55 - UiAutomationProject - INFO - Processing address https://letsgogogold.com/, occurrence #1
+2025-09-26 17:47:55 - UiAutomationProject - INFO - Address https://letsgogogold.com/: found 3 accounts, current_index=0
+2025-09-26 17:47:55 - UiAutomationProject - INFO - Using account at index 0: {'email': 'david74@example.net', 'password': '123456'}
+2025-09-26 17:47:55 - UiAutomationProject - INFO - Processing address https://letsgogogold.com/, occurrence #2
+2025-09-26 17:47:55 - UiAutomationProject - INFO - Address https://letsgogogold.com/: found 3 accounts, current_index=1
+2025-09-26 17:47:55 - UiAutomationProject - INFO - Using account at index 1: {'email': 'lsmith@example.com', 'password': '123456'}
+2025-09-26 17:47:55 - UiAutomationProject - INFO - Processing address https://letsgogogold.com/, occurrence #3
+2025-09-26 17:47:55 - UiAutomationProject - INFO - Address https://letsgogogold.com/: found 3 accounts, current_index=2
+2025-09-26 17:47:55 - UiAutomationProject - INFO - Using account at index 2: {'email': 'schmidttimothy@example.org', 'password': '123456'}
+2025-09-26 17:47:55 - UiAutomationProject - INFO - Returning 1 accounts and 3 accounts_list items
+2025-09-26 17:47:55 - UiAutomationProject - INFO - accounts_list: [{'address': 'https://letsgogogold.com/', 'email': 'david74@example.net', 'password': '123456'}, {'address': 'https://letsgogogold.com/', 'email': 'lsmith@example.com', 'password': '123456'}, {'address': 'https://letsgogogold.com/', 'email': 'schmidttimothy@example.org', 'password': '123456'}]
+2025-09-26 17:48:26 - UiAutomationProject - INFO - 创建新的文件映射 - 项目ID: 122, 文件名: SCS_Web_test.py
+2025-09-26 17:48:26 - UiAutomationProject - INFO - 地址 https://letsgogogold.com/ 使用第 1 个账号: schmidttimothy@example.org（共4个账号）
+2025-09-26 17:48:26 - UiAutomationProject - INFO - 2当前的地址是https://letsgogogold.com/，当前的邮箱是schmidttimothy@example.org，当前的密码是123456, 账号索引:0
+2025-09-26 17:48:26 - UiAutomationProject - INFO - 地址 https://letsgogogold.com/ 使用第 2 个账号: david74@example.net（共4个账号）
+2025-09-26 17:48:26 - UiAutomationProject - INFO - 2当前的地址是https://letsgogogold.com/，当前的邮箱是david74@example.net，当前的密码是123456, 账号索引:1
+2025-09-26 17:48:26 - UiAutomationProject - INFO - 地址 https://letsgogogold.com/ 使用第 3 个账号: lsmith@example.com（共4个账号）
+2025-09-26 17:48:26 - UiAutomationProject - INFO - 2当前的地址是https://letsgogogold.com/，当前的邮箱是lsmith@example.com，当前的密码是123456, 账号索引:2
+2025-09-26 17:48:28 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-26 17:48:28 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-26 17:48:28 - UiAutomationProject - INFO - ==================================================
+2025-09-26 17:48:28 - UiAutomationProject - INFO - 星火自动化测试平台启动中...
+2025-09-26 17:48:28 - UiAutomationProject - INFO - ==================================================
+2025-09-26 17:48:28 - UiAutomationProject - INFO - 当前数据库类型: mysql
+2025-09-26 17:48:28 - UiAutomationProject - INFO - MySQL配置: localhost:3306
+2025-09-26 17:48:28 - UiAutomationProject - INFO - 正在创建Flask应用...
+2025-09-26 17:48:28 - UiAutomationProject - INFO - 上传目录已创建: static/uploads
+2025-09-26 17:48:28 - UiAutomationProject - INFO - Game_Img目录已创建
+2025-09-26 17:48:28 - UiAutomationProject - INFO - 正在初始化数据库...
+2025-09-26 17:48:28 - UiAutomationProject - INFO - 数据库初始化完成
+2025-09-26 17:48:28 - UiAutomationProject - INFO - 所有蓝图已注册完成
+2025-09-26 17:48:28 - UiAutomationProject - INFO - Flask应用创建完成
+2025-09-26 17:48:28 - UiAutomationProject - INFO - 应用启动成功，监听地址: http://0.0.0.0:5000
+2025-09-26 17:48:28 - UiAutomationProject - INFO - 💡 提示: 建议使用 python scripts/quick_start.py 启动应用
+2025-09-26 17:48:28 - UiAutomationProject - INFO - 按 Ctrl+C 停止应用
+2025-09-26 17:48:28 - UiAutomationProject - INFO - --------------------------------------------------
+2025-09-26 17:49:13 - UiAutomationProject - INFO - 更新自动化项目: {'process_name': '测试', 'system': 'Web', 'product_type': 'web', 'environment': 'test', 'product_address': '{"SCS_1":"https://letsgogogold.com/","SCS_2":"https://letsgogogold.com/","SCS_3":"https://letsgogogold.com/"}', 'product_ids': ['SCS'], 'product_package_names': ['Elephant'], 'test_steps': [{'assertion_config': {'custom_assertions': [], 'image_assertions': [], 'ui_assertions': []}, 'assertion_enabled': 'no', 'assertion_method': 'pytest-selenium', 'assertion_params': '', 'assertion_type': 'ui', 'auth_config': {'email_selector': '675', 'password_selector': '7567', 'repeat_password_selector': '56756', 'submit_selector': '765', 'address_credentials': {'https://letsgogogold.com/': {'email': 'schmidttimothy@example.org', 'password': '123456'}}, 'address_credentials_list': [{'address': 'https://letsgogogold.com/', 'email': 'david74@example.net', 'password': '123456'}, {'address': 'https://letsgogogold.com/', 'email': 'lsmith@example.com', 'password': '123456'}, {'address': 'https://letsgogogold.com/', 'email': 'schmidttimothy@example.org', 'password': '123456'}], 'credentials_source': 'login'}, 'auth_regen_on_open': False, 'auth_temp_credentials_list': [{'address': 'https://letsgogogold.com/', 'email': 'david74@example.net', 'password': '123456'}, {'address': 'https://letsgogogold.com/', 'email': 'lsmith@example.com', 'password': '123456'}, {'address': 'https://letsgogogold.com/', 'email': 'schmidttimothy@example.org', 'password': '123456'}], 'auth_temp_source': 'login', 'current_tab_index': 1, 'input_value': '', 'operation_count': 1, 'operation_event': 'login', 'operation_params': '', 'operation_type': 'web', 'pause_time': 1, 'screenshot_config': {'format': 'png', 'full_page': False, 'path': 'screenshots/', 'prefix': 'screenshot_step', 'quality': 90, 'timing': 'after'}, 'screenshot_enabled': 'no', 'step_name': '32131'}]}
+2025-09-26 17:49:13 - UiAutomationProject - INFO - 地址 https://letsgogogold.com/ 使用第 1 个账号: schmidttimothy@example.org（共4个账号）
+2025-09-26 17:49:13 - UiAutomationProject - INFO - 2当前的地址是https://letsgogogold.com/，当前的邮箱是schmidttimothy@example.org，当前的密码是123456, 账号索引:0
+2025-09-26 17:49:13 - UiAutomationProject - INFO - 地址 https://letsgogogold.com/ 使用第 2 个账号: david74@example.net（共4个账号）
+2025-09-26 17:49:13 - UiAutomationProject - INFO - 2当前的地址是https://letsgogogold.com/，当前的邮箱是david74@example.net，当前的密码是123456, 账号索引:1
+2025-09-26 17:49:13 - UiAutomationProject - INFO - 地址 https://letsgogogold.com/ 使用第 3 个账号: lsmith@example.com（共4个账号）
+2025-09-26 17:49:13 - UiAutomationProject - INFO - 2当前的地址是https://letsgogogold.com/，当前的邮箱是lsmith@example.com，当前的密码是123456, 账号索引:2
+2025-09-26 17:49:14 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-26 17:49:14 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-26 17:49:14 - UiAutomationProject - INFO - ==================================================
+2025-09-26 17:49:14 - UiAutomationProject - INFO - 星火自动化测试平台启动中...
+2025-09-26 17:49:14 - UiAutomationProject - INFO - ==================================================
+2025-09-26 17:49:14 - UiAutomationProject - INFO - 当前数据库类型: mysql
+2025-09-26 17:49:14 - UiAutomationProject - INFO - MySQL配置: localhost:3306
+2025-09-26 17:49:14 - UiAutomationProject - INFO - 正在创建Flask应用...
+2025-09-26 17:49:14 - UiAutomationProject - INFO - 上传目录已创建: static/uploads
+2025-09-26 17:49:14 - UiAutomationProject - INFO - Game_Img目录已创建
+2025-09-26 17:49:14 - UiAutomationProject - INFO - 正在初始化数据库...
+2025-09-26 17:49:14 - UiAutomationProject - INFO - 数据库初始化完成
+2025-09-26 17:49:14 - UiAutomationProject - INFO - 所有蓝图已注册完成
+2025-09-26 17:49:14 - UiAutomationProject - INFO - Flask应用创建完成
+2025-09-26 17:49:14 - UiAutomationProject - INFO - 应用启动成功，监听地址: http://0.0.0.0:5000
+2025-09-26 17:49:14 - UiAutomationProject - INFO - 💡 提示: 建议使用 python scripts/quick_start.py 启动应用
+2025-09-26 17:49:14 - UiAutomationProject - INFO - 按 Ctrl+C 停止应用
+2025-09-26 17:49:14 - UiAutomationProject - INFO - --------------------------------------------------
+2025-09-26 17:50:41 - UiAutomationProject - INFO - lookup_accounts_for_addresses called with 3 addresses: ['https://letsgogogold.com/', 'https://letsgogogold.com/', 'https://letsgogogold.com/']
+2025-09-26 17:50:41 - UiAutomationProject - INFO - Flattened keys: ['https://letsgogogold.com/']
+2025-09-26 17:50:41 - UiAutomationProject - INFO - Grouped keys: ['https://letsgogogold.com/']
+2025-09-26 17:50:41 - UiAutomationProject - INFO -   https://letsgogogold.com/: 6 accounts
+2025-09-26 17:50:41 - UiAutomationProject - INFO - Processing address https://letsgogogold.com/, occurrence #1
+2025-09-26 17:50:41 - UiAutomationProject - INFO - Address https://letsgogogold.com/: found 6 accounts, current_index=0
+2025-09-26 17:50:41 - UiAutomationProject - INFO - Using account at index 0: {'email': 'david74@example.net', 'password': '123456'}
+2025-09-26 17:50:41 - UiAutomationProject - INFO - Processing address https://letsgogogold.com/, occurrence #2
+2025-09-26 17:50:41 - UiAutomationProject - INFO - Address https://letsgogogold.com/: found 6 accounts, current_index=1
+2025-09-26 17:50:41 - UiAutomationProject - INFO - Using account at index 1: {'email': 'lsmith@example.com', 'password': '123456'}
+2025-09-26 17:50:41 - UiAutomationProject - INFO - Processing address https://letsgogogold.com/, occurrence #3
+2025-09-26 17:50:41 - UiAutomationProject - INFO - Address https://letsgogogold.com/: found 6 accounts, current_index=2
+2025-09-26 17:50:41 - UiAutomationProject - INFO - Using account at index 2: {'email': 'schmidttimothy@example.org', 'password': '123456'}
+2025-09-26 17:50:41 - UiAutomationProject - INFO - Returning 1 accounts and 3 accounts_list items
+2025-09-26 17:50:41 - UiAutomationProject - INFO - accounts_list: [{'address': 'https://letsgogogold.com/', 'email': 'david74@example.net', 'password': '123456'}, {'address': 'https://letsgogogold.com/', 'email': 'lsmith@example.com', 'password': '123456'}, {'address': 'https://letsgogogold.com/', 'email': 'schmidttimothy@example.org', 'password': '123456'}]
+2025-09-26 17:50:58 - UiAutomationProject - INFO - 创建新的文件映射 - 项目ID: 123, 文件名: SCS_Web_test_2.py
+2025-09-26 17:50:58 - UiAutomationProject - INFO - 地址 https://letsgogogold.com/ 使用第 1 个账号: cabrerajerry@example.net（共4个账号）
+2025-09-26 17:50:58 - UiAutomationProject - INFO - 2当前的地址是https://letsgogogold.com/，当前的邮箱是cabrerajerry@example.net，当前的密码是123456, 账号索引:0
+2025-09-26 17:50:58 - UiAutomationProject - INFO - 地址 https://letsgogogold.com/ 使用第 2 个账号: david74@example.net（共4个账号）
+2025-09-26 17:50:58 - UiAutomationProject - INFO - 2当前的地址是https://letsgogogold.com/，当前的邮箱是david74@example.net，当前的密码是123456, 账号索引:1
+2025-09-26 17:50:58 - UiAutomationProject - INFO - 地址 https://letsgogogold.com/ 使用第 3 个账号: warrenrebecca@example.org（共4个账号）
+2025-09-26 17:50:58 - UiAutomationProject - INFO - 2当前的地址是https://letsgogogold.com/，当前的邮箱是warrenrebecca@example.org，当前的密码是123456, 账号索引:2
+2025-09-26 17:50:58 - UiAutomationProject - INFO - 地址 https://letsgogogold.com/ 使用第 4 个账号: schmidttimothy@example.org（共4个账号）
+2025-09-26 17:50:58 - UiAutomationProject - INFO - 2当前的地址是https://letsgogogold.com/，当前的邮箱是schmidttimothy@example.org，当前的密码是123456, 账号索引:3
+2025-09-26 17:50:58 - UiAutomationProject - INFO - 地址 https://letsgogogold.com/ 使用第 1 个账号: cabrerajerry@example.net（共4个账号）
+2025-09-26 17:50:58 - UiAutomationProject - INFO - 2当前的地址是https://letsgogogold.com/，当前的邮箱是cabrerajerry@example.net，当前的密码是123456, 账号索引:0
+2025-09-26 17:50:58 - UiAutomationProject - INFO - 地址 https://letsgogogold.com/ 使用第 2 个账号: david74@example.net（共4个账号）
+2025-09-26 17:50:58 - UiAutomationProject - INFO - 2当前的地址是https://letsgogogold.com/，当前的邮箱是david74@example.net，当前的密码是123456, 账号索引:1
+2025-09-26 17:51:53 - UiAutomationProject - INFO - 更新自动化项目: {'process_name': '注册', 'system': 'Web', 'product_type': 'web', 'environment': 'test', 'product_address': '{"SCS_1":"https://letsgogogold.com/","SCS_2":"https://letsgogogold.com/","SCS_3":"https://letsgogogold.com/"}', 'product_ids': ['SCS'], 'product_package_names': ['Elephant'], 'test_steps': [{'assertion_config': {'custom_assertions': [], 'image_assertions': [], 'ui_assertions': []}, 'assertion_enabled': 'no', 'assertion_method': 'pytest-selenium', 'assertion_params': '', 'assertion_type': 'ui', 'auth_config': {'address_credentials': {'https://letsgogogold.com/': {'email': 'cabrerajerry@example.net', 'password': '123456'}}, 'address_credentials_list': [{'address': 'https://letsgogogold.com/', 'email': 'ureed@example.org', 'password': '123456'}, {'address': 'https://letsgogogold.com/', 'email': 'warrenrebecca@example.org', 'password': '123456'}, {'address': 'https://letsgogogold.com/', 'email': 'cabrerajerry@example.net', 'password': '123456'}], 'credentials_source': 'register', 'email_selector': '3231', 'password_selector': '321321', 'repeat_password_selector': '321313', 'submit_selector': '123213'}, 'auth_regen_on_open': False, 'auth_temp_credentials_list': [{'address': 'https://letsgogogold.com/', 'email': 'ureed@example.org', 'password': '123456'}, {'address': 'https://letsgogogold.com/', 'email': 'warrenrebecca@example.org', 'password': '123456'}, {'address': 'https://letsgogogold.com/', 'email': 'cabrerajerry@example.net', 'password': '123456'}], 'auth_temp_source': 'register', 'current_tab_index': 1, 'input_value': '', 'operation_count': 3333, 'operation_event': 'register', 'operation_params': '', 'operation_type': 'web', 'pause_time': 3333, 'screenshot_config': {'format': 'png', 'full_page': False, 'path': 'screenshots/', 'prefix': 'screenshot_step', 'quality': 90, 'timing': 'after'}, 'screenshot_enabled': 'no', 'step_name': '注册'}, {'assertion_config': {'custom_assertions': [], 'image_assertions': [], 'ui_assertions': []}, 'assertion_enabled': 'no', 'assertion_method': 'pytest-selenium', 'assertion_params': '', 'assertion_type': 'ui', 'auth_config': {'address_credentials': {'https://letsgogogold.com/': {'email': 'schmidttimothy@example.org', 'password': '123456'}}, 'address_credentials_list': [{'address': 'https://letsgogogold.com/', 'email': 'david74@example.net', 'password': '123456'}, {'address': 'https://letsgogogold.com/', 'email': 'lsmith@example.com', 'password': '123456'}, {'address': 'https://letsgogogold.com/', 'email': 'schmidttimothy@example.org', 'password': '123456'}], 'credentials_source': 'login', 'email_selector': '13213', 'password_selector': '12321', 'repeat_password_selector': '', 'submit_selector': '21312'}, 'auth_regen_on_open': False, 'auth_temp_credentials_list': [{'address': 'https://letsgogogold.com/', 'email': 'david74@example.net', 'password': '123456'}, {'address': 'https://letsgogogold.com/', 'email': 'lsmith@example.com', 'password': '123456'}, {'address': 'https://letsgogogold.com/', 'email': 'schmidttimothy@example.org', 'password': '123456'}], 'auth_temp_source': 'login', 'current_tab_index': 1, 'input_value': '', 'operation_count': 3333, 'operation_event': 'login', 'operation_params': '', 'operation_type': 'web', 'pause_time': 3333, 'screenshot_config': {'format': 'png', 'full_page': False, 'path': 'screenshots/', 'prefix': 'screenshot_step', 'quality': 90, 'timing': 'after'}, 'screenshot_enabled': 'no', 'step_name': '3213213'}]}
+2025-09-26 17:51:54 - UiAutomationProject - INFO - 地址 https://letsgogogold.com/ 使用第 1 个账号: cabrerajerry@example.net（共4个账号）
+2025-09-26 17:51:54 - UiAutomationProject - INFO - 2当前的地址是https://letsgogogold.com/，当前的邮箱是cabrerajerry@example.net，当前的密码是123456, 账号索引:0
+2025-09-26 17:51:54 - UiAutomationProject - INFO - 地址 https://letsgogogold.com/ 使用第 2 个账号: david74@example.net（共4个账号）
+2025-09-26 17:51:54 - UiAutomationProject - INFO - 2当前的地址是https://letsgogogold.com/，当前的邮箱是david74@example.net，当前的密码是123456, 账号索引:1
+2025-09-26 17:51:54 - UiAutomationProject - INFO - 地址 https://letsgogogold.com/ 使用第 3 个账号: warrenrebecca@example.org（共4个账号）
+2025-09-26 17:51:54 - UiAutomationProject - INFO - 2当前的地址是https://letsgogogold.com/，当前的邮箱是warrenrebecca@example.org，当前的密码是123456, 账号索引:2
+2025-09-26 17:51:54 - UiAutomationProject - INFO - 地址 https://letsgogogold.com/ 使用第 4 个账号: schmidttimothy@example.org（共4个账号）
+2025-09-26 17:51:54 - UiAutomationProject - INFO - 2当前的地址是https://letsgogogold.com/，当前的邮箱是schmidttimothy@example.org，当前的密码是123456, 账号索引:3
+2025-09-26 17:51:54 - UiAutomationProject - INFO - 地址 https://letsgogogold.com/ 使用第 1 个账号: cabrerajerry@example.net（共4个账号）
+2025-09-26 17:51:54 - UiAutomationProject - INFO - 2当前的地址是https://letsgogogold.com/，当前的邮箱是cabrerajerry@example.net，当前的密码是123456, 账号索引:0
+2025-09-26 17:51:54 - UiAutomationProject - INFO - 地址 https://letsgogogold.com/ 使用第 2 个账号: david74@example.net（共4个账号）
+2025-09-26 17:51:54 - UiAutomationProject - INFO - 2当前的地址是https://letsgogogold.com/，当前的邮箱是david74@example.net，当前的密码是123456, 账号索引:1
+2025-09-26 17:51:55 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-26 17:51:55 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-26 17:51:55 - UiAutomationProject - INFO - ==================================================
+2025-09-26 17:51:55 - UiAutomationProject - INFO - 星火自动化测试平台启动中...
+2025-09-26 17:51:55 - UiAutomationProject - INFO - ==================================================
+2025-09-26 17:51:55 - UiAutomationProject - INFO - 当前数据库类型: mysql
+2025-09-26 17:51:55 - UiAutomationProject - INFO - MySQL配置: localhost:3306
+2025-09-26 17:51:55 - UiAutomationProject - INFO - 正在创建Flask应用...
+2025-09-26 17:51:55 - UiAutomationProject - INFO - 上传目录已创建: static/uploads
+2025-09-26 17:51:55 - UiAutomationProject - INFO - Game_Img目录已创建
+2025-09-26 17:51:55 - UiAutomationProject - INFO - 正在初始化数据库...
+2025-09-26 17:51:55 - UiAutomationProject - INFO - 数据库初始化完成
+2025-09-26 17:51:55 - UiAutomationProject - INFO - 所有蓝图已注册完成
+2025-09-26 17:51:55 - UiAutomationProject - INFO - Flask应用创建完成
+2025-09-26 17:51:55 - UiAutomationProject - INFO - 应用启动成功，监听地址: http://0.0.0.0:5000
+2025-09-26 17:51:55 - UiAutomationProject - INFO - 💡 提示: 建议使用 python scripts/quick_start.py 启动应用
+2025-09-26 17:51:55 - UiAutomationProject - INFO - 按 Ctrl+C 停止应用
+2025-09-26 17:51:55 - UiAutomationProject - INFO - --------------------------------------------------
+2025-09-26 17:52:19 - UiAutomationProject - INFO - 已删除文件: Test_Case\SCS_Web_test_2.py
+2025-09-26 17:52:20 - UiAutomationProject - INFO - 已删除文件: Test_Case\SCS_Web_test.py
+2025-09-26 17:52:27 - UiAutomationProject - INFO - lookup_accounts_for_addresses called with 1 addresses: ['https://h7055.slotcash666.com/']
+2025-09-26 17:52:27 - UiAutomationProject - INFO - Flattened keys: ['https://letsgogogold.com/']
+2025-09-26 17:52:27 - UiAutomationProject - INFO - Grouped keys: ['https://letsgogogold.com/']
+2025-09-26 17:52:27 - UiAutomationProject - INFO -   https://letsgogogold.com/: 12 accounts
+2025-09-26 17:52:27 - UiAutomationProject - INFO - Processing address https://h7055.slotcash666.com/, occurrence #1
+2025-09-26 17:52:27 - UiAutomationProject - INFO - Returning 0 accounts and 1 accounts_list items
+2025-09-26 17:52:27 - UiAutomationProject - INFO - accounts_list: [{'address': 'https://h7055.slotcash666.com/', 'email': '', 'password': ''}]
+2025-09-26 17:52:35 - UiAutomationProject - INFO - lookup_accounts_for_addresses called with 1 addresses: ['https://letsgogogold.com/']
+2025-09-26 17:52:35 - UiAutomationProject - INFO - Flattened keys: ['https://letsgogogold.com/']
+2025-09-26 17:52:35 - UiAutomationProject - INFO - Grouped keys: ['https://letsgogogold.com/']
+2025-09-26 17:52:35 - UiAutomationProject - INFO -   https://letsgogogold.com/: 12 accounts
+2025-09-26 17:52:35 - UiAutomationProject - INFO - Processing address https://letsgogogold.com/, occurrence #1
+2025-09-26 17:52:35 - UiAutomationProject - INFO - Address https://letsgogogold.com/: found 12 accounts, current_index=0
+2025-09-26 17:52:35 - UiAutomationProject - INFO - Using account at index 0: {'email': 'david74@example.net', 'password': '123456'}
+2025-09-26 17:52:35 - UiAutomationProject - INFO - Returning 1 accounts and 1 accounts_list items
+2025-09-26 17:52:35 - UiAutomationProject - INFO - accounts_list: [{'address': 'https://letsgogogold.com/', 'email': 'david74@example.net', 'password': '123456'}]
+2025-09-26 18:09:55 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-26 18:09:55 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-26 18:09:55 - UiAutomationProject - INFO - ==================================================
+2025-09-26 18:09:55 - UiAutomationProject - INFO - 星火自动化测试平台启动中...
+2025-09-26 18:09:55 - UiAutomationProject - INFO - ==================================================
+2025-09-26 18:09:55 - UiAutomationProject - INFO - 当前数据库类型: mysql
+2025-09-26 18:09:55 - UiAutomationProject - INFO - MySQL配置: localhost:3306
+2025-09-26 18:09:55 - UiAutomationProject - INFO - 正在创建Flask应用...
+2025-09-26 18:09:55 - UiAutomationProject - INFO - 上传目录已创建: static/uploads
+2025-09-26 18:09:55 - UiAutomationProject - INFO - Game_Img目录已创建
+2025-09-26 18:09:55 - UiAutomationProject - INFO - 正在初始化数据库...
+2025-09-26 18:09:55 - UiAutomationProject - INFO - 数据库初始化完成
+2025-09-26 18:09:55 - UiAutomationProject - INFO - 所有蓝图已注册完成
+2025-09-26 18:09:55 - UiAutomationProject - INFO - Flask应用创建完成
+2025-09-26 18:09:55 - UiAutomationProject - INFO - 应用启动成功，监听地址: http://0.0.0.0:5000
+2025-09-26 18:09:55 - UiAutomationProject - INFO - 💡 提示: 建议使用 python scripts/quick_start.py 启动应用
+2025-09-26 18:09:55 - UiAutomationProject - INFO - 按 Ctrl+C 停止应用
+2025-09-26 18:09:55 - UiAutomationProject - INFO - --------------------------------------------------
+2025-09-26 18:09:56 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-26 18:09:56 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-26 18:09:56 - UiAutomationProject - INFO - ==================================================
+2025-09-26 18:09:56 - UiAutomationProject - INFO - 星火自动化测试平台启动中...
+2025-09-26 18:09:56 - UiAutomationProject - INFO - ==================================================
+2025-09-26 18:09:56 - UiAutomationProject - INFO - 当前数据库类型: mysql
+2025-09-26 18:09:56 - UiAutomationProject - INFO - MySQL配置: localhost:3306
+2025-09-26 18:09:56 - UiAutomationProject - INFO - 正在创建Flask应用...
+2025-09-26 18:09:56 - UiAutomationProject - INFO - 上传目录已创建: static/uploads
+2025-09-26 18:09:56 - UiAutomationProject - INFO - Game_Img目录已创建
+2025-09-26 18:09:56 - UiAutomationProject - INFO - 正在初始化数据库...
+2025-09-26 18:09:56 - UiAutomationProject - INFO - 数据库初始化完成
+2025-09-26 18:09:56 - UiAutomationProject - INFO - 所有蓝图已注册完成
+2025-09-26 18:09:56 - UiAutomationProject - INFO - Flask应用创建完成
+2025-09-26 18:09:56 - UiAutomationProject - INFO - 应用启动成功，监听地址: http://0.0.0.0:5000
+2025-09-26 18:09:56 - UiAutomationProject - INFO - 💡 提示: 建议使用 python scripts/quick_start.py 启动应用
+2025-09-26 18:09:56 - UiAutomationProject - INFO - 按 Ctrl+C 停止应用
+2025-09-26 18:09:56 - UiAutomationProject - INFO - --------------------------------------------------
+2025-09-26 18:10:07 - UiAutomationProject - INFO - lookup_accounts_for_addresses called with 3 addresses: ['https://letsgogogold.com/', 'https://letsgogogold.com/', 'https://letsgogogold.com/']
+2025-09-26 18:10:07 - UiAutomationProject - INFO - Flattened keys: ['https://letsgogogold.com/']
+2025-09-26 18:10:07 - UiAutomationProject - INFO - Grouped keys: ['https://letsgogogold.com/']
+2025-09-26 18:10:07 - UiAutomationProject - INFO -   https://letsgogogold.com/: 12 accounts
+2025-09-26 18:10:07 - UiAutomationProject - INFO - Processing address https://letsgogogold.com/, occurrence #1
+2025-09-26 18:10:07 - UiAutomationProject - INFO - Address https://letsgogogold.com/: found 12 accounts, current_index=0
+2025-09-26 18:10:07 - UiAutomationProject - INFO - Using account at index 0: {'email': 'david74@example.net', 'password': '123456'}
+2025-09-26 18:10:07 - UiAutomationProject - INFO - Processing address https://letsgogogold.com/, occurrence #2
+2025-09-26 18:10:07 - UiAutomationProject - INFO - Address https://letsgogogold.com/: found 12 accounts, current_index=1
+2025-09-26 18:10:07 - UiAutomationProject - INFO - Using account at index 1: {'email': 'lsmith@example.com', 'password': '123456'}
+2025-09-26 18:10:07 - UiAutomationProject - INFO - Processing address https://letsgogogold.com/, occurrence #3
+2025-09-26 18:10:07 - UiAutomationProject - INFO - Address https://letsgogogold.com/: found 12 accounts, current_index=2
+2025-09-26 18:10:07 - UiAutomationProject - INFO - Using account at index 2: {'email': 'schmidttimothy@example.org', 'password': '123456'}
+2025-09-26 18:10:07 - UiAutomationProject - INFO - Returning 1 accounts and 3 accounts_list items
+2025-09-26 18:10:07 - UiAutomationProject - INFO - accounts_list: [{'address': 'https://letsgogogold.com/', 'email': 'david74@example.net', 'password': '123456'}, {'address': 'https://letsgogogold.com/', 'email': 'lsmith@example.com', 'password': '123456'}, {'address': 'https://letsgogogold.com/', 'email': 'schmidttimothy@example.org', 'password': '123456'}]
+2025-09-26 18:10:29 - UiAutomationProject - INFO - 创建新的文件映射 - 项目ID: 124, 文件名: SCS_Web_test.py
+2025-09-26 18:10:29 - UiAutomationProject - INFO - 地址 https://letsgogogold.com/ 使用第 1 个账号: schmidttimothy@example.org（共4个账号）
+2025-09-26 18:10:29 - UiAutomationProject - INFO - 2当前的地址是https://letsgogogold.com/，当前的邮箱是schmidttimothy@example.org，当前的密码是123456, 账号索引:0
+2025-09-26 18:10:29 - UiAutomationProject - INFO - 地址 https://letsgogogold.com/ 使用第 2 个账号: david74@example.net（共4个账号）
+2025-09-26 18:10:29 - UiAutomationProject - INFO - 2当前的地址是https://letsgogogold.com/，当前的邮箱是david74@example.net，当前的密码是123456, 账号索引:1
+2025-09-26 18:10:29 - UiAutomationProject - INFO - 地址 https://letsgogogold.com/ 使用第 3 个账号: lsmith@example.com（共4个账号）
+2025-09-26 18:10:29 - UiAutomationProject - INFO - 2当前的地址是https://letsgogogold.com/，当前的邮箱是lsmith@example.com，当前的密码是123456, 账号索引:2
+2025-09-26 18:11:22 - UiAutomationProject - INFO - 请求游戏图片: 1758881428_Snipaste_2025-09-01_16-31-13.png
+2025-09-26 18:12:09 - UiAutomationProject - INFO - 请求游戏图片: 1758881428_Snipaste_2025-09-01_16-31-13.png
+2025-09-26 18:12:26 - UiAutomationProject - INFO - 请求游戏图片: 1758881428_Snipaste_2025-09-01_16-31-13.png
+2025-09-26 18:12:33 - UiAutomationProject - INFO - 请求游戏图片: 1758881428_Snipaste_2025-09-01_16-31-13.png
+2025-09-26 18:27:44 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-26 18:27:44 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-26 18:27:44 - UiAutomationProject - INFO - ==================================================
+2025-09-26 18:27:44 - UiAutomationProject - INFO - 星火自动化测试平台启动中...
+2025-09-26 18:27:44 - UiAutomationProject - INFO - ==================================================
+2025-09-26 18:27:44 - UiAutomationProject - INFO - 当前数据库类型: mysql
+2025-09-26 18:27:44 - UiAutomationProject - INFO - MySQL配置: localhost:3306
+2025-09-26 18:27:44 - UiAutomationProject - INFO - 正在创建Flask应用...
+2025-09-26 18:27:44 - UiAutomationProject - INFO - 上传目录已创建: static/uploads
+2025-09-26 18:27:44 - UiAutomationProject - INFO - Game_Img目录已创建
+2025-09-26 18:27:44 - UiAutomationProject - INFO - 正在初始化数据库...
+2025-09-26 18:27:44 - UiAutomationProject - INFO - 数据库初始化完成
+2025-09-26 18:27:44 - UiAutomationProject - INFO - 所有蓝图已注册完成
+2025-09-26 18:27:44 - UiAutomationProject - INFO - Flask应用创建完成
+2025-09-26 18:27:44 - UiAutomationProject - INFO - 应用启动成功，监听地址: http://0.0.0.0:5000
+2025-09-26 18:27:44 - UiAutomationProject - INFO - 💡 提示: 建议使用 python scripts/quick_start.py 启动应用
+2025-09-26 18:27:44 - UiAutomationProject - INFO - 按 Ctrl+C 停止应用
+2025-09-26 18:27:44 - UiAutomationProject - INFO - --------------------------------------------------
+2025-09-26 18:27:45 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-26 18:27:45 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-26 18:27:45 - UiAutomationProject - INFO - ==================================================
+2025-09-26 18:27:45 - UiAutomationProject - INFO - 星火自动化测试平台启动中...
+2025-09-26 18:27:45 - UiAutomationProject - INFO - ==================================================
+2025-09-26 18:27:45 - UiAutomationProject - INFO - 当前数据库类型: mysql
+2025-09-26 18:27:45 - UiAutomationProject - INFO - MySQL配置: localhost:3306
+2025-09-26 18:27:45 - UiAutomationProject - INFO - 正在创建Flask应用...
+2025-09-26 18:27:45 - UiAutomationProject - INFO - 上传目录已创建: static/uploads
+2025-09-26 18:27:45 - UiAutomationProject - INFO - Game_Img目录已创建
+2025-09-26 18:27:45 - UiAutomationProject - INFO - 正在初始化数据库...
+2025-09-26 18:27:45 - UiAutomationProject - INFO - 数据库初始化完成
+2025-09-26 18:27:45 - UiAutomationProject - INFO - 所有蓝图已注册完成
+2025-09-26 18:27:45 - UiAutomationProject - INFO - Flask应用创建完成
+2025-09-26 18:27:45 - UiAutomationProject - INFO - 应用启动成功，监听地址: http://0.0.0.0:5000
+2025-09-26 18:27:45 - UiAutomationProject - INFO - 💡 提示: 建议使用 python scripts/quick_start.py 启动应用
+2025-09-26 18:27:45 - UiAutomationProject - INFO - 按 Ctrl+C 停止应用
+2025-09-26 18:27:45 - UiAutomationProject - INFO - --------------------------------------------------
+2025-09-26 18:28:29 - UiAutomationProject - INFO - lookup_accounts_for_addresses called with 3 addresses: ['https://letsgogogold.com/', 'https://letsgogogold.com/', 'https://letsgogogold.com/']
+2025-09-26 18:28:29 - UiAutomationProject - INFO - Flattened keys: ['https://letsgogogold.com/']
+2025-09-26 18:28:29 - UiAutomationProject - INFO - Grouped keys: ['https://letsgogogold.com/']
+2025-09-26 18:28:29 - UiAutomationProject - INFO -   https://letsgogogold.com/: 15 accounts
+2025-09-26 18:28:29 - UiAutomationProject - INFO - Processing address https://letsgogogold.com/, occurrence #1
+2025-09-26 18:28:29 - UiAutomationProject - INFO - Address https://letsgogogold.com/: found 15 accounts, current_index=0
+2025-09-26 18:28:29 - UiAutomationProject - INFO - Using account at index 0: {'email': 'david74@example.net', 'password': '123456'}
+2025-09-26 18:28:29 - UiAutomationProject - INFO - Processing address https://letsgogogold.com/, occurrence #2
+2025-09-26 18:28:29 - UiAutomationProject - INFO - Address https://letsgogogold.com/: found 15 accounts, current_index=1
+2025-09-26 18:28:29 - UiAutomationProject - INFO - Using account at index 1: {'email': 'lsmith@example.com', 'password': '123456'}
+2025-09-26 18:28:29 - UiAutomationProject - INFO - Processing address https://letsgogogold.com/, occurrence #3
+2025-09-26 18:28:29 - UiAutomationProject - INFO - Address https://letsgogogold.com/: found 15 accounts, current_index=2
+2025-09-26 18:28:29 - UiAutomationProject - INFO - Using account at index 2: {'email': 'schmidttimothy@example.org', 'password': '123456'}
+2025-09-26 18:28:29 - UiAutomationProject - INFO - Returning 1 accounts and 3 accounts_list items
+2025-09-26 18:28:29 - UiAutomationProject - INFO - accounts_list: [{'address': 'https://letsgogogold.com/', 'email': 'david74@example.net', 'password': '123456'}, {'address': 'https://letsgogogold.com/', 'email': 'lsmith@example.com', 'password': '123456'}, {'address': 'https://letsgogogold.com/', 'email': 'schmidttimothy@example.org', 'password': '123456'}]
+2025-09-26 18:29:09 - UiAutomationProject - INFO - 请求游戏图片: 1758881428_Snipaste_2025-09-01_16-31-13.png
+2025-09-26 18:29:45 - UiAutomationProject - INFO - 创建新的文件映射 - 项目ID: 125, 文件名: SC_Web_test.py
+2025-09-26 18:29:49 - UiAutomationProject - INFO - 请求游戏图片: 1758881428_Snipaste_2025-09-01_16-31-13.png
+2025-09-26 18:29:51 - UiAutomationProject - INFO - 请求游戏图片: 1758881428_Snipaste_2025-09-01_16-31-13.png
+2025-09-26 18:30:00 - UiAutomationProject - INFO - 请求游戏图片: 1758881428_Snipaste_2025-09-01_16-31-13.png
+2025-09-26 18:30:04 - UiAutomationProject - INFO - 已删除文件: Test_Case\SC_Web_test.py
+2025-09-26 18:30:07 - UiAutomationProject - INFO - 已删除文件: Test_Case\SCS_Web_test.py
+2025-09-26 18:30:18 - UiAutomationProject - INFO - lookup_accounts_for_addresses called with 3 addresses: ['https://letsgogogold.com/', 'https://letsgogogold.com/', 'https://letsgogogold.com/']
+2025-09-26 18:30:18 - UiAutomationProject - INFO - Flattened keys: ['https://letsgogogold.com/']
+2025-09-26 18:30:18 - UiAutomationProject - INFO - Grouped keys: ['https://letsgogogold.com/']
+2025-09-26 18:30:18 - UiAutomationProject - INFO -   https://letsgogogold.com/: 15 accounts
+2025-09-26 18:30:18 - UiAutomationProject - INFO - Processing address https://letsgogogold.com/, occurrence #1
+2025-09-26 18:30:18 - UiAutomationProject - INFO - Address https://letsgogogold.com/: found 15 accounts, current_index=0
+2025-09-26 18:30:18 - UiAutomationProject - INFO - Using account at index 0: {'email': 'david74@example.net', 'password': '123456'}
+2025-09-26 18:30:18 - UiAutomationProject - INFO - Processing address https://letsgogogold.com/, occurrence #2
+2025-09-26 18:30:18 - UiAutomationProject - INFO - Address https://letsgogogold.com/: found 15 accounts, current_index=1
+2025-09-26 18:30:18 - UiAutomationProject - INFO - Using account at index 1: {'email': 'lsmith@example.com', 'password': '123456'}
+2025-09-26 18:30:18 - UiAutomationProject - INFO - Processing address https://letsgogogold.com/, occurrence #3
+2025-09-26 18:30:18 - UiAutomationProject - INFO - Address https://letsgogogold.com/: found 15 accounts, current_index=2
+2025-09-26 18:30:18 - UiAutomationProject - INFO - Using account at index 2: {'email': 'schmidttimothy@example.org', 'password': '123456'}
+2025-09-26 18:30:18 - UiAutomationProject - INFO - Returning 1 accounts and 3 accounts_list items
+2025-09-26 18:30:18 - UiAutomationProject - INFO - accounts_list: [{'address': 'https://letsgogogold.com/', 'email': 'david74@example.net', 'password': '123456'}, {'address': 'https://letsgogogold.com/', 'email': 'lsmith@example.com', 'password': '123456'}, {'address': 'https://letsgogogold.com/', 'email': 'schmidttimothy@example.org', 'password': '123456'}]
+2025-09-26 18:32:05 - UiAutomationProject - INFO - 创建新的文件映射 - 项目ID: 126, 文件名: 70050_Web_test.py
+2025-09-26 18:32:30 - UiAutomationProject - INFO - 创建新的文件映射 - 项目ID: 127, 文件名: SCS_Web_test.py
+2025-09-26 18:32:31 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-26 18:32:31 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-26 18:32:31 - UiAutomationProject - INFO - ==================================================
+2025-09-26 18:32:31 - UiAutomationProject - INFO - 星火自动化测试平台启动中...
+2025-09-26 18:32:31 - UiAutomationProject - INFO - ==================================================
+2025-09-26 18:32:31 - UiAutomationProject - INFO - 当前数据库类型: mysql
+2025-09-26 18:32:31 - UiAutomationProject - INFO - MySQL配置: localhost:3306
+2025-09-26 18:32:31 - UiAutomationProject - INFO - 正在创建Flask应用...
+2025-09-26 18:32:31 - UiAutomationProject - INFO - 上传目录已创建: static/uploads
+2025-09-26 18:32:31 - UiAutomationProject - INFO - Game_Img目录已创建
+2025-09-26 18:32:31 - UiAutomationProject - INFO - 正在初始化数据库...
+2025-09-26 18:32:31 - UiAutomationProject - INFO - 数据库初始化完成
+2025-09-26 18:32:31 - UiAutomationProject - INFO - 所有蓝图已注册完成
+2025-09-26 18:32:31 - UiAutomationProject - INFO - Flask应用创建完成
+2025-09-26 18:32:31 - UiAutomationProject - INFO - 应用启动成功，监听地址: http://0.0.0.0:5000
+2025-09-26 18:32:31 - UiAutomationProject - INFO - 💡 提示: 建议使用 python scripts/quick_start.py 启动应用
+2025-09-26 18:32:31 - UiAutomationProject - INFO - 按 Ctrl+C 停止应用
+2025-09-26 18:32:31 - UiAutomationProject - INFO - --------------------------------------------------
+2025-09-26 18:32:44 - UiAutomationProject - INFO - 已删除文件: Test_Case\SCS_Web_test.py
+2025-09-26 18:32:49 - UiAutomationProject - INFO - 已删除文件: Test_Case\70050_Web_test.py
+2025-09-28 09:53:58 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-28 09:53:58 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-28 09:53:58 - UiAutomationProject - INFO - ==================================================
+2025-09-28 09:53:58 - UiAutomationProject - INFO - 星火自动化测试平台启动中...
+2025-09-28 09:53:58 - UiAutomationProject - INFO - ==================================================
+2025-09-28 09:53:58 - UiAutomationProject - INFO - 当前数据库类型: mysql
+2025-09-28 09:53:58 - UiAutomationProject - INFO - MySQL配置: localhost:3306
+2025-09-28 09:53:58 - UiAutomationProject - INFO - 正在创建Flask应用...
+2025-09-28 09:53:58 - UiAutomationProject - INFO - 上传目录已创建: static/uploads
+2025-09-28 09:53:58 - UiAutomationProject - INFO - Game_Img目录已创建
+2025-09-28 09:53:58 - UiAutomationProject - INFO - 正在初始化数据库...
+2025-09-28 09:53:58 - UiAutomationProject - INFO - 数据库初始化完成
+2025-09-28 09:53:58 - UiAutomationProject - INFO - 所有蓝图已注册完成
+2025-09-28 09:53:58 - UiAutomationProject - INFO - Flask应用创建完成
+2025-09-28 09:53:58 - UiAutomationProject - INFO - 应用启动成功，监听地址: http://0.0.0.0:5000
+2025-09-28 09:53:58 - UiAutomationProject - INFO - 💡 提示: 建议使用 python scripts/quick_start.py 启动应用
+2025-09-28 09:53:58 - UiAutomationProject - INFO - 按 Ctrl+C 停止应用
+2025-09-28 09:53:58 - UiAutomationProject - INFO - --------------------------------------------------
+2025-09-28 09:53:59 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-28 09:53:59 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-28 09:53:59 - UiAutomationProject - INFO - ==================================================
+2025-09-28 09:53:59 - UiAutomationProject - INFO - 星火自动化测试平台启动中...
+2025-09-28 09:53:59 - UiAutomationProject - INFO - ==================================================
+2025-09-28 09:53:59 - UiAutomationProject - INFO - 当前数据库类型: mysql
+2025-09-28 09:53:59 - UiAutomationProject - INFO - MySQL配置: localhost:3306
+2025-09-28 09:53:59 - UiAutomationProject - INFO - 正在创建Flask应用...
+2025-09-28 09:53:59 - UiAutomationProject - INFO - 上传目录已创建: static/uploads
+2025-09-28 09:53:59 - UiAutomationProject - INFO - Game_Img目录已创建
+2025-09-28 09:53:59 - UiAutomationProject - INFO - 正在初始化数据库...
+2025-09-28 09:53:59 - UiAutomationProject - INFO - 数据库初始化完成
+2025-09-28 09:53:59 - UiAutomationProject - INFO - 所有蓝图已注册完成
+2025-09-28 09:53:59 - UiAutomationProject - INFO - Flask应用创建完成
+2025-09-28 09:53:59 - UiAutomationProject - INFO - 应用启动成功，监听地址: http://0.0.0.0:5000
+2025-09-28 09:53:59 - UiAutomationProject - INFO - 💡 提示: 建议使用 python scripts/quick_start.py 启动应用
+2025-09-28 09:53:59 - UiAutomationProject - INFO - 按 Ctrl+C 停止应用
+2025-09-28 09:53:59 - UiAutomationProject - INFO - --------------------------------------------------
+2025-09-28 09:54:11 - UiAutomationProject - INFO - 访问登录页面
+2025-09-28 09:54:16 - UiAutomationProject - INFO - 收到用户登录请求
+2025-09-28 09:54:16 - UiAutomationProject - INFO - 用户尝试登录: 蓝国剑
+2025-09-28 09:54:17 - UiAutomationProject - INFO - 访问根路径（已登录），重定向到主页
+2025-09-28 09:56:28 - UiAutomationProject - INFO - lookup_accounts_for_addresses called with 1 addresses: ['https://h7055.slotcash666.com/']
+2025-09-28 09:56:28 - UiAutomationProject - INFO - Flattened keys: []
+2025-09-28 09:56:28 - UiAutomationProject - INFO - Grouped keys: []
+2025-09-28 09:56:28 - UiAutomationProject - INFO - Processing address https://h7055.slotcash666.com/, occurrence #1
+2025-09-28 09:56:28 - UiAutomationProject - INFO - Returning 0 accounts and 1 accounts_list items
+2025-09-28 09:56:28 - UiAutomationProject - INFO - accounts_list: [{'address': 'https://h7055.slotcash666.com/', 'email': '', 'password': ''}]
+2025-09-28 09:58:39 - UiAutomationProject - INFO - 创建新的文件映射 - 项目ID: 128, 文件名: 70050_Web_test.py
+2025-09-28 10:00:10 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-28 10:00:10 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-28 10:00:10 - UiAutomationProject - INFO - ==================================================
+2025-09-28 10:00:10 - UiAutomationProject - INFO - 星火自动化测试平台启动中...
+2025-09-28 10:00:10 - UiAutomationProject - INFO - ==================================================
+2025-09-28 10:00:10 - UiAutomationProject - INFO - 当前数据库类型: mysql
+2025-09-28 10:00:10 - UiAutomationProject - INFO - MySQL配置: localhost:3306
+2025-09-28 10:00:10 - UiAutomationProject - INFO - 正在创建Flask应用...
+2025-09-28 10:00:10 - UiAutomationProject - INFO - 上传目录已创建: static/uploads
+2025-09-28 10:00:10 - UiAutomationProject - INFO - Game_Img目录已创建
+2025-09-28 10:00:10 - UiAutomationProject - INFO - 正在初始化数据库...
+2025-09-28 10:00:10 - UiAutomationProject - INFO - 数据库初始化完成
+2025-09-28 10:00:10 - UiAutomationProject - INFO - 所有蓝图已注册完成
+2025-09-28 10:00:10 - UiAutomationProject - INFO - Flask应用创建完成
+2025-09-28 10:00:10 - UiAutomationProject - INFO - 应用启动成功，监听地址: http://0.0.0.0:5000
+2025-09-28 10:00:10 - UiAutomationProject - INFO - 💡 提示: 建议使用 python scripts/quick_start.py 启动应用
+2025-09-28 10:00:10 - UiAutomationProject - INFO - 按 Ctrl+C 停止应用
+2025-09-28 10:00:10 - UiAutomationProject - INFO - --------------------------------------------------
+2025-09-28 10:00:15 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-28 10:00:15 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-28 10:00:15 - UiAutomationProject - INFO - ==================================================
+2025-09-28 10:00:15 - UiAutomationProject - INFO - 星火自动化测试平台启动中...
+2025-09-28 10:00:15 - UiAutomationProject - INFO - ==================================================
+2025-09-28 10:00:15 - UiAutomationProject - INFO - 当前数据库类型: mysql
+2025-09-28 10:00:15 - UiAutomationProject - INFO - MySQL配置: localhost:3306
+2025-09-28 10:00:15 - UiAutomationProject - INFO - 正在创建Flask应用...
+2025-09-28 10:00:15 - UiAutomationProject - INFO - 上传目录已创建: static/uploads
+2025-09-28 10:00:15 - UiAutomationProject - INFO - Game_Img目录已创建
+2025-09-28 10:00:15 - UiAutomationProject - INFO - 正在初始化数据库...
+2025-09-28 10:00:15 - UiAutomationProject - INFO - 数据库初始化完成
+2025-09-28 10:00:15 - UiAutomationProject - INFO - 所有蓝图已注册完成
+2025-09-28 10:00:15 - UiAutomationProject - INFO - Flask应用创建完成
+2025-09-28 10:00:15 - UiAutomationProject - INFO - 应用启动成功，监听地址: http://0.0.0.0:5000
+2025-09-28 10:00:15 - UiAutomationProject - INFO - 💡 提示: 建议使用 python scripts/quick_start.py 启动应用
+2025-09-28 10:00:15 - UiAutomationProject - INFO - 按 Ctrl+C 停止应用
+2025-09-28 10:00:15 - UiAutomationProject - INFO - --------------------------------------------------
+2025-09-28 10:00:52 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-28 10:00:52 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-28 10:00:52 - UiAutomationProject - INFO - ==================================================
+2025-09-28 10:00:52 - UiAutomationProject - INFO - 星火自动化测试平台启动中...
+2025-09-28 10:00:52 - UiAutomationProject - INFO - ==================================================
+2025-09-28 10:00:52 - UiAutomationProject - INFO - 当前数据库类型: mysql
+2025-09-28 10:00:52 - UiAutomationProject - INFO - MySQL配置: localhost:3306
+2025-09-28 10:00:52 - UiAutomationProject - INFO - 正在创建Flask应用...
+2025-09-28 10:00:52 - UiAutomationProject - INFO - 上传目录已创建: static/uploads
+2025-09-28 10:00:52 - UiAutomationProject - INFO - Game_Img目录已创建
+2025-09-28 10:00:52 - UiAutomationProject - INFO - 正在初始化数据库...
+2025-09-28 10:00:52 - UiAutomationProject - INFO - 数据库初始化完成
+2025-09-28 10:00:52 - UiAutomationProject - INFO - 所有蓝图已注册完成
+2025-09-28 10:00:52 - UiAutomationProject - INFO - Flask应用创建完成
+2025-09-28 10:00:52 - UiAutomationProject - INFO - 应用启动成功，监听地址: http://0.0.0.0:5000
+2025-09-28 10:00:52 - UiAutomationProject - INFO - 💡 提示: 建议使用 python scripts/quick_start.py 启动应用
+2025-09-28 10:00:52 - UiAutomationProject - INFO - 按 Ctrl+C 停止应用
+2025-09-28 10:00:52 - UiAutomationProject - INFO - --------------------------------------------------
+2025-09-28 10:01:10 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-28 10:01:10 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-28 10:01:10 - UiAutomationProject - INFO - ==================================================
+2025-09-28 10:01:10 - UiAutomationProject - INFO - 星火自动化测试平台启动中...
+2025-09-28 10:01:10 - UiAutomationProject - INFO - ==================================================
+2025-09-28 10:01:10 - UiAutomationProject - INFO - 当前数据库类型: mysql
+2025-09-28 10:01:10 - UiAutomationProject - INFO - MySQL配置: localhost:3306
+2025-09-28 10:01:10 - UiAutomationProject - INFO - 正在创建Flask应用...
+2025-09-28 10:01:10 - UiAutomationProject - INFO - 上传目录已创建: static/uploads
+2025-09-28 10:01:10 - UiAutomationProject - INFO - Game_Img目录已创建
+2025-09-28 10:01:10 - UiAutomationProject - INFO - 正在初始化数据库...
+2025-09-28 10:01:10 - UiAutomationProject - INFO - 数据库初始化完成
+2025-09-28 10:01:10 - UiAutomationProject - INFO - 所有蓝图已注册完成
+2025-09-28 10:01:10 - UiAutomationProject - INFO - Flask应用创建完成
+2025-09-28 10:01:10 - UiAutomationProject - INFO - 应用启动成功，监听地址: http://0.0.0.0:5000
+2025-09-28 10:01:10 - UiAutomationProject - INFO - 💡 提示: 建议使用 python scripts/quick_start.py 启动应用
+2025-09-28 10:01:10 - UiAutomationProject - INFO - 按 Ctrl+C 停止应用
+2025-09-28 10:01:10 - UiAutomationProject - INFO - --------------------------------------------------
+2025-09-28 10:01:37 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-28 10:01:37 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-28 10:01:37 - UiAutomationProject - INFO - ==================================================
+2025-09-28 10:01:37 - UiAutomationProject - INFO - 星火自动化测试平台启动中...
+2025-09-28 10:01:37 - UiAutomationProject - INFO - ==================================================
+2025-09-28 10:01:37 - UiAutomationProject - INFO - 当前数据库类型: mysql
+2025-09-28 10:01:37 - UiAutomationProject - INFO - MySQL配置: localhost:3306
+2025-09-28 10:01:37 - UiAutomationProject - INFO - 正在创建Flask应用...
+2025-09-28 10:01:37 - UiAutomationProject - INFO - 上传目录已创建: static/uploads
+2025-09-28 10:01:37 - UiAutomationProject - INFO - Game_Img目录已创建
+2025-09-28 10:01:37 - UiAutomationProject - INFO - 正在初始化数据库...
+2025-09-28 10:01:37 - UiAutomationProject - INFO - 数据库初始化完成
+2025-09-28 10:01:37 - UiAutomationProject - INFO - 所有蓝图已注册完成
+2025-09-28 10:01:37 - UiAutomationProject - INFO - Flask应用创建完成
+2025-09-28 10:01:37 - UiAutomationProject - INFO - 应用启动成功，监听地址: http://0.0.0.0:5000
+2025-09-28 10:01:37 - UiAutomationProject - INFO - 💡 提示: 建议使用 python scripts/quick_start.py 启动应用
+2025-09-28 10:01:37 - UiAutomationProject - INFO - 按 Ctrl+C 停止应用
+2025-09-28 10:01:37 - UiAutomationProject - INFO - --------------------------------------------------
+2025-09-28 10:01:42 - UiAutomationProject - INFO - 更新自动化项目: {'process_name': '测试登录', 'system': 'Web', 'product_type': 'web', 'environment': 'test', 'product_address': 'https://h7055.slotcash666.com/', 'product_ids': ['70050'], 'product_package_names': ['ifitness.home.workout.body.exercise'], 'test_steps': [{'assertion_config': {'custom_assertions': [], 'image_assertions': [], 'ui_assertions': []}, 'assertion_enabled': 'no', 'assertion_method': 'pytest-selenium', 'assertion_params': '', 'assertion_type': 'ui', 'auth_config': {'address_credentials': {'https://h7055.slotcash666.com/': {'email': 'yanglingzhen@qq.com', 'password': 'azhen'}}, 'address_credentials_list': [{'address': 'https://h7055.slotcash666.com/', 'email': 'yanglingzhen@qq.com', 'password': 'azhen'}], 'credentials_source': 'login', 'email_selector': '//*[@id="username"]', 'password_selector': '//*[@id="password"]', 'repeat_password_selector': '', 'submit_selector': '//*[@id="submit-button"]'}, 'auth_regen_on_open': False, 'auth_temp_credentials_list': [{'address': 'https://h7055.slotcash666.com/', 'email': 'yanglingzhen@qq.com', 'password': 'azhen'}], 'auth_temp_source': 'login', 'current_tab_index': 1, 'input_value': '', 'operation_count': 1, 'operation_event': 'login', 'operation_params': '', 'operation_type': 'web', 'pause_time': 1, 'screenshot_config': {'format': 'png', 'full_page': False, 'path': 'screenshots/', 'prefix': 'screenshot_step', 'quality': 90, 'timing': 'after'}, 'screenshot_enabled': 'no', 'step_name': '登录'}]}
+2025-09-28 10:01:42 - UiAutomationProject - INFO - 测试文件更新成功: Test_Case\70050_Web_test.py
+2025-09-28 10:01:43 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-28 10:01:43 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-28 10:01:43 - UiAutomationProject - INFO - ==================================================
+2025-09-28 10:01:43 - UiAutomationProject - INFO - 星火自动化测试平台启动中...
+2025-09-28 10:01:43 - UiAutomationProject - INFO - ==================================================
+2025-09-28 10:01:43 - UiAutomationProject - INFO - 当前数据库类型: mysql
+2025-09-28 10:01:43 - UiAutomationProject - INFO - MySQL配置: localhost:3306
+2025-09-28 10:01:43 - UiAutomationProject - INFO - 正在创建Flask应用...
+2025-09-28 10:01:43 - UiAutomationProject - INFO - 上传目录已创建: static/uploads
+2025-09-28 10:01:43 - UiAutomationProject - INFO - Game_Img目录已创建
+2025-09-28 10:01:43 - UiAutomationProject - INFO - 正在初始化数据库...
+2025-09-28 10:01:43 - UiAutomationProject - INFO - 数据库初始化完成
+2025-09-28 10:01:43 - UiAutomationProject - INFO - 所有蓝图已注册完成
+2025-09-28 10:01:43 - UiAutomationProject - INFO - Flask应用创建完成
+2025-09-28 10:01:43 - UiAutomationProject - INFO - 应用启动成功，监听地址: http://0.0.0.0:5000
+2025-09-28 10:01:43 - UiAutomationProject - INFO - 💡 提示: 建议使用 python scripts/quick_start.py 启动应用
+2025-09-28 10:01:43 - UiAutomationProject - INFO - 按 Ctrl+C 停止应用
+2025-09-28 10:01:43 - UiAutomationProject - INFO - --------------------------------------------------
+2025-09-28 10:13:10 - UiAutomationProject - INFO - lookup_accounts_for_addresses called with 1 addresses: ['https://h7055.slotcash666.com/']
+2025-09-28 10:13:10 - UiAutomationProject - INFO - Flattened keys: ['https://h7055.slotcash666.com/']
+2025-09-28 10:13:10 - UiAutomationProject - INFO - Grouped keys: []
+2025-09-28 10:13:10 - UiAutomationProject - INFO - Processing address https://h7055.slotcash666.com/, occurrence #1
+2025-09-28 10:13:10 - UiAutomationProject - INFO - Returning 1 accounts and 1 accounts_list items
+2025-09-28 10:13:10 - UiAutomationProject - INFO - accounts_list: [{'address': 'https://h7055.slotcash666.com/', 'email': 'yanglingzhen@qq.com', 'password': 'azhen'}]
+2025-09-28 10:13:53 - UiAutomationProject - INFO - 创建新的文件映射 - 项目ID: 129, 文件名: 70050_Web_test_2.py
+2025-09-28 10:14:05 - UiAutomationProject - INFO - 更新自动化项目: {'process_name': '测试登录', 'system': 'Web', 'product_type': 'web', 'environment': 'test', 'product_address': 'https://h7055.slotcash666.com/', 'product_ids': ['70050'], 'product_package_names': ['ifitness.home.workout.body.exercise'], 'test_steps': [{'assertion_config': {'custom_assertions': [], 'image_assertions': [], 'ui_assertions': []}, 'assertion_enabled': 'no', 'assertion_method': 'pytest-selenium', 'assertion_params': '', 'assertion_type': 'ui', 'auth_config': {'address_credentials': {'https://h7055.slotcash666.com/': {'email': 'yanglingzhen@qq.com', 'password': 'azhen'}}, 'address_credentials_list': [{'address': 'https://h7055.slotcash666.com/', 'email': 'yanglingzhen@qq.com', 'password': 'azhen'}], 'credentials_source': 'login', 'email_selector': "//*[@id='username']", 'password_selector': "//*[@id='password']", 'repeat_password_selector': '', 'submit_selector': "//*[@id='submit-button']"}, 'auth_regen_on_open': False, 'auth_temp_credentials_list': [{'address': 'https://h7055.slotcash666.com/', 'email': 'yanglingzhen@qq.com', 'password': 'azhen'}], 'auth_temp_source': 'login', 'current_tab_index': 1, 'input_value': '', 'operation_count': 1, 'operation_event': 'login', 'operation_params': '', 'operation_type': 'web', 'pause_time': 1, 'screenshot_config': {'format': 'png', 'full_page': False, 'path': 'screenshots/', 'prefix': 'screenshot_step', 'quality': 90, 'timing': 'after'}, 'screenshot_enabled': 'no', 'step_name': '登录'}]}
+2025-09-28 10:14:05 - UiAutomationProject - INFO - 测试文件更新成功: Test_Case\70050_Web_test_2.py
+2025-09-28 10:14:07 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-28 10:14:07 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-28 10:14:07 - UiAutomationProject - INFO - ==================================================
+2025-09-28 10:14:07 - UiAutomationProject - INFO - 星火自动化测试平台启动中...
+2025-09-28 10:14:07 - UiAutomationProject - INFO - ==================================================
+2025-09-28 10:14:07 - UiAutomationProject - INFO - 当前数据库类型: mysql
+2025-09-28 10:14:07 - UiAutomationProject - INFO - MySQL配置: localhost:3306
+2025-09-28 10:14:07 - UiAutomationProject - INFO - 正在创建Flask应用...
+2025-09-28 10:14:07 - UiAutomationProject - INFO - 上传目录已创建: static/uploads
+2025-09-28 10:14:07 - UiAutomationProject - INFO - Game_Img目录已创建
+2025-09-28 10:14:07 - UiAutomationProject - INFO - 正在初始化数据库...
+2025-09-28 10:14:07 - UiAutomationProject - INFO - 数据库初始化完成
+2025-09-28 10:14:07 - UiAutomationProject - INFO - 所有蓝图已注册完成
+2025-09-28 10:14:07 - UiAutomationProject - INFO - Flask应用创建完成
+2025-09-28 10:14:07 - UiAutomationProject - INFO - 应用启动成功，监听地址: http://0.0.0.0:5000
+2025-09-28 10:14:07 - UiAutomationProject - INFO - 💡 提示: 建议使用 python scripts/quick_start.py 启动应用
+2025-09-28 10:14:07 - UiAutomationProject - INFO - 按 Ctrl+C 停止应用
+2025-09-28 10:14:07 - UiAutomationProject - INFO - --------------------------------------------------
+2025-09-28 10:14:20 - UiAutomationProject - INFO - 已删除文件: Test_Case\70050_Web_test.py
+2025-09-28 10:14:24 - UiAutomationProject - INFO - 执行记录已创建: ID=33, 项目ID=129, 状态=running, 流程=测试登录
+2025-09-28 10:14:24 - UiAutomationProject - INFO - 执行测试文件: 70050_Web_test_2.py
+2025-09-28 10:14:24 - UiAutomationProject - INFO - 测试开始，当前日志文件行数: 714
+2025-09-28 10:14:24 - UiAutomationProject - INFO - 测试文件分析结果: {'test_methods': ['test_70050', 'test_concurrent_independent_browsers'], 'method_count': 2, 'has_concurrent_method': True, 'should_use_concurrent': True}
+2025-09-28 10:14:24 - UiAutomationProject - INFO - 检测到多个测试方法，执行并发方法: test_concurrent_independent_browsers
+2025-09-28 10:14:24 - UiAutomationProject - INFO - 设置环境变量 PROJECT_ID: 129
+2025-09-28 10:14:24 - UiAutomationProject - INFO - 设置环境变量 - SYSTEM: Web, PRODUCT_TYPE: web, ENVIRONMENT: test
+2025-09-28 10:14:24 - UiAutomationProject - INFO - 执行pytest命令: python -m pytest Test_Case\70050_Web_test_2.py -k test_concurrent_independent_browsers -v
+2025-09-28 10:14:24 - UiAutomationProject - INFO - 进程已添加到running_tests，项目ID: 129
+2025-09-28 10:14:29 - UiAutomationProject - INFO - 开始并发执行 1 个独立浏览器实例
+2025-09-28 10:14:29 - UiAutomationProject - INFO - ============================================================
+2025-09-28 10:14:29 - UiAutomationProject - INFO - 创建了 1 个独立浏览器实例的测试任务
+2025-09-28 10:14:29 - UiAutomationProject - INFO - 开始并发执行...
+2025-09-28 10:14:37 - UiAutomationProject - INFO - 创建ImageRecognition实例: test_70050
+2025-09-28 10:14:37 - UiAutomationProject - INFO - 创建HybridImageManager实例: test_70050
+2025-09-28 10:14:37 - UiAutomationProject - INFO - 创建UIOperations实例: test_70050
+2025-09-28 10:14:38 - UiAutomationProject - INFO - [test_70050] 导航到: https://h7055.slotcash666.com/ (尝试 1/3 成功), 超时时间: 90000ms
+2025-09-28 10:14:38 - UiAutomationProject - INFO - 开始测试步骤1 登录 的操作==============
+2025-09-28 10:15:11 - UiAutomationProject - INFO - [test_70050] 元素是否存在断言失败: ,请检查元素格式！
+2025-09-28 10:15:11 - UiAutomationProject - INFO - [test_70050] test_70050 失败
+2025-09-28 10:15:12 - UiAutomationProject - INFO - 测试 1 失败: Locator expected to be visible
+Actual value: <element(s) not found> 
+Call log:
+  - Expect "to_be_visible" with timeout 30000ms
+
+2025-09-28 10:15:12 - UiAutomationProject - INFO - 并发执行结果: 0/1 个测试成功
+2025-09-28 10:15:12 - UiAutomationProject - INFO - 部分测试失败，请检查错误信息
+2025-09-28 10:15:12 - UiAutomationProject - INFO - 获取到项目ID: 129
+2025-09-28 10:15:12 - UiAutomationProject - INFO - 服务URL: http://127.0.0.1:5000
+2025-09-28 10:15:12 - UiAutomationProject - INFO - 调用取消接口: http://127.0.0.1:5000/api/automation/projects/129/cancel
+2025-09-28 10:15:12 - UiAutomationProject - INFO - 收到取消请求，项目ID: 129, 类型: errors
+2025-09-28 10:15:12 - UiAutomationProject - INFO - 进程正常结束，返回码: 1, 结果: False
+2025-09-28 10:15:12 - UiAutomationProject - INFO - pytest stdout: ============================= test session starts =============================
+platform win32 -- Python 3.13.7, pytest-8.3.4, pluggy-1.6.0 -- C:\Users\YD030086\AppData\Local\Programs\Python\Python313\python.exe
+cachedir: .pytest_cache
+rootdir: D:\UiAutomationProject
+configfile: pyproject.toml
+plugins: allure-pytest-2.13.5, anyio-4.10.0, dash-2.14.2, Faker-33.1.0, asyncio-1.2.0, mock-3.12.0, mock-api-0.1.0, mock-server-0.3.0, tornasync-0.6.0.post2, trio-0.8.0
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=function, asyncio_default_test_loop_scope=function
+collecting ... collected 2 items / 1 deselected / 1 selected
+
+Test_Case/70050_Web_test_2.py::test_concurrent_independent_browsers 
+2025-09-28 10:15:12 - UiAutomationProject - INFO - 测试结束，当前日志文件行数: 754
+2025-09-28 10:15:12 - UiAutomationProject - INFO - 抓取到测试执行期间的日志内容，行数范围: 715-754
+2025-09-28 10:15:12 - UiAutomationProject - INFO - 详细日志已更新: ID=33
+2025-09-28 10:15:12 - UiAutomationProject - INFO - 详细日志已存储到执行记录 33
+2025-09-28 10:15:13 - UiAutomationProject - INFO - 准备更新项目 129 状态为: failed
+2025-09-28 10:15:13 - UiAutomationProject - INFO - 项目 129 状态已更新为: failed
+2025-09-28 10:15:13 - UiAutomationProject - INFO - 项目 129 已从运行列表中移除
+2025-09-28 10:15:14 - UiAutomationProject - INFO - 执行记录已更新: ID=33, 状态=failed
+2025-09-28 10:19:07 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-28 10:19:07 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-28 10:19:07 - UiAutomationProject - INFO - ==================================================
+2025-09-28 10:19:07 - UiAutomationProject - INFO - 星火自动化测试平台启动中...
+2025-09-28 10:19:07 - UiAutomationProject - INFO - ==================================================
+2025-09-28 10:19:07 - UiAutomationProject - INFO - 当前数据库类型: mysql
+2025-09-28 10:19:07 - UiAutomationProject - INFO - MySQL配置: localhost:3306
+2025-09-28 10:19:07 - UiAutomationProject - INFO - 正在创建Flask应用...
+2025-09-28 10:19:07 - UiAutomationProject - INFO - 上传目录已创建: static/uploads
+2025-09-28 10:19:07 - UiAutomationProject - INFO - Game_Img目录已创建
+2025-09-28 10:19:07 - UiAutomationProject - INFO - 正在初始化数据库...
+2025-09-28 10:19:07 - UiAutomationProject - INFO - 数据库初始化完成
+2025-09-28 10:19:07 - UiAutomationProject - INFO - 所有蓝图已注册完成
+2025-09-28 10:19:07 - UiAutomationProject - INFO - Flask应用创建完成
+2025-09-28 10:19:07 - UiAutomationProject - INFO - 应用启动成功，监听地址: http://0.0.0.0:5000
+2025-09-28 10:19:07 - UiAutomationProject - INFO - 💡 提示: 建议使用 python scripts/quick_start.py 启动应用
+2025-09-28 10:19:07 - UiAutomationProject - INFO - 按 Ctrl+C 停止应用
+2025-09-28 10:19:07 - UiAutomationProject - INFO - --------------------------------------------------
+2025-09-28 10:19:10 - UiAutomationProject - INFO - 执行记录已创建: ID=34, 项目ID=129, 状态=running, 流程=测试登录
+2025-09-28 10:19:10 - UiAutomationProject - INFO - 执行测试文件: 70050_Web_test_2.py
+2025-09-28 10:19:10 - UiAutomationProject - INFO - 测试开始，当前日志文件行数: 782
+2025-09-28 10:19:10 - UiAutomationProject - INFO - 测试文件分析结果: {'test_methods': ['test_70050', 'test_concurrent_independent_browsers'], 'method_count': 2, 'has_concurrent_method': True, 'should_use_concurrent': True}
+2025-09-28 10:19:10 - UiAutomationProject - INFO - 检测到多个测试方法，执行并发方法: test_concurrent_independent_browsers
+2025-09-28 10:19:10 - UiAutomationProject - INFO - 设置环境变量 PROJECT_ID: 129
+2025-09-28 10:19:10 - UiAutomationProject - INFO - 设置环境变量 - SYSTEM: Web, PRODUCT_TYPE: web, ENVIRONMENT: test
+2025-09-28 10:19:10 - UiAutomationProject - INFO - 执行pytest命令: python -m pytest Test_Case\70050_Web_test_2.py -k test_concurrent_independent_browsers -v
+2025-09-28 10:19:10 - UiAutomationProject - INFO - 进程已添加到running_tests，项目ID: 129
+2025-09-28 10:19:13 - UiAutomationProject - INFO - 开始并发执行 1 个独立浏览器实例
+2025-09-28 10:19:13 - UiAutomationProject - INFO - ============================================================
+2025-09-28 10:19:13 - UiAutomationProject - INFO - 创建了 1 个独立浏览器实例的测试任务
+2025-09-28 10:19:13 - UiAutomationProject - INFO - 开始并发执行...
+2025-09-28 10:19:14 - UiAutomationProject - INFO - 创建ImageRecognition实例: test_70050
+2025-09-28 10:19:14 - UiAutomationProject - INFO - 创建HybridImageManager实例: test_70050
+2025-09-28 10:19:14 - UiAutomationProject - INFO - 创建UIOperations实例: test_70050
+2025-09-28 10:19:15 - UiAutomationProject - INFO - [test_70050] 导航到: https://h7055.slotcash666.com/ (尝试 1/3 成功), 超时时间: 90000ms
+2025-09-28 10:19:15 - UiAutomationProject - INFO - 开始测试步骤1 登录 的操作==============
+2025-09-28 10:19:48 - UiAutomationProject - INFO - [test_70050] 元素是否存在断言失败: ,请检查元素格式！
+2025-09-28 10:19:48 - UiAutomationProject - INFO - [test_70050] test_70050 失败
+2025-09-28 10:19:48 - UiAutomationProject - INFO - 测试 1 失败: Locator expected to be visible
+Actual value: <element(s) not found> 
+Call log:
+  - Expect "to_be_visible" with timeout 30000ms
+
+2025-09-28 10:19:48 - UiAutomationProject - INFO - 并发执行结果: 0/1 个测试成功
+2025-09-28 10:19:48 - UiAutomationProject - INFO - 部分测试失败，请检查错误信息
+2025-09-28 10:19:48 - UiAutomationProject - INFO - 获取到项目ID: 129
+2025-09-28 10:19:48 - UiAutomationProject - INFO - 服务URL: http://127.0.0.1:5000
+2025-09-28 10:19:48 - UiAutomationProject - INFO - 调用取消接口: http://127.0.0.1:5000/api/automation/projects/129/cancel
+2025-09-28 10:19:48 - UiAutomationProject - INFO - 收到取消请求，项目ID: 129, 类型: errors
+2025-09-28 10:19:48 - UiAutomationProject - INFO - 检测到进程已结束，项目ID: 129
+2025-09-28 10:19:48 - UiAutomationProject - INFO - 进程正常结束，返回码: 1, 结果: False
+2025-09-28 10:19:48 - UiAutomationProject - INFO - pytest stdout: ============================= test session starts =============================
+platform win32 -- Python 3.13.7, pytest-8.3.4, pluggy-1.6.0 -- C:\Users\YD030086\AppData\Local\Programs\Python\Python313\python.exe
+cachedir: .pytest_cache
+rootdir: D:\UiAutomationProject
+configfile: pyproject.toml
+plugins: allure-pytest-2.13.5, anyio-4.10.0, dash-2.14.2, Faker-33.1.0, asyncio-1.2.0, mock-3.12.0, mock-api-0.1.0, mock-server-0.3.0, tornasync-0.6.0.post2, trio-0.8.0
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=function, asyncio_default_test_loop_scope=function
+collecting ... collected 2 items / 1 deselected / 1 selected
+
+Test_Case/70050_Web_test_2.py::test_concurrent_independent_browsers 
+2025-09-28 10:19:48 - UiAutomationProject - INFO - 测试结束，当前日志文件行数: 823
+2025-09-28 10:19:48 - UiAutomationProject - INFO - 抓取到测试执行期间的日志内容，行数范围: 783-823
+2025-09-28 10:19:49 - UiAutomationProject - INFO - 详细日志已更新: ID=34
+2025-09-28 10:19:49 - UiAutomationProject - INFO - 详细日志已存储到执行记录 34
+2025-09-28 10:19:49 - UiAutomationProject - INFO - 准备更新项目 129 状态为: failed
+2025-09-28 10:19:49 - UiAutomationProject - INFO - 项目 129 状态已更新为: failed
+2025-09-28 10:19:49 - UiAutomationProject - INFO - 项目 129 已从运行列表中移除
+2025-09-28 10:19:51 - UiAutomationProject - INFO - 执行记录已更新: ID=34, 状态=failed
+2025-09-28 10:25:43 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-28 10:25:43 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-28 10:25:43 - UiAutomationProject - INFO - ==================================================
+2025-09-28 10:25:43 - UiAutomationProject - INFO - 星火自动化测试平台启动中...
+2025-09-28 10:25:43 - UiAutomationProject - INFO - ==================================================
+2025-09-28 10:25:43 - UiAutomationProject - INFO - 当前数据库类型: mysql
+2025-09-28 10:25:43 - UiAutomationProject - INFO - MySQL配置: localhost:3306
+2025-09-28 10:25:43 - UiAutomationProject - INFO - 正在创建Flask应用...
+2025-09-28 10:25:43 - UiAutomationProject - INFO - 上传目录已创建: static/uploads
+2025-09-28 10:25:43 - UiAutomationProject - INFO - Game_Img目录已创建
+2025-09-28 10:25:43 - UiAutomationProject - INFO - 正在初始化数据库...
+2025-09-28 10:25:43 - UiAutomationProject - INFO - 数据库初始化完成
+2025-09-28 10:25:43 - UiAutomationProject - INFO - 所有蓝图已注册完成
+2025-09-28 10:25:43 - UiAutomationProject - INFO - Flask应用创建完成
+2025-09-28 10:25:43 - UiAutomationProject - INFO - 应用启动成功，监听地址: http://0.0.0.0:5000
+2025-09-28 10:25:43 - UiAutomationProject - INFO - 💡 提示: 建议使用 python scripts/quick_start.py 启动应用
+2025-09-28 10:25:43 - UiAutomationProject - INFO - 按 Ctrl+C 停止应用
+2025-09-28 10:25:43 - UiAutomationProject - INFO - --------------------------------------------------
+2025-09-28 10:25:44 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-28 10:25:44 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-28 10:25:44 - UiAutomationProject - INFO - ==================================================
+2025-09-28 10:25:44 - UiAutomationProject - INFO - 星火自动化测试平台启动中...
+2025-09-28 10:25:44 - UiAutomationProject - INFO - ==================================================
+2025-09-28 10:25:44 - UiAutomationProject - INFO - 当前数据库类型: mysql
+2025-09-28 10:25:44 - UiAutomationProject - INFO - MySQL配置: localhost:3306
+2025-09-28 10:25:44 - UiAutomationProject - INFO - 正在创建Flask应用...
+2025-09-28 10:25:44 - UiAutomationProject - INFO - 上传目录已创建: static/uploads
+2025-09-28 10:25:44 - UiAutomationProject - INFO - Game_Img目录已创建
+2025-09-28 10:25:44 - UiAutomationProject - INFO - 正在初始化数据库...
+2025-09-28 10:25:44 - UiAutomationProject - INFO - 数据库初始化完成
+2025-09-28 10:25:44 - UiAutomationProject - INFO - 所有蓝图已注册完成
+2025-09-28 10:25:44 - UiAutomationProject - INFO - Flask应用创建完成
+2025-09-28 10:25:44 - UiAutomationProject - INFO - 应用启动成功，监听地址: http://0.0.0.0:5000
+2025-09-28 10:25:44 - UiAutomationProject - INFO - 💡 提示: 建议使用 python scripts/quick_start.py 启动应用
+2025-09-28 10:25:44 - UiAutomationProject - INFO - 按 Ctrl+C 停止应用
+2025-09-28 10:25:44 - UiAutomationProject - INFO - --------------------------------------------------
+2025-09-28 10:27:29 - UiAutomationProject - INFO - lookup_accounts_for_addresses called with 1 addresses: ['https://h7055.slotcash666.com/']
+2025-09-28 10:27:29 - UiAutomationProject - INFO - Flattened keys: ['https://h7055.slotcash666.com/']
+2025-09-28 10:27:29 - UiAutomationProject - INFO - Grouped keys: []
+2025-09-28 10:27:29 - UiAutomationProject - INFO - Processing address https://h7055.slotcash666.com/, occurrence #1
+2025-09-28 10:27:29 - UiAutomationProject - INFO - Returning 1 accounts and 1 accounts_list items
+2025-09-28 10:27:29 - UiAutomationProject - INFO - accounts_list: [{'address': 'https://h7055.slotcash666.com/', 'email': 'yanglingzhen@qq.com', 'password': 'azhen'}]
+2025-09-28 10:29:15 - UiAutomationProject - INFO - 创建新的文件映射 - 项目ID: 130, 文件名: 70050_Web_test.py
+2025-09-28 10:39:11 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-28 10:39:11 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-28 10:39:11 - UiAutomationProject - INFO - ==================================================
+2025-09-28 10:39:11 - UiAutomationProject - INFO - 星火自动化测试平台启动中...
+2025-09-28 10:39:11 - UiAutomationProject - INFO - ==================================================
+2025-09-28 10:39:11 - UiAutomationProject - INFO - 当前数据库类型: mysql
+2025-09-28 10:39:11 - UiAutomationProject - INFO - MySQL配置: localhost:3306
+2025-09-28 10:39:11 - UiAutomationProject - INFO - 正在创建Flask应用...
+2025-09-28 10:39:11 - UiAutomationProject - INFO - 上传目录已创建: static/uploads
+2025-09-28 10:39:11 - UiAutomationProject - INFO - Game_Img目录已创建
+2025-09-28 10:39:11 - UiAutomationProject - INFO - 正在初始化数据库...
+2025-09-28 10:39:11 - UiAutomationProject - INFO - 数据库初始化完成
+2025-09-28 10:39:11 - UiAutomationProject - INFO - 所有蓝图已注册完成
+2025-09-28 10:39:11 - UiAutomationProject - INFO - Flask应用创建完成
+2025-09-28 10:39:11 - UiAutomationProject - INFO - 应用启动成功，监听地址: http://0.0.0.0:5000
+2025-09-28 10:39:11 - UiAutomationProject - INFO - 💡 提示: 建议使用 python scripts/quick_start.py 启动应用
+2025-09-28 10:39:11 - UiAutomationProject - INFO - 按 Ctrl+C 停止应用
+2025-09-28 10:39:11 - UiAutomationProject - INFO - --------------------------------------------------
+2025-09-28 10:39:37 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-28 10:39:37 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-28 10:39:37 - UiAutomationProject - INFO - ==================================================
+2025-09-28 10:39:37 - UiAutomationProject - INFO - 星火自动化测试平台启动中...
+2025-09-28 10:39:37 - UiAutomationProject - INFO - ==================================================
+2025-09-28 10:39:37 - UiAutomationProject - INFO - 当前数据库类型: mysql
+2025-09-28 10:39:37 - UiAutomationProject - INFO - MySQL配置: localhost:3306
+2025-09-28 10:39:37 - UiAutomationProject - INFO - 正在创建Flask应用...
+2025-09-28 10:39:37 - UiAutomationProject - INFO - 上传目录已创建: static/uploads
+2025-09-28 10:39:37 - UiAutomationProject - INFO - Game_Img目录已创建
+2025-09-28 10:39:37 - UiAutomationProject - INFO - 正在初始化数据库...
+2025-09-28 10:39:37 - UiAutomationProject - INFO - 数据库初始化完成
+2025-09-28 10:39:37 - UiAutomationProject - INFO - 所有蓝图已注册完成
+2025-09-28 10:39:37 - UiAutomationProject - INFO - Flask应用创建完成
+2025-09-28 10:39:37 - UiAutomationProject - INFO - 应用启动成功，监听地址: http://0.0.0.0:5000
+2025-09-28 10:39:37 - UiAutomationProject - INFO - 💡 提示: 建议使用 python scripts/quick_start.py 启动应用
+2025-09-28 10:39:37 - UiAutomationProject - INFO - 按 Ctrl+C 停止应用
+2025-09-28 10:39:37 - UiAutomationProject - INFO - --------------------------------------------------
+2025-09-28 10:39:44 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-28 10:39:44 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-28 10:39:44 - UiAutomationProject - INFO - ==================================================
+2025-09-28 10:39:44 - UiAutomationProject - INFO - 星火自动化测试平台启动中...
+2025-09-28 10:39:44 - UiAutomationProject - INFO - ==================================================
+2025-09-28 10:39:44 - UiAutomationProject - INFO - 当前数据库类型: mysql
+2025-09-28 10:39:44 - UiAutomationProject - INFO - MySQL配置: localhost:3306
+2025-09-28 10:39:44 - UiAutomationProject - INFO - 正在创建Flask应用...
+2025-09-28 10:39:44 - UiAutomationProject - INFO - 上传目录已创建: static/uploads
+2025-09-28 10:39:44 - UiAutomationProject - INFO - Game_Img目录已创建
+2025-09-28 10:39:44 - UiAutomationProject - INFO - 正在初始化数据库...
+2025-09-28 10:39:45 - UiAutomationProject - INFO - 数据库初始化完成
+2025-09-28 10:39:45 - UiAutomationProject - INFO - 所有蓝图已注册完成
+2025-09-28 10:39:45 - UiAutomationProject - INFO - Flask应用创建完成
+2025-09-28 10:39:45 - UiAutomationProject - INFO - 应用启动成功，监听地址: http://0.0.0.0:5000
+2025-09-28 10:39:45 - UiAutomationProject - INFO - 💡 提示: 建议使用 python scripts/quick_start.py 启动应用
+2025-09-28 10:39:45 - UiAutomationProject - INFO - 按 Ctrl+C 停止应用
+2025-09-28 10:39:45 - UiAutomationProject - INFO - --------------------------------------------------
+2025-09-28 10:39:54 - UiAutomationProject - INFO - 更新自动化项目: {'process_name': '测试登录', 'system': 'Web', 'product_type': 'web', 'environment': 'test', 'product_address': 'https://h7055.slotcash666.com/', 'product_ids': ['70050'], 'product_package_names': ['ifitness.home.workout.body.exercise'], 'test_steps': [{'assertion_config': {'custom_assertions': [], 'image_assertions': [], 'ui_assertions': []}, 'assertion_enabled': 'no', 'assertion_method': 'pytest-selenium', 'assertion_params': '', 'assertion_type': 'ui', 'auth_config': {'address_credentials': {'https://h7055.slotcash666.com/': {'email': 'yanglingzhen@qq.com', 'password': 'azhen'}}, 'address_credentials_list': [{'address': 'https://h7055.slotcash666.com/', 'email': 'yanglingzhen@qq.com', 'password': 'azhen'}], 'credentials_source': 'login', 'email_selector': "//*[@id='username']", 'password_selector': "//*[@id='password']", 'repeat_password_selector': '', 'submit_selector': "//*[@id='submit-button']"}, 'auth_regen_on_open': False, 'auth_temp_credentials_list': [{'address': 'https://h7055.slotcash666.com/', 'email': 'yanglingzhen@qq.com', 'password': 'azhen'}], 'auth_temp_source': 'login', 'current_tab_index': 1, 'input_value': '', 'operation_count': 1, 'operation_event': 'login', 'operation_params': '', 'operation_type': 'web', 'pause_time': 1, 'screenshot_config': {'format': 'png', 'full_page': False, 'path': 'screenshots/', 'prefix': 'screenshot_step', 'quality': 90, 'timing': 'after'}, 'screenshot_enabled': 'no', 'step_name': '登录'}]}
+2025-09-28 10:39:54 - UiAutomationProject - INFO - 测试文件更新成功: Test_Case\70050_Web_test_2.py
+2025-09-28 10:39:55 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-28 10:39:55 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-28 10:39:55 - UiAutomationProject - INFO - ==================================================
+2025-09-28 10:39:55 - UiAutomationProject - INFO - 星火自动化测试平台启动中...
+2025-09-28 10:39:55 - UiAutomationProject - INFO - ==================================================
+2025-09-28 10:39:55 - UiAutomationProject - INFO - 当前数据库类型: mysql
+2025-09-28 10:39:55 - UiAutomationProject - INFO - MySQL配置: localhost:3306
+2025-09-28 10:39:55 - UiAutomationProject - INFO - 正在创建Flask应用...
+2025-09-28 10:39:55 - UiAutomationProject - INFO - 上传目录已创建: static/uploads
+2025-09-28 10:39:55 - UiAutomationProject - INFO - Game_Img目录已创建
+2025-09-28 10:39:55 - UiAutomationProject - INFO - 正在初始化数据库...
+2025-09-28 10:39:55 - UiAutomationProject - INFO - 数据库初始化完成
+2025-09-28 10:39:56 - UiAutomationProject - INFO - 所有蓝图已注册完成
+2025-09-28 10:39:56 - UiAutomationProject - INFO - Flask应用创建完成
+2025-09-28 10:39:56 - UiAutomationProject - INFO - 应用启动成功，监听地址: http://0.0.0.0:5000
+2025-09-28 10:39:56 - UiAutomationProject - INFO - 💡 提示: 建议使用 python scripts/quick_start.py 启动应用
+2025-09-28 10:39:56 - UiAutomationProject - INFO - 按 Ctrl+C 停止应用
+2025-09-28 10:39:56 - UiAutomationProject - INFO - --------------------------------------------------
+2025-09-28 10:40:01 - UiAutomationProject - INFO - 执行记录已创建: ID=35, 项目ID=129, 状态=running, 流程=测试登录
+2025-09-28 10:40:01 - UiAutomationProject - INFO - 执行测试文件: 70050_Web_test_2.py
+2025-09-28 10:40:01 - UiAutomationProject - INFO - 测试开始，当前日志文件行数: 950
+2025-09-28 10:40:01 - UiAutomationProject - INFO - 测试文件分析结果: {'test_methods': ['test_70050', 'test_concurrent_independent_browsers'], 'method_count': 2, 'has_concurrent_method': True, 'should_use_concurrent': True}
+2025-09-28 10:40:01 - UiAutomationProject - INFO - 检测到多个测试方法，执行并发方法: test_concurrent_independent_browsers
+2025-09-28 10:40:01 - UiAutomationProject - INFO - 设置环境变量 PROJECT_ID: 129
+2025-09-28 10:40:01 - UiAutomationProject - INFO - 设置环境变量 - SYSTEM: Web, PRODUCT_TYPE: web, ENVIRONMENT: test
+2025-09-28 10:40:01 - UiAutomationProject - INFO - 执行pytest命令: python -m pytest Test_Case\70050_Web_test_2.py -k test_concurrent_independent_browsers -v
+2025-09-28 10:40:01 - UiAutomationProject - INFO - 进程已添加到running_tests，项目ID: 129
+2025-09-28 10:40:05 - UiAutomationProject - INFO - 开始并发执行 1 个独立浏览器实例
+2025-09-28 10:40:05 - UiAutomationProject - INFO - ============================================================
+2025-09-28 10:40:05 - UiAutomationProject - INFO - 创建了 1 个独立浏览器实例的测试任务
+2025-09-28 10:40:05 - UiAutomationProject - INFO - 开始并发执行...
+2025-09-28 10:40:14 - UiAutomationProject - INFO - 创建ImageRecognition实例: test_70050
+2025-09-28 10:40:14 - UiAutomationProject - INFO - 创建HybridImageManager实例: test_70050
+2025-09-28 10:40:14 - UiAutomationProject - INFO - 创建UIOperations实例: test_70050
+2025-09-28 10:40:15 - UiAutomationProject - INFO - [test_70050] 导航到: https://h7055.slotcash666.com/ (尝试 1/3 成功), 超时时间: 90000ms
+2025-09-28 10:40:15 - UiAutomationProject - INFO - 开始测试步骤1 登录 的操作==============
+2025-09-28 10:40:18 - UiAutomationProject - INFO - [test_70050] 元素是否存在断言成功: //*[@id='username']
+2025-09-28 10:40:19 - UiAutomationProject - INFO - [test_70050]  执行第1次操作: login on //*[@id='username']
+2025-09-28 10:40:24 - UiAutomationProject - INFO - [test_70050] 元素是否存在断言成功: //*[@id='username']
+2025-09-28 10:40:29 - UiAutomationProject - INFO - [test_70050] 元素是否存在断言成功: //*[@id='password']
+2025-09-28 10:40:34 - UiAutomationProject - INFO - [test_70050] 元素是否存在断言成功: //*[@id='submit-button']
+2025-09-28 10:40:41 - UiAutomationProject - INFO - [test_70050] 测试步骤_over_test_test_step_1_截图成功保存: D:\UiAutomationProject\IMG_LOGS\70050_over_test_test_step_1_2025_09_28_10_40_40.png
+2025-09-28 10:40:43 - UiAutomationProject - INFO - [test_70050] 图片识别统计: 截图识别成功 0 次, pyautogui成功 0 次, 总成功率 0.00%
+2025-09-28 10:40:43 - UiAutomationProject - INFO - [test_70050] test_70050 完成
+2025-09-28 10:40:43 - UiAutomationProject - INFO - 测试 1 成功完成
+2025-09-28 10:40:43 - UiAutomationProject - INFO - 并发执行结果: 1/1 个测试成功
+2025-09-28 10:40:43 - UiAutomationProject - INFO - 所有测试都成功完成！
+2025-09-28 10:40:43 - UiAutomationProject - INFO - 准备更新项目 129 状态为: passed
+2025-09-28 10:40:43 - UiAutomationProject - INFO - 项目 129 状态已更新为: passed
+2025-09-28 10:40:43 - UiAutomationProject - INFO - 项目 129 已从运行列表中移除
+2025-09-28 10:40:44 - UiAutomationProject - INFO - 进程正常结束，返回码: 0, 结果: True
+2025-09-28 10:40:44 - UiAutomationProject - INFO - pytest stdout: ============================= test session starts =============================
+platform win32 -- Python 3.13.7, pytest-8.3.4, pluggy-1.6.0 -- C:\Users\YD030086\AppData\Local\Programs\Python\Python313\python.exe
+cachedir: .pytest_cache
+rootdir: D:\UiAutomationProject
+configfile: pyproject.toml
+plugins: allure-pytest-2.13.5, anyio-4.10.0, dash-2.14.2, Faker-33.1.0, asyncio-1.2.0, mock-3.12.0, mock-api-0.1.0, mock-server-0.3.0, tornasync-0.6.0.post2, trio-0.8.0
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=function, asyncio_default_test_loop_scope=function
+collecting ... collected 2 items / 1 deselected / 1 selected
+
+Test_Case/70050_Web_test_2.py::test_concurrent_independent_browsers PASSED [100%]
+
+====================== 1 passed, 1 deselected in 39.32s =======================
+
+2025-09-28 10:40:44 - UiAutomationProject - INFO - 从数据库获取到最近的执行记录ID: 35
+2025-09-28 10:40:44 - UiAutomationProject - INFO - 测试结束，当前日志文件行数: 995
+2025-09-28 10:40:44 - UiAutomationProject - INFO - 抓取到测试执行期间的日志内容，行数范围: 951-995
+2025-09-28 10:40:44 - UiAutomationProject - INFO - 详细日志已更新: ID=35
+2025-09-28 10:40:44 - UiAutomationProject - INFO - 详细日志已存储到执行记录 35
+2025-09-28 10:40:46 - UiAutomationProject - INFO - 执行记录已更新: ID=35, 状态=passed
+2025-09-28 10:41:02 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-28 10:41:02 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-28 10:41:02 - UiAutomationProject - INFO - ==================================================
+2025-09-28 10:41:02 - UiAutomationProject - INFO - 星火自动化测试平台启动中...
+2025-09-28 10:41:02 - UiAutomationProject - INFO - ==================================================
+2025-09-28 10:41:02 - UiAutomationProject - INFO - 当前数据库类型: mysql
+2025-09-28 10:41:02 - UiAutomationProject - INFO - MySQL配置: localhost:3306
+2025-09-28 10:41:02 - UiAutomationProject - INFO - 正在创建Flask应用...
+2025-09-28 10:41:02 - UiAutomationProject - INFO - 上传目录已创建: static/uploads
+2025-09-28 10:41:02 - UiAutomationProject - INFO - Game_Img目录已创建
+2025-09-28 10:41:02 - UiAutomationProject - INFO - 正在初始化数据库...
+2025-09-28 10:41:02 - UiAutomationProject - INFO - 数据库初始化完成
+2025-09-28 10:41:02 - UiAutomationProject - INFO - 所有蓝图已注册完成
+2025-09-28 10:41:02 - UiAutomationProject - INFO - Flask应用创建完成
+2025-09-28 10:41:02 - UiAutomationProject - INFO - 应用启动成功，监听地址: http://0.0.0.0:5000
+2025-09-28 10:41:02 - UiAutomationProject - INFO - 💡 提示: 建议使用 python scripts/quick_start.py 启动应用
+2025-09-28 10:41:02 - UiAutomationProject - INFO - 按 Ctrl+C 停止应用
+2025-09-28 10:41:02 - UiAutomationProject - INFO - --------------------------------------------------
+2025-09-28 11:04:13 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-28 11:04:13 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-28 11:04:13 - UiAutomationProject - INFO - ==================================================
+2025-09-28 11:04:13 - UiAutomationProject - INFO - 星火自动化测试平台启动中...
+2025-09-28 11:04:13 - UiAutomationProject - INFO - ==================================================
+2025-09-28 11:04:13 - UiAutomationProject - INFO - 当前数据库类型: mysql
+2025-09-28 11:04:13 - UiAutomationProject - INFO - MySQL配置: localhost:3306
+2025-09-28 11:04:13 - UiAutomationProject - INFO - 正在创建Flask应用...
+2025-09-28 11:04:13 - UiAutomationProject - INFO - 上传目录已创建: static/uploads
+2025-09-28 11:04:13 - UiAutomationProject - INFO - Game_Img目录已创建
+2025-09-28 11:04:13 - UiAutomationProject - INFO - 正在初始化数据库...
+2025-09-28 11:04:13 - UiAutomationProject - INFO - 数据库初始化完成
+2025-09-28 11:04:13 - UiAutomationProject - INFO - 所有蓝图已注册完成
+2025-09-28 11:04:13 - UiAutomationProject - INFO - Flask应用创建完成
+2025-09-28 11:04:13 - UiAutomationProject - INFO - 应用启动成功，监听地址: http://0.0.0.0:5000
+2025-09-28 11:04:13 - UiAutomationProject - INFO - 💡 提示: 建议使用 python scripts/quick_start.py 启动应用
+2025-09-28 11:04:13 - UiAutomationProject - INFO - 按 Ctrl+C 停止应用
+2025-09-28 11:04:13 - UiAutomationProject - INFO - --------------------------------------------------
+2025-09-28 11:04:14 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-28 11:04:14 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-28 11:04:14 - UiAutomationProject - INFO - ==================================================
+2025-09-28 11:04:14 - UiAutomationProject - INFO - 星火自动化测试平台启动中...
+2025-09-28 11:04:14 - UiAutomationProject - INFO - ==================================================
+2025-09-28 11:04:14 - UiAutomationProject - INFO - 当前数据库类型: mysql
+2025-09-28 11:04:14 - UiAutomationProject - INFO - MySQL配置: localhost:3306
+2025-09-28 11:04:14 - UiAutomationProject - INFO - 正在创建Flask应用...
+2025-09-28 11:04:14 - UiAutomationProject - INFO - 上传目录已创建: static/uploads
+2025-09-28 11:04:14 - UiAutomationProject - INFO - Game_Img目录已创建
+2025-09-28 11:04:14 - UiAutomationProject - INFO - 正在初始化数据库...
+2025-09-28 11:04:14 - UiAutomationProject - INFO - 数据库初始化完成
+2025-09-28 11:04:14 - UiAutomationProject - INFO - 所有蓝图已注册完成
+2025-09-28 11:04:14 - UiAutomationProject - INFO - Flask应用创建完成
+2025-09-28 11:04:14 - UiAutomationProject - INFO - 应用启动成功，监听地址: http://0.0.0.0:5000
+2025-09-28 11:04:14 - UiAutomationProject - INFO - 💡 提示: 建议使用 python scripts/quick_start.py 启动应用
+2025-09-28 11:04:14 - UiAutomationProject - INFO - 按 Ctrl+C 停止应用
+2025-09-28 11:04:14 - UiAutomationProject - INFO - --------------------------------------------------
+2025-09-28 11:14:16 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-28 11:14:16 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-28 11:14:16 - UiAutomationProject - INFO - ==================================================
+2025-09-28 11:14:16 - UiAutomationProject - INFO - 星火自动化测试平台启动中...
+2025-09-28 11:14:16 - UiAutomationProject - INFO - ==================================================
+2025-09-28 11:14:16 - UiAutomationProject - INFO - 当前数据库类型: mysql
+2025-09-28 11:14:16 - UiAutomationProject - INFO - MySQL配置: localhost:3306
+2025-09-28 11:14:16 - UiAutomationProject - INFO - 正在创建Flask应用...
+2025-09-28 11:14:16 - UiAutomationProject - INFO - 上传目录已创建: static/uploads
+2025-09-28 11:14:16 - UiAutomationProject - INFO - Game_Img目录已创建
+2025-09-28 11:14:16 - UiAutomationProject - INFO - 正在初始化数据库...
+2025-09-28 11:14:16 - UiAutomationProject - INFO - 数据库初始化完成
+2025-09-28 11:14:16 - UiAutomationProject - INFO - 所有蓝图已注册完成
+2025-09-28 11:14:16 - UiAutomationProject - INFO - Flask应用创建完成
+2025-09-28 11:14:16 - UiAutomationProject - INFO - 应用启动成功，监听地址: http://0.0.0.0:5000
+2025-09-28 11:14:16 - UiAutomationProject - INFO - 💡 提示: 建议使用 python scripts/quick_start.py 启动应用
+2025-09-28 11:14:16 - UiAutomationProject - INFO - 按 Ctrl+C 停止应用
+2025-09-28 11:14:16 - UiAutomationProject - INFO - --------------------------------------------------
+2025-09-28 11:14:27 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-28 11:14:27 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-28 11:14:27 - UiAutomationProject - INFO - ==================================================
+2025-09-28 11:14:27 - UiAutomationProject - INFO - 星火自动化测试平台启动中...
+2025-09-28 11:14:27 - UiAutomationProject - INFO - ==================================================
+2025-09-28 11:14:27 - UiAutomationProject - INFO - 当前数据库类型: mysql
+2025-09-28 11:14:27 - UiAutomationProject - INFO - MySQL配置: localhost:3306
+2025-09-28 11:14:27 - UiAutomationProject - INFO - 正在创建Flask应用...
+2025-09-28 11:14:27 - UiAutomationProject - INFO - 上传目录已创建: static/uploads
+2025-09-28 11:14:27 - UiAutomationProject - INFO - Game_Img目录已创建
+2025-09-28 11:14:27 - UiAutomationProject - INFO - 正在初始化数据库...
+2025-09-28 11:14:28 - UiAutomationProject - INFO - 数据库初始化完成
+2025-09-28 11:14:28 - UiAutomationProject - INFO - 所有蓝图已注册完成
+2025-09-28 11:14:28 - UiAutomationProject - INFO - Flask应用创建完成
+2025-09-28 11:14:28 - UiAutomationProject - INFO - 应用启动成功，监听地址: http://0.0.0.0:5000
+2025-09-28 11:14:28 - UiAutomationProject - INFO - 💡 提示: 建议使用 python scripts/quick_start.py 启动应用
+2025-09-28 11:14:28 - UiAutomationProject - INFO - 按 Ctrl+C 停止应用
+2025-09-28 11:14:28 - UiAutomationProject - INFO - --------------------------------------------------
+2025-09-28 11:15:00 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-28 11:15:00 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-28 11:15:00 - UiAutomationProject - INFO - ==================================================
+2025-09-28 11:15:00 - UiAutomationProject - INFO - 星火自动化测试平台启动中...
+2025-09-28 11:15:00 - UiAutomationProject - INFO - ==================================================
+2025-09-28 11:15:00 - UiAutomationProject - INFO - 当前数据库类型: mysql
+2025-09-28 11:15:00 - UiAutomationProject - INFO - MySQL配置: localhost:3306
+2025-09-28 11:15:00 - UiAutomationProject - INFO - 正在创建Flask应用...
+2025-09-28 11:15:00 - UiAutomationProject - INFO - 上传目录已创建: static/uploads
+2025-09-28 11:15:00 - UiAutomationProject - INFO - Game_Img目录已创建
+2025-09-28 11:15:00 - UiAutomationProject - INFO - 正在初始化数据库...
+2025-09-28 11:15:00 - UiAutomationProject - INFO - 数据库初始化完成
+2025-09-28 11:15:00 - UiAutomationProject - INFO - 所有蓝图已注册完成
+2025-09-28 11:15:00 - UiAutomationProject - INFO - Flask应用创建完成
+2025-09-28 11:15:00 - UiAutomationProject - INFO - 应用启动成功，监听地址: http://0.0.0.0:5000
+2025-09-28 11:15:00 - UiAutomationProject - INFO - 💡 提示: 建议使用 python scripts/quick_start.py 启动应用
+2025-09-28 11:15:00 - UiAutomationProject - INFO - 按 Ctrl+C 停止应用
+2025-09-28 11:15:00 - UiAutomationProject - INFO - --------------------------------------------------
+2025-09-28 11:17:06 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-28 11:17:06 - UiAutomationProject - INFO - 监控线程已启动
+2025-09-28 11:17:06 - UiAutomationProject - INFO - ==================================================
+2025-09-28 11:17:06 - UiAutomationProject - INFO - 星火自动化测试平台启动中...
+2025-09-28 11:17:06 - UiAutomationProject - INFO - ==================================================
+2025-09-28 11:17:06 - UiAutomationProject - INFO - 当前数据库类型: mysql
+2025-09-28 11:17:06 - UiAutomationProject - INFO - MySQL配置: localhost:3306
+2025-09-28 11:17:06 - UiAutomationProject - INFO - 正在创建Flask应用...
+2025-09-28 11:17:06 - UiAutomationProject - INFO - 上传目录已创建: static/uploads
+2025-09-28 11:17:06 - UiAutomationProject - INFO - Game_Img目录已创建
+2025-09-28 11:17:06 - UiAutomationProject - INFO - 正在初始化数据库...
+2025-09-28 11:17:06 - UiAutomationProject - INFO - 数据库初始化完成
+2025-09-28 11:17:06 - UiAutomationProject - INFO - 所有蓝图已注册完成
+2025-09-28 11:17:06 - UiAutomationProject - INFO - Flask应用创建完成
+2025-09-28 11:17:06 - UiAutomationProject - INFO - 应用启动成功，监听地址: http://0.0.0.0:5000
+2025-09-28 11:17:06 - UiAutomationProject - INFO - 💡 提示: 建议使用 python scripts/quick_start.py 启动应用
+2025-09-28 11:17:06 - UiAutomationProject - INFO - 按 Ctrl+C 停止应用
+2025-09-28 11:17:06 - UiAutomationProject - INFO - --------------------------------------------------

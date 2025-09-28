@@ -1,0 +1,17 @@
+2025-09-16 15:54:04 - UiAutomationProject - INFO - 开始Web连接测试...
+2025-09-16 15:54:04 - UiAutomationProject - INFO - 项目ID: unknown
+2025-09-16 15:54:04 - UiAutomationProject - INFO - 系统类型: web
+2025-09-16 15:54:04 - UiAutomationProject - INFO - 产品类型: unknown
+2025-09-16 15:54:04 - UiAutomationProject - INFO - 环境: test
+2025-09-16 15:54:04 - UiAutomationProject - INFO - 产品地址数量: 0
+2025-09-16 15:54:04 - UiAutomationProject - INFO - 使用默认URL进行测试: ['https://www.baidu.com', 'https://www.qq.com', 'https://www.163.com']
+2025-09-16 15:54:05 - UiAutomationProject - INFO - 测试连接: https://www.baidu.com
+2025-09-16 15:54:05 - UiAutomationProject - INFO - [SUCCESS] https://www.baidu.com 连接成功 (状态码: 200)
+2025-09-16 15:54:05 - UiAutomationProject - INFO - 测试连接: https://www.qq.com
+2025-09-16 15:54:06 - UiAutomationProject - INFO - [SUCCESS] https://www.qq.com 连接成功 (状态码: 200)
+2025-09-16 15:54:06 - UiAutomationProject - INFO - 测试连接: https://www.163.com
+2025-09-16 15:54:07 - UiAutomationProject - INFO - [SUCCESS] https://www.163.com 连接成功 (状态码: 200)
+2025-09-16 15:54:07 - UiAutomationProject - INFO - 
+连接测试结果:
+2025-09-16 15:54:07 - UiAutomationProject - INFO - 成功: 3/3
+2025-09-16 15:54:07 - UiAutomationProject - INFO - [SUCCESS] Web连接测试通过
