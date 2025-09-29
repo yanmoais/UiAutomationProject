@@ -7321,14 +7321,20 @@ class AutomationManagement {
 
         const html = this.testSteps.map((step, index) => this.renderTestStep(step, index)).join('');
         container.innerHTML = html;
+        
+        // 添加拖拽事件监听器
+        this.addDragListeners();
     }
 
     // 渲染单个测试步骤
     renderTestStep(step, index) {
         return `
-            <div class="test-step" data-index="${index}">
+            <div class="test-step" data-index="${index}" draggable="false">
                 <div class="test-step-header">
                     <div class="test-step-title">
+                        <div class="drag-handle" title="拖拽排序" draggable="true">
+                            <i class="fas fa-grip-vertical"></i>
+                        </div>
                         <div class="step-number">${index + 1}</div>
                         <div class="step-title-text">测试步骤 ${index + 1}</div>
                     </div>
@@ -7518,7 +7524,7 @@ class AutomationManagement {
                                         
                                         <div class="form-group">
                                             <label>图片格式</label>
-                                            <select id="screenshot-format" class="form-control">
+                                            <select id="screenshot-format-${index}" class="form-control">
                                                 <option value="png">PNG</option>
                                                 <option value="jpg">JPG</option>
                                                 <option value="webp">WebP</option>
@@ -7527,24 +7533,24 @@ class AutomationManagement {
                                         
                                         <div class="form-group">
                                             <label>图片质量 (1-100)</label>
-                                            <input type="number" id="screenshot-quality" class="form-control" value="90" min="1" max="100">
+                                            <input type="number" id="screenshot-quality-${index}" class="form-control" value="90" min="1" max="100">
                                         </div>
                                         
                                         <div class="form-group">
                                             <label>文件名前缀</label>
-                                            <input type="text" id="screenshot-prefix" class="form-control" value="screenshot_step" placeholder="screenshot_step">
+                                            <input type="text" id="screenshot-prefix-${index}" class="form-control" value="screenshot_step" placeholder="screenshot_step">
                                         </div>
                                         
                                         <div class="form-group">
                                             <label>
-                                                <input type="checkbox" id="screenshot-full-page" style="margin-right: 0.5rem;">
+                                                <input type="checkbox" id="screenshot-full-page-${index}" style="margin-right: 0.5rem;">
                                                 全页面截图
                                             </label>
                                         </div>
                                         
                                         <div class="form-group">
                                             <label>保存路径</label>
-                                            <input type="text" id="screenshot-path" class="form-control" value="screenshots/" placeholder="screenshots/">
+                                            <input type="text" id="screenshot-path-${index}" class="form-control" value="screenshots/" placeholder="screenshots/">
                                         </div>
                                         
                                         <div class="screenshot-inline-footer">
@@ -7748,23 +7754,24 @@ class AutomationManagement {
         
         // 修改复制步骤的名称，添加"副本"标识
         if (copiedStep.step_name) {
-            copiedStep.step_name = copiedStep.step_name + ' - 副本';
+            copiedStep.step_name = '';
         } else {
-            copiedStep.step_name = '测试步骤副本';
+            copiedStep.step_name = '';
         }
 
-        // 如果是游戏操作且有图片，需要处理图片复制
+        // 如果是游戏操作且有图片，清除图片路径（复制的步骤需要重新上传图片）
         if (copiedStep.operation_type === 'game' && copiedStep.operation_params) {
-            // 这里可以根据需要处理图片文件的复制逻辑
-            // 暂时保持原有的图片路径，实际使用时可能需要复制图片文件
+            // 清除复制步骤的图片路径，要求用户重新上传
+            copiedStep.operation_params = '';
         }
 
-        // 在原步骤后面插入复制的步骤
-        this.testSteps.splice(index + 1, 0, copiedStep);
+        // 将复制的步骤添加到最后面，而不是在当前步骤后插入
+        this.testSteps.push(copiedStep);
         
         // 如果是编辑模式，同时更新编辑副本
         if (this.isEditing && this.editingTestSteps) {
-            this.editingTestSteps.splice(index + 1, 0, JSON.parse(JSON.stringify(copiedStep)));
+            // 将复制的步骤添加到编辑副本的最后面
+            this.editingTestSteps.push(JSON.parse(JSON.stringify(copiedStep)));
         }
         
         // 重新计算所有步骤的标签页索引
@@ -7776,9 +7783,10 @@ class AutomationManagement {
         // 显示成功提示
         showToast('步骤复制成功！', 'success');
         
-        // 滚动到新复制的步骤
+        // 滚动到新复制的步骤（现在在最后面）
         setTimeout(() => {
-            const newStepElement = document.querySelector(`[data-index="${index + 1}"]`);
+            const newStepIndex = this.testSteps.length - 1; // 最后一个步骤的索引
+            const newStepElement = document.querySelector(`[data-index="${newStepIndex}"]`);
             if (newStepElement) {
                 newStepElement.scrollIntoView({ 
                     behavior: 'smooth', 
@@ -7820,6 +7828,175 @@ class AutomationManagement {
         // 注意：重新计算标签页索引已经在updateTestStep中处理了
         // 重新渲染以更新状态显示
         this.renderTestSteps();
+    }
+
+    // 添加拖拽事件监听器
+    addDragListeners() {
+        const container = document.getElementById('testStepsList');
+        if (!container) return;
+
+        const steps = container.querySelectorAll('.test-step');
+        
+        steps.forEach((step, index) => {
+            const dragHandle = step.querySelector('.drag-handle');
+            if (!dragHandle) return;
+            
+            // 禁用步骤元素本身的拖拽功能，确保只有手柄能触发
+            step.addEventListener('dragstart', (e) => {
+                if (!e.target.closest('.drag-handle')) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+            
+            // 拖拽开始 - 只在拖拽手柄上监听
+            dragHandle.addEventListener('dragstart', (e) => {
+                this.draggedIndex = index;
+                step.classList.add('dragging');
+                e.dataTransfer.effectAllowed = 'move';
+                e.dataTransfer.setData('text/html', step.outerHTML);
+                // 阻止事件冒泡，确保只有手柄能触发拖拽
+                e.stopPropagation();
+            });
+
+            // 拖拽结束 - 在拖拽手柄上监听
+            dragHandle.addEventListener('dragend', (e) => {
+                step.classList.remove('dragging');
+                // 清理所有拖拽相关的样式
+                steps.forEach(s => {
+                    s.classList.remove('drag-over', 'drag-over-top', 'drag-over-bottom');
+                });
+            });
+
+            // 拖拽进入
+            step.addEventListener('dragenter', (e) => {
+                e.preventDefault();
+                if (this.draggedIndex !== index) {
+                    step.classList.add('drag-over');
+                }
+            });
+
+            // 拖拽悬停
+            step.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                if (this.draggedIndex !== index) {
+                    // 交换模式：整个步骤高亮，不需要区分上下部分
+                    step.classList.remove('drag-over-top', 'drag-over-bottom');
+                    step.classList.add('drag-over');
+                }
+            });
+
+            // 拖拽离开
+            step.addEventListener('dragleave', (e) => {
+                // 只有当鼠标真正离开元素时才移除样式
+                if (!step.contains(e.relatedTarget)) {
+                    step.classList.remove('drag-over', 'drag-over-top', 'drag-over-bottom');
+                }
+            });
+
+            // 拖拽放置
+            step.addEventListener('drop', (e) => {
+                e.preventDefault();
+                const dropIndex = index;
+                
+                if (this.draggedIndex !== dropIndex) {
+                    // 交换模式：直接交换两个步骤的位置
+                    this.swapTestSteps(this.draggedIndex, dropIndex);
+                }
+                
+                // 清理样式
+                steps.forEach(s => {
+                    s.classList.remove('drag-over', 'drag-over-top', 'drag-over-bottom');
+                });
+            });
+        });
+    }
+
+    // 移动测试步骤
+    moveTestStep(fromIndex, toIndex) {
+        if (fromIndex === toIndex) return;
+        
+        // 移动主数据
+        const movedStep = this.testSteps.splice(fromIndex, 1)[0];
+        this.testSteps.splice(toIndex, 0, movedStep);
+        
+        // 如果在编辑模式，同时移动编辑副本
+        if (this.isEditing && this.editingTestSteps) {
+            const movedEditingStep = this.editingTestSteps.splice(fromIndex, 1)[0];
+            this.editingTestSteps.splice(toIndex, 0, movedEditingStep);
+        }
+        
+        // 重新计算步骤索引
+        this.recalculateStepTabIndexes();
+        
+        // 重新渲染
+        this.renderTestSteps();
+        
+        // 显示成功提示
+        showToast('步骤顺序调整成功！', 'success');
+        
+        // 高亮显示移动后的步骤
+        setTimeout(() => {
+            const movedElement = document.querySelector(`[data-index="${toIndex}"]`);
+            if (movedElement) {
+                movedElement.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center' 
+                });
+                movedElement.classList.add('step-highlight');
+                setTimeout(() => {
+                    movedElement.classList.remove('step-highlight');
+                }, 2000);
+            }
+        }, 100);
+    }
+
+    // 交换测试步骤
+    swapTestSteps(fromIndex, toIndex) {
+        if (fromIndex === toIndex) return;
+        
+        // 交换主数据
+        const temp = this.testSteps[fromIndex];
+        this.testSteps[fromIndex] = this.testSteps[toIndex];
+        this.testSteps[toIndex] = temp;
+        
+        // 如果在编辑模式，同时交换编辑副本
+        if (this.isEditing && this.editingTestSteps) {
+            const tempEdit = this.editingTestSteps[fromIndex];
+            this.editingTestSteps[fromIndex] = this.editingTestSteps[toIndex];
+            this.editingTestSteps[toIndex] = tempEdit;
+        }
+        
+        // 重新计算步骤索引
+        this.recalculateStepTabIndexes();
+        
+        // 重新渲染
+        this.renderTestSteps();
+        
+        // 显示成功提示
+        showToast('测试步骤交换成功！', 'success');
+        
+        // 高亮显示交换后的两个步骤
+        setTimeout(() => {
+            [fromIndex, toIndex].forEach(index => {
+                const element = document.querySelector(`[data-index="${index}"]`);
+                if (element) {
+                    element.classList.add('step-highlight');
+                    setTimeout(() => {
+                        element.classList.remove('step-highlight');
+                    }, 2000);
+                }
+            });
+            
+            // 滚动到目标步骤
+            const targetElement = document.querySelector(`[data-index="${toIndex}"]`);
+            if (targetElement) {
+                targetElement.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center' 
+                });
+            }
+        }, 100);
     }
 
     // 切换断言状态
@@ -8563,7 +8740,7 @@ class AutomationManagement {
                     </div>
                     <div class="auth-credentials-grid">
                         <div class="form-group">
-                            <label><i class="fas fa-envelope"></i> 邮箱</label>
+                            <label><i class="fas fa-envelope"></i> 邮箱/账号</label>
                             <input type="text" class="${emailInputClass}" value="${email}" placeholder="user@example.com"${emailInputStyle}>
                             ${emailWarnHtml}
                         </div>
@@ -8581,7 +8758,19 @@ class AutomationManagement {
             const emailInputs = container.querySelectorAll('.auth-email');
             const updateState = (inputEl) => {
                 const value = (inputEl.value || '').trim();
-                const valid = this.isValidEmail ? this.isValidEmail(value) : (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value));
+                let valid = false;
+                let errorMessage = '';
+                
+                if (value.includes('@')) {
+                    // 包含@符号，按邮箱格式校验
+                    valid = this.isValidEmail ? this.isValidEmail(value) : (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value));
+                    errorMessage = '邮箱格式不正确，请确认';
+                } else {
+                    // 不包含@符号，按普通账号校验（不包含空格等特殊字符）
+                    valid = /^[^\s]+$/.test(value) && value.length > 0;
+                    errorMessage = '账号格式不正确，不能包含空格等特殊字符';
+                }
+                
                 const tip = inputEl.parentElement ? inputEl.parentElement.querySelector('.auth-empty-tip') : null;
                 if (valid) {
                     inputEl.classList.remove('is-invalid');
@@ -8594,13 +8783,14 @@ class AutomationManagement {
                     inputEl.style.boxShadow = '0 0 0 2px rgba(220,53,69,.1) inset';
                     if (tip) {
                         tip.style.display = '';
+                        tip.textContent = errorMessage;
                     } else if (inputEl.parentElement) {
                         const warn = document.createElement('div');
                         warn.className = 'auth-empty-tip';
                         warn.style.color = '#dc3545';
                         warn.style.marginTop = '4px';
                         warn.style.fontSize = '12px';
-                        warn.textContent = '暂无登录账号，请确认';
+                        warn.textContent = errorMessage;
                         inputEl.parentElement.appendChild(warn);
                     }
                 }
@@ -8739,7 +8929,7 @@ class AutomationManagement {
         const submitSelector = submitSelectorInput ? submitSelectorInput.value.trim() : '';
 
         if (!emailSelector || !passwordSelector || !submitSelector) {
-            this.showErrorMessage('请填写邮箱、密码与提交按钮的元素定位参数');
+            this.showErrorMessage('请填写邮箱/账号、密码与提交按钮的元素定位参数');
             if (emailSelectorInput && !emailSelector) emailSelectorInput.focus();
             else if (passwordSelectorInput && !passwordSelector) passwordSelectorInput.focus();
             else if (submitSelectorInput && !submitSelector) submitSelectorInput.focus();
@@ -15000,6 +15190,135 @@ class AutomationManagement {
             img.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzM3NDE1MSIvPgogIDx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5Y2EzYWYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7miaveWTvJpL/JvcEK8/C3IC8+Cjwvc3ZnPgo=';
             img.alt = '图片加载失败';
         };
+    }
+
+    // ==================== Excel导入功能 ====================
+    
+    // 打开Excel导入模态框
+    openExcelImportModal() {
+        const modal = document.getElementById('excelImportModal');
+        if (modal) {
+            modal.style.display = 'flex';
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+    }
+    
+    // 关闭Excel导入模态框
+    closeExcelImportModal() {
+        if (window.excelImportManager) {
+            window.excelImportManager.closeModal();
+        }
+    }
+    
+    // 清除选择的文件
+    clearSelectedFile() {
+        if (window.excelImportManager) {
+            window.excelImportManager.clearSelectedFile();
+        }
+    }
+    
+    // 从Excel导入数据
+    importFromExcel() {
+        if (window.excelImportManager) {
+            // 直接调用实际导入逻辑
+            window.excelImportManager.importData();
+        }
+    }
+    
+    // 下载Excel模板
+    async downloadExcelTemplate() {
+        try {
+            showToast('正在准备下载Excel模板...', 'info');
+            
+            // 创建一个隐藏的链接来触发下载
+            const link = document.createElement('a');
+            link.href = '/download/excel-template';
+            link.download = ''; // 让服务器决定文件名
+            link.style.display = 'none';
+            
+            // 添加到页面并点击
+            document.body.appendChild(link);
+            link.click();
+            
+            // 清理
+            document.body.removeChild(link);
+            
+            showToast('Excel模板下载成功', 'success');
+            
+        } catch (error) {
+            console.error('下载Excel模板失败:', error);
+            showToast('下载Excel模板失败：' + error.message, 'error');
+        }
+    }
+    
+    // 生成Excel模板数据
+    generateExcelTemplateData() {
+        // 标题行
+        const headers = [
+            '步骤名称', '操作类型', '操作事件', '输入值', '操作参数', 
+            '操作次数', '暂停时间', '断言启用', '断言类型', '断言方法', 
+            '断言参数', '截图启用', '截图时机', '截图格式', '截图质量'
+        ];
+        
+        // 示例数据行
+        const exampleRows = [
+            [
+                '示例步骤1-点击登录按钮', 'web', 'click', '', 
+                '//button[@id="login-btn"]', '1', '1', 'no', 'ui', 
+                'pytest-selenium', '', 'no', 'after', 'png', '90'
+            ],
+            [
+                '示例步骤2-输入用户名', 'web', 'input', 'testuser@example.com', 
+                '//input[@name="username"]', '1', '1', 'no', 'ui', 
+                'pytest-selenium', '', 'yes', 'after', 'png', '90'
+            ],
+            [
+                '示例步骤3-悬停菜单', 'web', 'hover', '', 
+                '//div[@class="menu-item"]', '1', '2', 'yes', 'ui', 
+                'pytest-selenium', '断言菜单显示', 'no', 'after', 'png', '90'
+            ]
+        ];
+        
+        // 合并标题和示例数据
+        return [headers, ...exampleRows];
+    }
+    
+    // 为Excel添加数据验证（下拉框）
+    addExcelValidation(worksheet) {
+        // 由于XLSX库的限制，这里只是添加注释说明
+        // 实际的下拉框需要在Excel中手动设置或使用更高级的库
+        
+        // 在工作表中添加数据验证说明
+        const validationInfo = [
+            '',
+            '',
+            '',
+            '',
+            '数据验证说明:',
+            '操作类型: web, game',
+            '操作事件(Web): click, double_click, input, hover, check, uncheck, select_option, drag_and_drop, press_key, login, register',
+            '断言启用: yes, no',
+            '断言类型: ui, api',
+            '断言方法: pytest-selenium',
+            '截图启用: yes, no',
+            '截图时机: before, after',
+            '截图格式: png, jpg',
+            '',
+            '注意事项:',
+            '1. 步骤名称为必填项',
+            '2. 操作类型目前仅支持web',
+            '3. 操作次数和暂停时间必须为正整数',
+            '4. 示例行可以删除，请根据实际需要填写测试步骤'
+        ];
+        
+        // 将验证说明添加到右侧列
+        validationInfo.forEach((info, index) => {
+            const cellRef = XLSX.utils.encode_cell({ c: 16, r: index }); // Q列
+            if (!worksheet[cellRef]) worksheet[cellRef] = {};
+            worksheet[cellRef].v = info;
+            worksheet[cellRef].t = 's';
+        });
     }
 
 }

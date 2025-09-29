@@ -3,11 +3,13 @@ from flask_cors import CORS
 from api.version_management import version_bp
 from api.automation_management import automation_bp
 from api.auth_management import auth_bp
+from api.report_management import report_bp
 from config.database import init_db
 from config.logger import setup_logger, log_info, log_error, log_warning
 from config.database_config import get_current_db_config
 import os
 import secrets
+
 
 def create_app():
     # 设置日志记录器
@@ -15,6 +17,12 @@ def create_app():
     log_info("正在创建Flask应用...")
     
     app = Flask(__name__)
+
+    # 计算项目根目录，构建绝对路径，避免受当前工作目录或盘符影响
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    IMG_LOGS_DIR = os.path.join(BASE_DIR, 'IMG_LOGS')
+    IMG_ASSERT_DIR = os.path.join(IMG_LOGS_DIR, 'IMA_ASSERT')
+    GAME_IMG_DIR = os.path.join(BASE_DIR, 'Game_Img')
     
     # 配置会话密钥（使用固定密钥以保持session）
     app.secret_key = 'your-secret-key-here-12345'
@@ -32,13 +40,20 @@ def create_app():
     app.config['UPLOAD_FOLDER'] = 'static/uploads'
     app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
     
-    # 确保上传目录存在
-    os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
-    log_info(f"上传目录已创建: {app.config['UPLOAD_FOLDER']}")
+    # 确保上传目录存在（统一使用绝对路径）
+    upload_abs = app.config['UPLOAD_FOLDER']
+    if not os.path.isabs(upload_abs):
+        upload_abs = os.path.join(BASE_DIR, upload_abs)
+    os.makedirs(upload_abs, exist_ok=True)
+    log_info(f"上传目录已创建: {upload_abs}")
     
-    # 确保Game_Img目录存在
-    os.makedirs('Game_Img', exist_ok=True)
-    log_info("Game_Img目录已创建")
+    # 确保图片目录存在（与盘符无关）
+    os.makedirs(GAME_IMG_DIR, exist_ok=True)
+    os.makedirs(IMG_LOGS_DIR, exist_ok=True)
+    os.makedirs(IMG_ASSERT_DIR, exist_ok=True)
+    log_info(f"Game_Img目录: {GAME_IMG_DIR}")
+    log_info(f"IMG_LOGS目录: {IMG_LOGS_DIR}")
+    log_info(f"IMG_LOGS/IMA_ASSERT目录: {IMG_ASSERT_DIR}")
     
     # 初始化数据库
     log_info("正在初始化数据库...")
@@ -49,6 +64,7 @@ def create_app():
     app.register_blueprint(auth_bp, url_prefix='/api/auth')
     app.register_blueprint(version_bp, url_prefix='/api/version')
     app.register_blueprint(automation_bp, url_prefix='/api/automation')
+    app.register_blueprint(report_bp)
     log_info("所有蓝图已注册完成")
     
     # 添加根路径重定向
@@ -80,18 +96,47 @@ def create_app():
     @app.route('/Game_Img/<filename>')
     def game_img(filename):
         log_info(f"请求游戏图片: {filename}")
-        response = send_from_directory('Game_Img', filename)
+        response = send_from_directory(GAME_IMG_DIR, filename)
         # 禁用缓存
         response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
         response.headers['Pragma'] = 'no-cache'
         response.headers['Expires'] = '0'
         return response
     
+    # 添加Excel模板下载路由
+    @app.route('/download/excel-template')
+    def download_excel_template():
+        try:
+            # 模板文件路径
+            template_path = os.path.join(BASE_DIR, 'Test_Data', 'Excel_model', '测试步骤模板_202509291556.xlsx')
+            
+            if not os.path.exists(template_path):
+                log_error(f"Excel模板文件不存在: {template_path}")
+                return "模板文件不存在", 404
+            
+            log_info(f"下载Excel模板: {template_path}")
+            
+            # 生成带时间戳的文件名
+            from datetime import datetime
+            timestamp = datetime.now().strftime('%Y%m%d%H%M')
+            download_filename = f'测试步骤模板_{timestamp}.xlsx'
+            
+            return send_file(
+                template_path,
+                as_attachment=True,
+                download_name=download_filename,
+                mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            )
+            
+        except Exception as e:
+            log_error(f"下载Excel模板失败: {str(e)}")
+            return f"下载失败: {str(e)}", 500
+    
     # 添加图片断言文件路由
     @app.route('/IMG_LOGS/IMA_ASSERT/<filename>')
     def assertion_img(filename):
         log_info(f"请求断言图片: {filename}")
-        response = send_from_directory('IMG_LOGS/IMA_ASSERT', filename)
+        response = send_from_directory(IMG_ASSERT_DIR, filename)
         # 禁用缓存
         response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
         response.headers['Pragma'] = 'no-cache'
@@ -102,7 +147,7 @@ def create_app():
     @app.route('/IMG_LOGS/<filename>')
     def screenshot_img(filename):
         log_info(f"请求测试截图: {filename}")
-        response = send_from_directory('IMG_LOGS', filename)
+        response = send_from_directory(IMG_LOGS_DIR, filename)
         # 禁用缓存
         response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
         response.headers['Pragma'] = 'no-cache'
@@ -137,6 +182,7 @@ def create_app():
     
     log_info("Flask应用创建完成")
     return app
+
 
 if __name__ == '__main__':
     log_info("=" * 50)

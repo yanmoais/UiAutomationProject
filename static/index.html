@@ -6,6 +6,7 @@
     <title>星火自动化测试平台</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="css/excel-import.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/dracula.min.css" rel="stylesheet">
@@ -328,6 +329,14 @@
                                     <i class="fas fa-download"></i>
                                     导入测试步骤
                                 </button>
+                                <button type="button" class="excel-import-action-btn excel-import-btn-primary" onclick="automationManagement.openExcelImportModal()">
+                                    <i class="fas fa-file-excel"></i>
+                                    Excel导入测试步骤
+                                </button>
+                                <button type="button" class="excel-import-action-btn excel-import-btn-success" onclick="automationManagement.downloadExcelTemplate()">
+                                    <i class="fas fa-file-download"></i>
+                                    下载模板
+                                </button>
                             <button type="button" class="btn btn-primary btn-sm" onclick="automationManagement.addTestStep()">
                                 <i class="fas fa-plus"></i>
                                 添加测试步骤
@@ -496,7 +505,7 @@
                             <div id="projectsList" class="projects-list">
                                 <div class="no-selection">
                                     <i class="fas fa-cube" style="font-size: 2.5rem; opacity: 0.3; margin-bottom: 0.5rem;"></i>
-                                    <p>请先选择一个产品包名</p>
+                                    <p>请先选择一个产品</p>
                                 </div>
                             </div>
                         </div>
@@ -530,6 +539,74 @@
                         <i class="fas fa-download"></i> 导入步骤
                     </button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Excel导入测试步骤弹窗 -->
+    <div id="excelImportModal" class="modal">
+        <div class="modal-content medium">
+            <div class="modal-header">
+                <h2><i class="fas fa-file-excel"></i> Excel导入测试步骤</h2>
+                <span class="close" onclick="automationManagement.closeExcelImportModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="excel-import-container">
+                    <div class="excel-import-upload-section">
+                        <div class="excel-import-upload-area" id="excelUploadArea">
+                            <div class="excel-import-upload-content">
+                                <i class="fas fa-cloud-upload-alt excel-import-upload-icon"></i>
+                                <h3>选择或拖拽Excel文件</h3>
+                                <p>支持 .xlsx 和 .xls 格式</p>
+                                <button type="button" class="btn btn-primary" onclick="document.getElementById('excelFileInput').click()">
+                                    <i class="fas fa-folder-open"></i> 选择文件
+                                </button>
+                                <input type="file" id="excelFileInput" accept=".xlsx,.xls" style="display: none;">
+                            </div>
+                        </div>
+                        <div class="excel-import-file-info" id="selectedFileInfo" style="display: none;">
+                            <div class="excel-import-file-details">
+                                <i class="fas fa-file-excel excel-import-file-icon"></i>
+                                <div class="excel-import-file-text">
+                                    <div class="excel-import-file-name" id="fileName"></div>
+                                    <div class="excel-import-file-size" id="fileSize"></div>
+                                </div>
+                                <button type="button" class="btn btn-danger btn-sm" onclick="automationManagement.clearSelectedFile()">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="excel-import-preview" id="importPreview" style="display: none;">
+                        <h4><i class="fas fa-eye"></i> 预览数据</h4>
+                        <div class="excel-import-preview-table-container">
+                            <table class="excel-import-preview-table" id="previewTable">
+                                <!-- 动态生成预览内容 -->
+                            </table>
+                        </div>
+                        <div class="excel-import-stats">
+                            <span class="excel-import-stats-item">
+                                <i class="fas fa-list-ol"></i>
+                                共 <span id="totalStepsCount">0</span> 个步骤
+                            </span>
+                            <span class="excel-import-stats-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span id="validStepsCount">0</span> 个有效
+                            </span>
+                            <span class="excel-import-stats-item">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span id="invalidStepsCount">0</span> 个异常
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="automationManagement.closeExcelImportModal()">取消</button>
+                <button type="button" id="importExcelBtn" class="btn btn-primary" onclick="automationManagement.importFromExcel()" disabled>
+                    <i class="fas fa-file-import"></i> 导入数据
+                </button>
             </div>
         </div>
     </div>
@@ -976,7 +1053,7 @@
             <div class="modal-body">
                 <div class="form-grid">
                     <div class="form-group">
-                        <label>邮箱元素定位参数 <span class="required">*</span></label>
+                        <label>邮箱/账号元素定位参数 <span class="required">*</span></label>
                         <input type="text" id="auth-email-selector" class="form-control" placeholder="请输入邮箱输入框的元素定位参数（如：id=email 或 xpath=//input[@name='email']）">
                     </div>
                     <div class="form-group">
@@ -1043,6 +1120,127 @@
         </div>
     </div>
 
+    <!-- 导出报告配置弹窗 -->
+    <div id="exportReportModal" class="modal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h2><i class="fas fa-file-export"></i> 导出测试报告</h2>
+                <span class="close" onclick="dashboardManager.closeExportReportModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="exportReportForm">
+                    <div class="form-group">
+                        <label for="exportProductPackages">产品 <span class="required">*</span></label>
+                        <div class="multi-select-container">
+                            <div class="multi-select-header" onclick="dashboardManager.toggleProductPackageDropdown()">
+                                <span id="selectedPackagesText">请选择产品</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="multi-select-dropdown" id="productPackagesDropdown">
+                                <div class="multi-select-search">
+                                    <input type="text" id="packageSearchInput" placeholder="搜索产品..." 
+                                           oninput="dashboardManager.filterProductPackages()">
+                                </div>
+                                <div class="multi-select-options" id="productPackageOptions">
+                                    <!-- 产品包名选项将在这里动态加载 -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="exportStartDate">开始日期 <span class="required">*</span></label>
+                            <input type="date" id="exportStartDate" name="startDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="exportEndDate">结束日期 <span class="required">*</span></label>
+                            <input type="date" id="exportEndDate" name="endDate" required>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="dashboardManager.closeExportReportModal()">取消</button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-download"></i>
+                            导出报告
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 测试报告详情弹窗 -->
+    <div id="testReportModal" class="modal">
+        <div class="modal-content extra-large">
+            <div class="modal-header">
+                <h2 id="testReportTitle">测试报告详情</h2>
+                <span class="close" onclick="dashboardManager.closeTestReportModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <!-- 报告头部 -->
+                <div class="modal-report-header">
+                    <div class="header-top">
+                        <div class="header-left">
+                            <h2>自动化测试报告</h2>
+                            <span class="latest-badge">最新</span>
+                        </div>
+                        <div class="header-right">
+                            <div class="time-info">
+                                <div class="time-item">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span class="report-date-range" id="reportDateRange"></span>
+                                </div>
+                                <div class="time-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span id="reportGeneratedTime"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-packages-section">
+                        <div class="packages-header" onclick="dashboardManager.toggleModalPackagesSection()" aria-expanded="false">
+                            <div class="packages-title">
+                                <i class="fas fa-cube"></i>
+                                <span>产品包</span>
+                                <span class="packages-count" id="modalPackagesCount">0 个</span>
+                            </div>
+                            <i class="fas fa-chevron-down packages-toggle collapsed"></i>
+                        </div>
+                        <div class="packages-content" id="modalPackagesContent">
+                            <!-- 产品包内容将在这里显示 -->
+                        </div>
+                    </div>
+                    
+                    <div class="test-metrics" id="reportStats">
+                        <!-- 测试指标将在这里显示 -->
+                    </div>
+                </div>
+                
+                <!-- 报告工具栏 -->
+                <div class="report-toolbar">
+                    <div class="report-actions">
+                        <button type="button" class="btn btn-secondary btn-sm" onclick="dashboardManager.downloadTestReport()">
+                            <i class="fas fa-download"></i>
+                            下载报告
+                        </button>
+                        <button type="button" class="btn btn-secondary btn-sm" onclick="dashboardManager.printTestReport()">
+                            <i class="fas fa-print"></i>
+                            打印报告
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 报告内容区域 -->
+                <div class="report-content-container" id="testReportContent">
+                    <!-- 报告内容将在这里显示 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="js/utils.js"></script>
     <script src="js/api.js"></script>
     <script src="js/common.js"></script>
@@ -1050,6 +1248,8 @@
     <script src="js/dashboard.js"></script>
     <script src="js/versionManagement.js"></script>
     <script src="js/automationManagement.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="js/excel-import.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html> 

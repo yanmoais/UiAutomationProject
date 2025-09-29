@@ -493,6 +493,8 @@ class DashboardManager {
             this.renderProductPieChart();
             this.animateCounters();
             this.renderActivities();
+            // 初始化拖拽功能
+            this.initDragAndDrop();
         }, 100);
     }
 
@@ -500,6 +502,78 @@ class DashboardManager {
     getDashboardHTML() {
         return `
             <div class="dashboard-container">
+                <!-- 自定义操作区域 -->
+                <div class="custom-actions-section">
+                    <div class="custom-actions-header">
+                        <i class="fas fa-star"></i>
+                        <span class="custom-actions-title">自定义操作</span>
+                        <span class="custom-actions-count">0</span>
+                    </div>
+                    <div class="custom-actions-container" id="customActionsContainer">
+                        <div class="custom-actions-placeholder">
+                            <i class="fas fa-hand-pointer"></i>
+                            <span>将快捷操作拖拽到这里进行自定义</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 活动和快速操作 - 移至顶部 -->
+                <div class="activity-section top-section">
+                    <div class="activity-card">
+                        <div class="activity-header">
+                            <i class="fas fa-clock"></i>
+                            <span class="activity-title">最近活动</span>
+                        </div>
+                        <div class="activity-list">
+                            ${this.getActivitiesHTML()}
+                        </div>
+                        <div id="activity-pagination">
+                            ${this.getActivitiesPaginationHTML()}
+                        </div>
+                    </div>
+
+                    <div class="activity-card">
+                        <div class="activity-header">
+                            <i class="fas fa-rocket"></i>
+                            <span class="activity-title">快速操作</span>
+                        </div>
+                        <div class="quick-actions">
+                            <button class="quick-action-btn" draggable="true" 
+                                    data-action="loadProductManagement()" 
+                                    data-icon="fas fa-plus" 
+                                    data-text="添加产品"
+                                    onclick="loadProductManagement()">
+                                <i class="fas fa-plus"></i>
+                                <span>添加产品</span>
+                            </button>
+                            <button class="quick-action-btn" draggable="true" 
+                                    data-action="loadAutomationManagement()" 
+                                    data-icon="fas fa-robot" 
+                                    data-text="创建测试"
+                                    onclick="loadAutomationManagement()">
+                                <i class="fas fa-robot"></i>
+                                <span>创建测试</span>
+                            </button>
+                            <button class="quick-action-btn" draggable="true" 
+                                    data-action="dashboardManager.refreshData()" 
+                                    data-icon="fas fa-sync-alt" 
+                                    data-text="刷新数据"
+                                    onclick="dashboardManager.refreshData()">
+                                <i class="fas fa-sync-alt"></i>
+                                <span>刷新数据</span>
+                            </button>
+                            <button class="quick-action-btn" draggable="true" 
+                                    data-action="dashboardManager.exportReport()" 
+                                    data-icon="fas fa-download" 
+                                    data-text="导出报告"
+                                    onclick="dashboardManager.exportReport()">
+                                <i class="fas fa-download"></i>
+                                <span>导出报告</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- 统计卡片 -->
                 <div class="stats-grid">
                     <div class="stat-card primary">
@@ -608,7 +682,7 @@ class DashboardManager {
                         <div class="chart-header">
                             <div class="chart-title">
                                 								<i class="fas fa-chart-pie"></i>
-								测试案例数量分布（按产品包名）
+								测试案例数量分布（按产品）
                             </div>
                         </div>
                         <div class="chart-content">
@@ -617,47 +691,6 @@ class DashboardManager {
                         </div>
                     </div>
 
-                </div>
-
-                <!-- 活动和快速操作 -->
-                <div class="activity-section">
-                    <div class="activity-card">
-                        <div class="activity-header">
-                            <i class="fas fa-clock"></i>
-                            <span class="activity-title">最近活动</span>
-                        </div>
-                        <div class="activity-list">
-                            ${this.getActivitiesHTML()}
-                        </div>
-                        <div id="activity-pagination">
-                            ${this.getActivitiesPaginationHTML()}
-                        </div>
-                    </div>
-
-                    <div class="activity-card">
-                        <div class="activity-header">
-                            <i class="fas fa-rocket"></i>
-                            <span class="activity-title">快速操作</span>
-                        </div>
-                        <div class="quick-actions">
-                            <button class="quick-action-btn" onclick="loadProductManagement()">
-                                <i class="fas fa-plus"></i>
-                                <span>添加产品</span>
-                            </button>
-                            <button class="quick-action-btn" onclick="loadAutomationManagement()">
-                                <i class="fas fa-robot"></i>
-                                <span>创建测试</span>
-                            </button>
-                            <button class="quick-action-btn" onclick="dashboardManager.refreshData()">
-                                <i class="fas fa-sync-alt"></i>
-                                <span>刷新数据</span>
-                            </button>
-                            <button class="quick-action-btn" onclick="dashboardManager.exportReport()">
-                                <i class="fas fa-download"></i>
-                                <span>导出报告</span>
-                            </button>
-                        </div>
-                    </div>
                 </div>
             </div>
         `;
@@ -756,7 +789,7 @@ class DashboardManager {
         `;
     }
 
-    // 仅更新“最近活动”区域
+    // 仅更新"最近活动"区域
     renderActivities() {
         const listEl = document.querySelector('.activity-list');
         if (listEl) listEl.innerHTML = this.getActivitiesHTML();
@@ -1087,22 +1120,214 @@ class DashboardManager {
 </html>`;
     }
 
-    // 导出报告
+    // 导出报告 - 新版本：显示配置弹窗
     async exportReport() {
         try {
-            const html = this.buildHtmlReport();
-            const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `dashboard-report-${new Date().toISOString().split('T')[0]}.html`;
-            a.click();
-            URL.revokeObjectURL(url);
-            showToast('报告导出成功', 'success');
+            // 首先获取产品包名列表
+            await this.loadProductPackages();
+            // 设置默认日期（最近30天）
+            this.setDefaultDateRange();
+            // 显示导出配置弹窗
+            this.showExportReportModal();
         } catch (error) {
-            console.error('导出报告失败:', error);
-            showToast('导出报告失败', 'error');
+            console.error('打开导出配置失败:', error);
+            showToast('打开导出配置失败', 'error');
         }
+    }
+
+    // 显示导出报告配置弹窗
+    showExportReportModal() {
+        const modal = document.getElementById('exportReportModal');
+        modal.classList.add('show');
+        document.body.style.overflow = 'hidden';
+        
+        // 绑定表单提交事件
+        const form = document.getElementById('exportReportForm');
+        form.onsubmit = (e) => {
+            e.preventDefault();
+            this.handleExportReportSubmit();
+        };
+    }
+
+    // 关闭导出报告配置弹窗
+    closeExportReportModal() {
+        const modal = document.getElementById('exportReportModal');
+        modal.classList.remove('show');
+        document.body.style.overflow = 'auto';
+        this.resetExportForm();
+    }
+
+    // 加载产品包名列表
+    async loadProductPackages() {
+        try {
+            const response = await fetch('/api/report/product-packages');
+            const result = await response.json();
+            
+            if (result.success) {
+                this.productPackages = result.data;
+                this.renderProductPackageOptions();
+            } else {
+                throw new Error(result.message);
+            }
+        } catch (error) {
+            console.error('获取产品失败:', error);
+            showToast('获取产品失败', 'error');
+        }
+    }
+
+    // 渲染产品包名选项
+    renderProductPackageOptions() {
+        const container = document.getElementById('productPackageOptions');
+        container.innerHTML = '';
+
+        if (!this.productPackages || this.productPackages.length === 0) {
+            container.innerHTML = '<div class="multi-select-option">暂无产品</div>';
+            return;
+        }
+
+        this.productPackages.forEach(pkg => {
+            const option = document.createElement('div');
+            option.className = 'multi-select-option';
+            option.innerHTML = `
+                <input type="checkbox" value="${pkg.value}" id="pkg_${pkg.value}">
+                <label for="pkg_${pkg.value}">${pkg.name}</label>
+            `;
+            
+            option.onclick = (e) => {
+                if (e.target.type !== 'checkbox') {
+                    const checkbox = option.querySelector('input[type="checkbox"]');
+                    checkbox.checked = !checkbox.checked;
+                }
+                this.updateSelectedPackages();
+            };
+            
+            container.appendChild(option);
+        });
+    }
+
+    // 设置默认日期范围（最近30天）
+    setDefaultDateRange() {
+        const endDate = new Date();
+        const startDate = new Date();
+        startDate.setDate(startDate.getDate() - 30);
+        
+        document.getElementById('exportStartDate').value = startDate.toISOString().split('T')[0];
+        document.getElementById('exportEndDate').value = endDate.toISOString().split('T')[0];
+    }
+
+    // 切换产品包名下拉框
+    toggleProductPackageDropdown() {
+        const dropdown = document.getElementById('productPackagesDropdown');
+        const header = document.querySelector('.multi-select-header');
+        
+        if (dropdown.classList.contains('open')) {
+            dropdown.classList.remove('open');
+            header.classList.remove('open');
+        } else {
+            dropdown.classList.add('open');
+            header.classList.add('open');
+        }
+    }
+
+    // 过滤产品包名
+    filterProductPackages() {
+        const searchInput = document.getElementById('packageSearchInput');
+        const options = document.querySelectorAll('.multi-select-option');
+        const searchTerm = searchInput.value.toLowerCase();
+
+        options.forEach(option => {
+            const label = option.querySelector('label');
+            if (label) {
+                const text = label.textContent.toLowerCase();
+                option.style.display = text.includes(searchTerm) ? 'flex' : 'none';
+            }
+        });
+    }
+
+    // 更新已选择的产品包名显示
+    updateSelectedPackages() {
+        const checkboxes = document.querySelectorAll('#productPackageOptions input[type="checkbox"]:checked');
+        const selectedText = document.getElementById('selectedPackagesText');
+        
+        if (checkboxes.length === 0) {
+            selectedText.textContent = '请选择产品';
+        } else if (checkboxes.length === 1) {
+            selectedText.textContent = checkboxes[0].nextElementSibling.textContent;
+        } else {
+            selectedText.textContent = `已选择 ${checkboxes.length} 个产品`;
+        }
+    }
+
+    // 处理导出报告表单提交
+    async handleExportReportSubmit() {
+        try {
+            const checkboxes = document.querySelectorAll('#productPackageOptions input[type="checkbox"]:checked');
+            const selectedPackages = Array.from(checkboxes).map(cb => cb.value);
+            const startDate = document.getElementById('exportStartDate').value;
+            const endDate = document.getElementById('exportEndDate').value;
+
+            if (selectedPackages.length === 0) {
+                showToast('请至少选择一个产品', 'warning');
+                return;
+            }
+
+            if (!startDate || !endDate) {
+                showToast('请选择日期范围', 'warning');
+                return;
+            }
+
+            if (new Date(startDate) > new Date(endDate)) {
+                showToast('开始日期不能晚于结束日期', 'warning');
+                return;
+            }
+
+            // 显示加载状态
+            showLoading();
+
+            // 调用API生成报告
+            const response = await fetch('/api/report/generate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    product_packages: selectedPackages,
+                    start_date: startDate,
+                    end_date: endDate
+                })
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                // 关闭配置弹窗
+                this.closeExportReportModal();
+                // 保存并自动下载报告
+                this.currentReportData = result.data;
+                this.downloadTestReport();
+                showToast('报告生成成功，已开始下载', 'success');
+            } else {
+                throw new Error(result.message);
+            }
+
+        } catch (error) {
+            console.error('生成报告失败:', error);
+            showToast('生成报告失败', 'error');
+        } finally {
+            hideLoading();
+        }
+    }
+
+    // 重置导出表单
+    resetExportForm() {
+        const checkboxes = document.querySelectorAll('#productPackageOptions input[type="checkbox"]');
+        checkboxes.forEach(cb => cb.checked = false);
+        this.updateSelectedPackages();
+        
+        const dropdown = document.getElementById('productPackagesDropdown');
+        const header = document.querySelector('.multi-select-header');
+        dropdown.classList.remove('open');
+        header.classList.remove('open');
     }
 
     // 显示错误信息
@@ -1188,7 +1413,7 @@ class DashboardManager {
             count
         })).sort((a, b) => b.count - a.count);
         if (unspecified > 0) result.push({ name: '未指定', count: unspecified });
-        console.log('产品包名分布统计: ', result);
+        console.log('产品分布统计: ', result);
         return result;
     }
 
@@ -1450,6 +1675,1259 @@ class DashboardManager {
         `;
         document.head.appendChild(style);
     }
+
+    // 初始化拖拽功能
+    initDragAndDrop() {
+        this.customActions = JSON.parse(localStorage.getItem('customActions') || '[]');
+        this.renderCustomActions();
+        this.setupDragAndDropEvents();
+    }
+
+    // 设置拖拽事件
+    setupDragAndDropEvents() {
+        // 为快捷操作按钮添加拖拽事件
+        document.addEventListener('dragstart', (e) => {
+            if (e.target.classList.contains('quick-action-btn')) {
+                const actionData = {
+                    action: e.target.dataset.action,
+                    icon: e.target.dataset.icon,
+                    text: e.target.dataset.text
+                };
+                e.dataTransfer.setData('text/plain', JSON.stringify(actionData));
+                e.target.style.opacity = '0.5';
+            }
+        });
+
+        document.addEventListener('dragend', (e) => {
+            if (e.target.classList.contains('quick-action-btn')) {
+                e.target.style.opacity = '1';
+            }
+        });
+
+        // 为自定义操作容器添加放置事件
+        const customContainer = document.getElementById('customActionsContainer');
+        if (customContainer) {
+            customContainer.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                customContainer.classList.add('drag-over');
+            });
+
+            customContainer.addEventListener('dragleave', (e) => {
+                if (!customContainer.contains(e.relatedTarget)) {
+                    customContainer.classList.remove('drag-over');
+                }
+            });
+
+            customContainer.addEventListener('drop', (e) => {
+                e.preventDefault();
+                customContainer.classList.remove('drag-over');
+                
+                const actionData = JSON.parse(e.dataTransfer.getData('text/plain'));
+                this.addCustomAction(actionData);
+            });
+        }
+    }
+
+    // 添加自定义操作
+    addCustomAction(actionData) {
+        // 检查是否已存在
+        if (this.customActions.some(action => action.action === actionData.action)) {
+            this.showNotification('该操作已存在于自定义区域', 'warning');
+            return;
+        }
+
+        // 添加唯一ID
+        actionData.id = Date.now().toString();
+        this.customActions.push(actionData);
+        
+        // 保存到本地存储
+        localStorage.setItem('customActions', JSON.stringify(this.customActions));
+        
+        // 重新渲染
+        this.renderCustomActions();
+        this.showNotification('自定义操作添加成功', 'success');
+    }
+
+    // 渲染自定义操作
+    renderCustomActions() {
+        const container = document.getElementById('customActionsContainer');
+        const countElement = document.querySelector('.custom-actions-count');
+        
+        if (!container) return;
+
+        if (this.customActions.length === 0) {
+            container.innerHTML = `
+                <div class="custom-actions-placeholder">
+                    <i class="fas fa-hand-pointer"></i>
+                    <span>将快捷操作拖拽到这里进行自定义</span>
+                </div>
+            `;
+        } else {
+            container.innerHTML = `
+                <div class="custom-actions-grid">
+                    ${this.customActions.map(action => `
+                        <div class="custom-action-item" data-id="${action.id}">
+                            <button class="custom-action-btn" onclick="${action.action}">
+                                <i class="${action.icon}"></i>
+                                <span>${action.text}</span>
+                            </button>
+                            <button class="custom-action-remove" onclick="dashboardManager.removeCustomAction('${action.id}')">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        // 更新计数
+        if (countElement) {
+            countElement.textContent = this.customActions.length;
+        }
+    }
+
+    // 移除自定义操作
+    removeCustomAction(actionId) {
+        this.customActions = this.customActions.filter(action => action.id !== actionId);
+        localStorage.setItem('customActions', JSON.stringify(this.customActions));
+        this.renderCustomActions();
+        this.showNotification('自定义操作已移除', 'info');
+    }
+
+    // 显示通知
+    showNotification(message, type = 'info') {
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        notification.innerHTML = `
+            <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'}"></i>
+            <span>${message}</span>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        // 显示动画
+        setTimeout(() => notification.classList.add('show'), 10);
+        
+        // 自动移除
+        setTimeout(() => {
+            notification.classList.remove('show');
+            setTimeout(() => notification.remove(), 300);
+        }, 3000);
+    }
+
+    // 显示测试报告详情弹窗
+    showTestReportModal(reportData) {
+        const packagesCount = (reportData.selected_packages && Array.isArray(reportData.selected_packages)) ? reportData.selected_packages.length : 0;
+        const hierarchy = this.buildReportHierarchy(reportData);
+        let totalCases = 0, totalExecutions = 0, passCount = 0, failCount = 0, runningCount = 0;
+        Object.values(hierarchy).forEach(testCases => {
+            Object.values(testCases).forEach(tc => {
+                totalCases++;
+                const execs = Array.isArray(tc.executions) ? tc.executions : [];
+                execs.forEach(ex => {
+                    totalExecutions++;
+                    const cls = this.getExecutionStatusClass(ex.status);
+                    if (cls === 'success') passCount++;
+                    else if (cls === 'failed') failCount++;
+                    else if (cls === 'running') runningCount++;
+                });
+            });
+        });
+        const considered = passCount + failCount;
+        const passRate = considered ? (passCount / considered) : 0;
+        const failRate = considered ? (failCount / considered) : 0;
+        const formatPercent = (v) => `${(v * 100).toFixed(1)}%`;
+
+        // 设置报告标题和信息
+        document.getElementById('testReportTitle').textContent = '测试报告详情';
+        
+        // 更新时间信息
+        const reportDateRange = document.getElementById('reportDateRange');
+        const reportGeneratedTime = document.getElementById('reportGeneratedTime');
+        if (reportDateRange) {
+            reportDateRange.textContent = `${reportData.date_range.start_date} 至 ${reportData.date_range.end_date}`;
+        }
+        if (reportGeneratedTime) {
+            reportGeneratedTime.textContent = new Date().toLocaleString('zh-CN');
+        }
+        
+        // 更新产品包信息
+        const modalPackagesCount = document.getElementById('modalPackagesCount');
+        const modalPackagesContent = document.getElementById('modalPackagesContent');
+        if (modalPackagesCount) {
+            modalPackagesCount.textContent = `${packagesCount} 个`;
+        }
+        if (modalPackagesContent) {
+            const packagesHtml = (reportData.selected_packages || []).map(sp => {
+                const info = (reportData.selected_products_info || {})[sp];
+                return `<span class="package-item">${info ? `${info.package_name}（ID: ${info.product_id}）` : sp}</span>`;
+            }).join('');
+            modalPackagesContent.innerHTML = packagesHtml;
+        }
+        
+        // 更新测试指标
+        const reportStats = document.getElementById('reportStats');
+        if (reportStats) {
+            reportStats.innerHTML = `
+                <div class="metric-item">
+                    <div class="metric-label">测试案例</div>
+                    <div class="metric-value">${totalCases}</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-label">执行数</div>
+                    <div class="metric-value">${totalExecutions}</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-label">成功数</div>
+                    <div class="metric-value success-count">${passCount}</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-label">失败数</div>
+                    <div class="metric-value fail-count">${failCount}</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-label">通过率</div>
+                    <div class="metric-value pass-rate">${formatPercent(passRate)}</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-label">失败率</div>
+                    <div class="metric-value fail-rate">${formatPercent(failRate)}</div>
+                </div>
+            `;
+        }
+
+        // 生成报告内容
+        const reportContent = this.generateReportContent(hierarchy);
+        document.getElementById('testReportContent').innerHTML = reportContent;
+
+        // 显示弹窗
+        const modal = document.getElementById('testReportModal');
+        modal.classList.add('show');
+        document.body.style.overflow = 'hidden';
+
+        // 绑定展开收起事件
+
+        this.bindReportInteractions();
+
+        // 保存报告数据用于下载和打印
+        this.currentReportData = reportData;
+    }
+
+    // 关闭测试报告弹窗
+    closeTestReportModal() {
+        const modal = document.getElementById('testReportModal');
+        modal.classList.remove('show');
+        document.body.style.overflow = 'auto';
+    }
+
+    // 构建层级：产品包名 -> 测试案例 -> 执行记录
+    buildReportHierarchy(raw) {
+        const byPackage = {};
+        const selectedInfo = raw.selected_products_info || {};
+        const flatCases = raw.report_data || {};
+
+        // 将选中的组合映射：组合键 -> 友好名 与 目标product_id
+        const selectedCombos = Array.isArray(raw.selected_packages) ? raw.selected_packages : [];
+        const comboToFriendly = new Map();
+        const friendlyToPid = new Map();
+        if (selectedCombos.length > 0) {
+            selectedCombos.forEach(combo => {
+                const info = selectedInfo[combo];
+                const friendly = info ? `${info.package_name}（ID: ${info.product_id}）` : combo;
+                comboToFriendly.set(combo, friendly);
+                friendlyToPid.set(friendly, info ? String(info.product_id) : '');
+                byPackage[friendly] = {};
+            });
+        } else {
+            byPackage['所选产品'] = {};
+        }
+
+        // 解析测试案例中的 product_ids
+        const parseProductIds = (value) => {
+            if (!value) return [];
+            try {
+                const arr = JSON.parse(String(value));
+                if (Array.isArray(arr)) return arr.map(v => String(v));
+            } catch (_) {}
+            const s = String(value);
+            // 提取类似 ["70050","70051"] 中的数字字符串
+            const matches = s.match(/\d+/g);
+            return matches ? matches.map(m => String(m)) : [];
+        };
+
+        // 将测试案例分配到对应的产品包组
+        Object.keys(flatCases).forEach(testCaseKey => {
+            const testCase = flatCases[testCaseKey];
+            const ids = parseProductIds(testCase.product_ids);
+
+            let assigned = false;
+            if (selectedCombos.length > 0) {
+                comboToFriendly.forEach((friendlyName, combo) => {
+                    const info = selectedInfo[combo];
+                    const pid = info ? String(info.product_id) : '';
+                    if (pid && ids.includes(pid)) {
+                        byPackage[friendlyName][testCaseKey] = testCase;
+                        assigned = true;
+                    }
+                });
+            }
+
+            // 如果未能根据product_id匹配，则放入"所选产品"或第一个组作为兜底
+            if (!assigned) {
+                const groups = Object.keys(byPackage);
+                const fallbackGroup = groups.includes('所选产品') ? '所选产品' : groups[0];
+                byPackage[fallbackGroup][testCaseKey] = testCase;
+            }
+        });
+
+        return byPackage;
+    }
+
+    // 生成报告内容HTML
+    generateReportContent(reportData) {
+        let html = '';
+
+        if (!reportData || Object.keys(reportData).length === 0) {
+            return '<div style="text-align: center; padding: 40px; color: #64748b;">暂无报告数据</div>';
+        }
+
+        const makeSafeId = (s) => String(s).replace(/[^\w\u4e00-\u9fa5-]/g, '_');
+
+        Object.keys(reportData).forEach(packageName => {
+            const safePkg = makeSafeId(packageName);
+            const testCases = reportData[packageName];
+            const testCaseCount = Object.keys(testCases).length;
+            const executionCount = Object.values(testCases).reduce((sum, testCase) => sum + (Array.isArray(testCase.executions) ? testCase.executions.length : 0), 0);
+
+            html += `
+                    <div class="report-product-group">
+                        <div class="report-product-header" id="header-${safePkg}" role="button" aria-expanded="true" onclick="dashboardManager.toggleReportProductGroup('${safePkg}')">
+                            <div class="report-product-title">
+                                <i class="fas fa-cube"></i>
+                                <h3>${packageName}</h3>
+                            </div>
+                            <div class="report-product-info">
+                                <span class="badge badge-count">${testCaseCount} 个测试案例</span>
+                                <span class="badge badge-record">${executionCount} 条执行记录</span>
+                                <span class="click-hint hint-collapse">点击收起</span>
+                                <span class="click-hint hint-expand">点击展开</span>
+                                <i class="fas fa-chevron-down report-product-toggle" id="toggle-${safePkg}"></i>
+                            </div>
+                        </div>
+                        <div class="report-product-content expanded" id="content-${safePkg}">
+                            ${this.generateTestCasesHTMLWithSafeIds(testCases, safePkg)}
+                        </div>
+                    </div>
+                `;
+        });
+
+        return html || '<div style="text-align: center; padding: 40px; color: #64748b;">暂无报告数据</div>';
+    }
+
+    // 带安全ID的测试案例渲染
+    generateTestCasesHTMLWithSafeIds(testCases, safePkg) {
+        const makeSafeId = (s) => String(s).replace(/[^\w\u4e00-\u9fa5-]/g, '_');
+        let html = '';
+
+        Object.keys(testCases).forEach((testCaseKey, index) => {
+            const testCase = testCases[testCaseKey];
+            const executions = Array.isArray(testCase.executions) ? testCase.executions : [];
+            const executionCount = executions.length;
+            const safeKey = makeSafeId(testCaseKey);
+
+            html += `
+                <div class="report-test-case">
+                    <div class="report-test-case-header" id="header-${safePkg}-${safeKey}" role="button" aria-expanded="false" onclick="dashboardManager.toggleReportTestCase('${safePkg}', '${safeKey}')">
+                        <div class="report-test-case-title">
+                            <i class="fas fa-flask"></i>
+                            <h4>${testCase.process_name}</h4>
+                            <span class="tag">${testCase.product_type || '用例'}</span>
+                        </div>
+                        <div class="report-test-case-info">
+                            <span class="meta">${testCase.system || '未知'}</span>
+                            <span class="meta">${testCase.environment || '未知'}</span>
+                            <span class="badge badge-record">${executionCount} 条记录</span>
+                            <span class="click-hint hint-collapse">点击收起</span>
+                            <span class="click-hint hint-expand">点击展开</span>
+                            <i class="fas fa-chevron-down report-test-case-toggle collapsed" id="toggle-${safePkg}-${safeKey}"></i>
+                        </div>
+                    </div>
+                    <div class="report-test-case-content" id="content-${safePkg}-${safeKey}">
+                        ${this.generateExecutionsHTML(executions)}
+                    </div>
+                </div>
+            `;
+        });
+
+        return html;
+    }
+
+    // 生成执行记录HTML
+    generateExecutionsHTML(executions) {
+        if (!executions || executions.length === 0) {
+            return '<div style="padding: 20px; text-align: center; color: #64748b;">暂无执行记录</div>';
+        }
+
+        let html = '<div class="report-execution-list">';
+
+        executions.forEach((execution, execIndex) => {
+            const statusClass = this.getExecutionStatusClass(execution.status);
+            const statusText = this.getExecutionStatusText(execution.status);
+            const execKey = this.getExecutionKey(execution, execIndex);
+            const formattedLogs = this.formatExecutionLogsForReport(execution.detailed_log || execution.log_message, execKey);
+
+            html += `
+                <div class="report-execution-item ${statusClass}">
+                    <div class="report-execution-meta" id="exec-${execKey}-meta" role="button" aria-expanded="false" onclick="dashboardManager.toggleReportExecution('exec-${execKey}')">
+                        <div class="report-execution-left">
+                            <div class="report-execution-status ${statusClass}">${statusText}</div>
+                            <div class="report-execution-time">
+                                <span>开始：${formatDateTimeUTC(execution.start_time) || '未知'}</span>
+                                <span>结束：${formatDateTimeUTC(execution.end_time) || '未知'}</span>
+                                <span>执行者：${execution.executed_by || '未知'}</span>
+                            </div>
+                        </div>
+                        <div class="report-execution-right">
+                            <span class="click-hint hint-expand">点击展开日志</span>
+                            <span class="click-hint hint-collapse">点击收起日志</span>
+                            <i class="fas fa-chevron-down exec-toggle collapsed" id="exec-${execKey}-toggle"></i>
+                        </div>
+                    </div>
+                    <div class="report-execution-logs" id="exec-${execKey}-logs">
+                        ${formattedLogs}
+                    </div>
+                </div>
+            `;
+        });
+
+        html += '</div>';
+        return html;
+    }
+
+    // 格式化执行记录日志用于报告显示（直接显示图片）
+    formatExecutionLogsForReport(logContent, execKey) {
+        if (!logContent) return '暂无日志信息';
+
+        // 复制automationManagement的parseLogContent和formatParsedLogContent逻辑
+        const parsedLog = this.parseLogContentForReport(logContent);
+        return this.formatParsedLogContentForReport(parsedLog, execKey);
+    }
+
+    // 解析日志内容用于报告（增强：同时支持"==== 测试步骤 X ===="与"开始测试步骤X … 的操作"）
+    parseLogContentForReport(logContent) {
+        if (!logContent) {
+            return {
+                testSteps: [],
+                screenshots: [],
+                initLogs: [],
+                endLogs: [],
+                testStepsCount: 0,
+                testMethodsCount: 0
+            };
+        }
+
+        const lines = logContent.split('\n');
+        const testSteps = [];
+        const testMethods = new Set();
+        const screenshots = [];
+        let initLogs = [];
+        let endLogs = [];
+        let currentStep = null;
+        let currentStepLogs = [];
+        let isInStep = false;
+        let isInEndPhase = false;
+
+        for (let i = 0; i < lines.length; i++) {
+            const rawLine = lines[i];
+            const line = rawLine.trim();
+            if (!line) continue;
+
+            // 方法标识
+            const methodMatch = line.match(/\[(test_\w+(?:_\d+)?)\]/);
+            if (methodMatch) {
+                testMethods.add(methodMatch[1]);
+            }
+
+            // 测试完成标志（用于切换到结束阶段）
+            const testCompletionMatch = line.match(/\[(test_\w+(?:_\d+)?)\]\s+\1\s+完成/);
+            let shouldSwitchToEndPhase = !!testCompletionMatch;
+
+            // 截图匹配（多种格式）
+            const screenshotWithMethod = line.match(/\[(test_\w+(?:_\d+)?)\]\s.*(?:截图成功保存|数据信息保存成功):\s*([^\s]+\.png)/);
+            let screenshotInfo = null;
+            if (screenshotWithMethod) {
+                screenshotInfo = { method: screenshotWithMethod[1], path: screenshotWithMethod[2] };
+            } else {
+                const overAbsMatch = line.match(/((?:[A-Za-z]:\\\\|\/)\S*?over_test_(test_\w+(?:_\d+)?)_[^\\\\\/\s]*\.png)/);
+                const overBareMatch = overAbsMatch ? null : line.match(/(over_test_(test_\w+(?:_\d+)?)_[^\\\\\/\s]*\.png)/);
+                const requestShotMatch = overAbsMatch || overBareMatch ? null : line.match(/请求测试截图:\s*([^\s]+\.png)/);
+                const matchedPath = (overAbsMatch && overAbsMatch[1]) || (overBareMatch && overBareMatch[1]) || (requestShotMatch && requestShotMatch[1]);
+                if (matchedPath) {
+                    const methodInName = matchedPath.match(/over_test_(test_\w+(?:_\d+)?)/);
+                    screenshotInfo = { method: methodInName ? methodInName[1] : null, path: matchedPath };
+                    if (screenshotInfo.method) testMethods.add(screenshotInfo.method);
+                }
+            }
+            if (screenshotInfo) {
+                screenshots.push({ method: screenshotInfo.method, path: screenshotInfo.path, line: rawLine });
+            }
+
+            // 测试步骤头匹配（两种格式）
+            const stepHeaderA = line.match(/^=+\s*测试步骤\s*(\d+)[：:]\s*(.+?)\s*=+/);
+            const stepHeaderB = line.match(/开始测试步骤(\d+)\s*(.+?)\s*的操作/);
+            const stepHeader = stepHeaderA || stepHeaderB;
+            if (stepHeader && !isInEndPhase) {
+                const stepNumber = parseInt(stepHeader[1]);
+                const stepName = (stepHeader[2] || '').trim();
+
+                // 若已有同号同名步骤，则切换到该步骤；否则收尾旧步骤并新建
+                let existingStep = testSteps.find(s => s.stepNumber === stepNumber && s.stepName === stepName);
+                if (existingStep) {
+                    currentStep = existingStep;
+                    currentStepLogs = currentStep.logs;
+                    isInStep = true;
+                } else {
+                    if (currentStep) {
+                        currentStep.logs = currentStepLogs;
+                        if (!testSteps.includes(currentStep)) testSteps.push(currentStep);
+                    }
+                    currentStep = { stepNumber, stepName, logs: [], methods: new Map() };
+                    currentStepLogs = [];
+                    isInStep = true;
+                }
+                // 进入下一行处理
+                continue;
+            }
+
+            // 分配日志到层级
+            if (methodMatch && screenshotInfo) {
+                const logMethod = methodMatch[1];
+                // 尝试从行内提取步骤号
+                let stepNumberFromLog = null;
+                const stepInfoMatch = line.match(/步骤_(?:test_)?step_(\d+)_|测试步骤_(?:test_)?step_(\d+)_/);
+                if (stepInfoMatch) {
+                    stepNumberFromLog = parseInt(stepInfoMatch[1] || stepInfoMatch[2]);
+                } else {
+                    const overStepInfoMatch = line.match(/over_test_(?:test_)?step_(\d+)_/);
+                    if (overStepInfoMatch) stepNumberFromLog = parseInt(overStepInfoMatch[1]);
+                }
+
+                let targetStep = null;
+                if (stepNumberFromLog !== null) {
+                    if (currentStep && currentStep.stepNumber === stepNumberFromLog) targetStep = currentStep;
+                    else targetStep = testSteps.find(s => s.stepNumber === stepNumberFromLog) || null;
+                }
+                if (!targetStep) {
+                    if (currentStep && currentStep.methods && currentStep.methods.has(logMethod)) targetStep = currentStep;
+                    else {
+                        for (let j = testSteps.length - 1; j >= 0; j--) {
+                            if (testSteps[j].methods && testSteps[j].methods.has(logMethod)) { targetStep = testSteps[j]; break; }
+                        }
+                    }
+                }
+                if (targetStep) {
+                    if (targetStep === currentStep) currentStepLogs.push(rawLine); else targetStep.logs.push(rawLine);
+                    if (!targetStep.methods.has(logMethod)) targetStep.methods.set(logMethod, []);
+                    targetStep.methods.get(logMethod).push(rawLine);
+                } else {
+                    endLogs.push(rawLine);
+                }
+            } else if (methodMatch && isInEndPhase) {
+                const logMethod = methodMatch[1];
+                let targetStep = null;
+                if (!targetStep) {
+                    if (currentStep && currentStep.methods && currentStep.methods.has(logMethod)) targetStep = currentStep;
+                    else {
+                        for (let j = testSteps.length - 1; j >= 0; j--) {
+                            if (testSteps[j].methods && testSteps[j].methods.has(logMethod)) { targetStep = testSteps[j]; break; }
+                        }
+                    }
+                }
+                if (targetStep) {
+                    targetStep.logs.push(rawLine);
+                    if (!targetStep.methods.has(logMethod)) targetStep.methods.set(logMethod, []);
+                    targetStep.methods.get(logMethod).push(rawLine);
+                } else {
+                    endLogs.push(rawLine);
+                }
+            } else if (isInEndPhase && !shouldSwitchToEndPhase) {
+                endLogs.push(rawLine);
+            } else if (isInStep && currentStep) {
+                currentStepLogs.push(rawLine);
+                if (methodMatch) {
+                    const method = methodMatch[1];
+                    if (!currentStep.methods.has(method)) currentStep.methods.set(method, []);
+                    currentStep.methods.get(method).push(rawLine);
+                }
+            } else {
+                initLogs.push(rawLine);
+            }
+
+            // 切换到结束阶段
+            if (shouldSwitchToEndPhase) {
+                if (currentStep) {
+                    currentStep.logs = currentStepLogs;
+                    if (!testSteps.includes(currentStep)) testSteps.push(currentStep);
+                }
+                isInEndPhase = true;
+                isInStep = false;
+                currentStep = null;
+            }
+        }
+
+        // 保存最后的步骤
+        if (currentStep) {
+            currentStep.logs = currentStepLogs;
+            if (!testSteps.includes(currentStep)) testSteps.push(currentStep);
+        }
+
+        // 方法数量，优先从并发信息提取
+        let testMethodsCount = testMethods.size;
+        const concurrentLine = lines.find(l => l.includes('开始并发执行') && l.includes('个独立浏览器实例'));
+        if (concurrentLine) {
+            const m = concurrentLine.match(/开始并发执行\s*(\d+)\s*个独立浏览器实例/);
+            if (m) testMethodsCount = parseInt(m[1]);
+        }
+
+        return {
+            testSteps: testSteps,
+            screenshots: screenshots,
+            initLogs: initLogs,
+            endLogs: endLogs,
+            testStepsCount: testSteps.length,
+            testMethodsCount: testMethodsCount
+        };
+    }
+
+    // 格式化解析后的日志内容用于报告（直接显示图片）
+    formatParsedLogContentForReport(parsedLog, execKey) {
+        let html = '';
+
+        // 初始化日志
+        if (parsedLog.initLogs.length > 0) {
+            html += this.createTestStepHTMLForReport(0, '初始化', parsedLog.initLogs, null, parsedLog.screenshots, execKey);
+        }
+
+        // 测试步骤日志
+        parsedLog.testSteps.forEach(step => {
+            html += this.createTestStepHTMLForReport(
+                step.stepNumber,
+                step.stepName,
+                step.logs,
+                step.methods,
+                parsedLog.screenshots,
+                execKey
+            );
+        });
+
+        // 结束阶段
+        if (parsedLog.endLogs && parsedLog.endLogs.length > 0) {
+            html += this.createTestStepHTMLForReport('结束', '测试完成与清理', parsedLog.endLogs, null, parsedLog.screenshots, execKey);
+        }
+
+        return html || '<div style="padding: 1rem;">暂无日志信息</div>';
+    }
+
+    // 创建测试步骤HTML用于报告（复制并修改自automationManagement）
+    createTestStepHTMLForReport(stepNumber, stepName, logs, methods, screenshots, execKey) {
+        const safeExecKey = (execKey == null ? '' : String(execKey)).replace(/[^\w-]/g, '-');
+        const stepId = `report-step-${safeExecKey}-${stepNumber}`;
+        const logsCount = logs.length;
+        const methodsCount = methods ? methods.size : 0;
+
+        let displayStepNumber = stepNumber;
+        let stepClass = '';
+        if (stepNumber === '结束') {
+            displayStepNumber = '🏁';
+            stepClass = ' end-step';
+        }
+
+        let html = `
+            <div class="log-test-step-group${stepClass}" style="margin-bottom: 16px;">
+                <div class="log-test-step-header" onclick="toggleReportStep('${stepId}')" style="background: #f8fafc; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: space-between; cursor: pointer;">
+                    <div class="log-test-step-title" style="display: flex; align-items: center; gap: 10px;">
+                        <div class="step-number" style="background: #667eea; color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold;">${displayStepNumber}</div>
+                        <span style="font-weight: 600; color: #1e293b;">${stepName}</span>
+                    </div>
+                    <div class="log-test-step-info" style="display: flex; align-items: center; gap: 10px; color: #64748b; font-size: 12px;">
+                        <span>${logsCount} 条日志</span>
+                        ${methodsCount > 0 ? `<span>${methodsCount} 个测试方法</span>` : ''}
+                        <i class="fas fa-chevron-down step-toggle" id="${stepId}-toggle"></i>
+                    </div>
+                </div>
+                <div class="log-test-step-content" id="${stepId}-content" style="margin-top: 8px; display: none;">
+        `;
+
+        if (methods && methods.size > 0) {
+            const methodsArray = Array.from(methods.entries());
+            methodsArray.sort(([a], [b]) => {
+                const aMatch = a.match(/test_SC_(\d+)/);
+                const bMatch = b.match(/test_SC_(\d+)/);
+                if (aMatch && bMatch) {
+                    return parseInt(aMatch[1]) - parseInt(bMatch[1]);
+                }
+                return a.localeCompare(b);
+            });
+
+            html += `
+                    <div class="log-test-methods-container" style="background: white; border: 1px solid #e2e8f0; border-radius: 6px; padding: 12px;">
+                        <div class="log-test-method-tabs" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px;">
+            `;
+
+            methodsArray.forEach(([methodName, methodLogs], index) => {
+                const isActive = index === 0;
+                html += `
+                            <div class="log-test-method-tab ${isActive ? 'active' : ''}" 
+                                 style="padding: 4px 8px; border-radius: 4px; background: ${isActive ? '#e2e8f0' : '#f1f5f9'}; cursor: pointer;"
+                                 onclick="switchReportMethodTab('${stepId}', '${methodName}', this)">
+                                [${methodName}] (${methodLogs.length})
+                            </div>
+                `;
+            });
+
+            html += `
+                        </div>
+                        <div class="log-test-method-content">
+            `;
+
+            methodsArray.forEach(([methodName, methodLogs], index) => {
+                const isActive = index === 0;
+                const methodId = `${stepId}-${methodName}`;
+                html += `
+                            								<div class="log-test-method-panel ${isActive ? 'active' : ''}" id="${methodId}-panel" data-method="${methodName}" style="${isActive ? '' : 'display:none;'}">
+									<div class="log-content" style="max-height: 420px; overflow: auto; padding-right: 8px;">${this.formatLogLinesForReport(methodLogs, screenshots)}</div>
+								</div>
+                `;
+            });
+
+            html += `
+                        </div>
+                    </div>
+            `;
+        } else {
+            html += `
+                    						<div style="padding: 12px; background: white; border: 1px solid #e2e8f0; border-radius: 6px;">
+							<div class="log-content" style="max-height: 420px; overflow: auto; padding-right: 8px;">${this.formatLogLinesForReport(logs, screenshots)}</div>
+						</div>
+            `;
+        }
+
+        html += `
+                </div>
+            </div>
+        `;
+
+        return html;
+    }
+
+    // 格式化日志行用于报告（直接显示图片）
+    formatLogLinesForReport(lines, screenshots) {
+        if (!lines || lines.length === 0) return '暂无日志信息';
+
+        let formatted = lines
+            .map(line => this.formatSingleLogLineForReport(line, screenshots))
+            .join('<br>');
+
+        return formatted;
+    }
+
+    // 格式化单个日志行用于报告（直接显示图片）
+    formatSingleLogLineForReport(line, screenshots) {
+        if (!line) return '';
+
+        // 转义HTML字符
+        let formatted = line
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+
+        // 检查是否是截图日志 - 直接显示图片而不是链接
+        const screenshotMatch = line.match(/\[(test_\w+(?:_\d+)?)\]\s.*(?:截图成功保存|数据信息保存成功):\s*([^\s]+\.png)/);
+        if (screenshotMatch) {
+            const imagePath = screenshotMatch[2];
+            const fileName = imagePath.split('\\').pop() || imagePath.split('/').pop();
+            const relativePath = `file:///D:/UiAutomationProject/IMG_LOGS/${fileName}`;
+            
+            // 直接显示图片，而不是链接
+            formatted = formatted.replace(
+                new RegExp(imagePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'),
+                `<br><img src="${relativePath}" class="report-log-image" alt="测试截图" onclick="window.open('${relativePath}', '_blank')" /><br>`
+            );
+        } else {
+            // 处理其他截图格式
+            const overAbsMatch = line.match(/((?:[A-Za-z]:\\\\|\/)\S*?over_test_(test_\w+(?:_\d+)?)_[^\\\\\/\s]*\.png)/);
+            const overBareMatch = overAbsMatch ? null : line.match(/(over_test_(test_\w+(?:_\d+)?)_[^\\\\\/\s]*\.png)/);
+            const requestShotMatch = overAbsMatch || overBareMatch ? null : line.match(/请求测试截图:\s*([^\s]+\.png)/);
+            const imagePath = (overAbsMatch && overAbsMatch[1]) || (overBareMatch && overBareMatch[1]) || (requestShotMatch && requestShotMatch[1]);
+            
+            if (imagePath) {
+                const fileName = imagePath.split('\\').pop() || imagePath.split('/').pop();
+                const relativePath = `file:///D:/UiAutomationProject/IMG_LOGS/${fileName}`;
+                
+                // 直接显示图片
+                formatted = formatted.replace(
+                    new RegExp(imagePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'),
+                    `<br><img src="${relativePath}" class="report-log-image" alt="测试截图" onclick="window.open('${relativePath}', '_blank')" /><br>`
+                );
+            }
+        }
+
+        // 添加语法高亮
+        formatted = formatted
+            .replace(/(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})/g, '<span style="color: #8b5cf6;">$1</span>')
+            .replace(/(INFO|信息)/g, '<span style="color: #059669;">$1</span>')
+            .replace(/(WARNING|警告)/g, '<span style="color: #d97706;">$1</span>')
+            .replace(/(ERROR|错误)/g, '<span style="color: #dc2626;">$1</span>')
+            .replace(/(DEBUG|调试)/g, '<span style="color: #6b7280;">$1</span>')
+            .replace(/(成功|通过|PASSED)/g, '<span style="color: #059669;">$1</span>')
+            .replace(/(失败|错误|FAILED)/g, '<span style="color: #dc2626;">$1</span>');
+
+        return formatted;
+    }
+
+    // 切换产品组展开/收起
+    toggleReportProductGroup(safePkg) {
+        const content = document.getElementById(`content-${safePkg}`);
+        const toggle = document.getElementById(`toggle-${safePkg}`);
+        const header = document.getElementById(`header-${safePkg}`);
+        
+        if (content.classList.contains('expanded')) {
+            content.classList.remove('expanded');
+            if (toggle) toggle.classList.add('collapsed');
+            if (header) header.setAttribute('aria-expanded', 'false');
+        } else {
+            content.classList.add('expanded');
+            if (toggle) toggle.classList.remove('collapsed');
+            if (header) header.setAttribute('aria-expanded', 'true');
+        }
+        // 同步 display，避免缺少样式时无效
+        const isExpanded = content.classList.contains('expanded');
+        content.style.display = isExpanded ? 'block' : 'none';
+    }
+
+    // 切换测试案例展开/收起
+    toggleReportTestCase(safePkg, safeKey) {
+        const content = document.getElementById(`content-${safePkg}-${safeKey}`);
+        const toggle = document.getElementById(`toggle-${safePkg}-${safeKey}`);
+        const header = document.getElementById(`header-${safePkg}-${safeKey}`);
+        
+        if (content.classList.contains('expanded')) {
+            content.classList.remove('expanded');
+            if (toggle) toggle.classList.add('collapsed');
+            if (header) header.setAttribute('aria-expanded', 'false');
+        } else {
+            content.classList.add('expanded');
+            if (toggle) toggle.classList.remove('collapsed');
+            if (header) header.setAttribute('aria-expanded', 'true');
+        }
+        // 同步 display
+        const isExpanded = content.classList.contains('expanded');
+        content.style.display = isExpanded ? 'block' : 'none';
+    }
+
+    // 新增：切换单条执行记录展开/收起
+    toggleReportExecution(execId) {
+        const content = document.getElementById(`${execId}-logs`);
+        const toggle = document.getElementById(`${execId}-toggle`);
+        const meta = document.getElementById(`${execId}-meta`);
+        if (!content) return;
+        const willExpand = !content.classList.contains('expanded');
+        content.classList.toggle('expanded', willExpand);
+        if (toggle) toggle.classList.toggle('collapsed', !willExpand);
+        if (meta) meta.setAttribute('aria-expanded', willExpand ? 'true' : 'false');
+    }
+
+    // 新增：切换报告方法标签
+    switchReportMethodTab(stepId, methodName, clickedTab) {
+        const stepContent = document.getElementById(`${stepId}-content`);
+        if (!stepContent) return;
+        const allTabs = stepContent.querySelectorAll('.log-test-method-tab');
+        const allPanels = stepContent.querySelectorAll('.log-test-method-panel');
+        allTabs.forEach(tab => tab.classList.remove('active'));
+        allPanels.forEach(panel => panel.style.display = 'none');
+        if (clickedTab) clickedTab.classList.add('active');
+        const targetPanel = stepContent.querySelector(`[data-method="${methodName}"]`);
+        if (targetPanel) targetPanel.style.display = 'block';
+    }
+
+    // 绑定报告交互事件
+    bindReportInteractions() {
+        // 绑定产品包展开收起功能
+        const packagesHeader = document.querySelector('.packages-header');
+        if (packagesHeader) {
+            packagesHeader.addEventListener('click', () => {
+                const packagesContent = document.querySelector('.packages-content');
+                const packagesToggle = document.querySelector('.packages-toggle');
+                
+                if (packagesContent && packagesToggle) {
+                    if (packagesContent.classList.contains('expanded')) {
+                        packagesContent.classList.remove('expanded');
+                        packagesToggle.classList.add('collapsed');
+                    } else {
+                        packagesContent.classList.add('expanded');
+                        packagesToggle.classList.remove('collapsed');
+                    }
+                }
+            });
+        }
+        // 这里可以添加其他交互事件
+    }
+
+    // 获取执行状态样式类
+    getExecutionStatusClass(status) {
+        switch (status) {
+            case 'passed':
+            case '成功':
+                return 'success';
+            case 'failed':
+            case '失败':
+                return 'failed';
+            case 'running':
+            case '执行中':
+                return 'running';
+            default:
+                return 'failed';
+        }
+    }
+
+    // 获取执行状态文本
+    getExecutionStatusText(status) {
+        switch (status) {
+            case 'passed':
+                return '成功';
+            case 'failed':
+                return '失败';
+            case 'running':
+                return '执行中';
+            default:
+                return status || '未知';
+        }
+    }
+
+    // 下载测试报告
+    downloadTestReport() {
+        if (!this.currentReportData) {
+            showToast('没有可下载的报告数据', 'warning');
+            return;
+        }
+
+        try {
+            const reportHtml = this.generateFullReportHTML(this.currentReportData);
+            const blob = new Blob([reportHtml], { type: 'text/html;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `test-report-${this.currentReportData.date_range.start_date}-${this.currentReportData.date_range.end_date}.html`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('报告下载成功', 'success');
+        } catch (error) {
+            console.error('下载报告失败:', error);
+            showToast('下载报告失败', 'error');
+        }
+    }
+
+    // 打印测试报告
+    printTestReport() {
+        if (!this.currentReportData) {
+            showToast('没有可打印的报告数据', 'warning');
+            return;
+        }
+
+        try {
+            const reportHtml = this.generateFullReportHTML(this.currentReportData);
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(reportHtml);
+            printWindow.document.close();
+            printWindow.onload = () => {
+                printWindow.print();
+            };
+        } catch (error) {
+            console.error('打印报告失败:', error);
+            showToast('打印报告失败', 'error');
+        }
+    }
+
+    // 生成完整的报告HTML（用于下载和打印）
+    generateFullReportHTML(reportData) {
+        const hierarchy = this.buildReportHierarchy(reportData);
+        const reportContent = this.generateReportContent(hierarchy);
+
+        let totalCases = 0, totalExecutions = 0, passCount = 0, failCount = 0;
+        Object.values(hierarchy).forEach(testCases => {
+            Object.values(testCases).forEach(tc => {
+                totalCases++;
+                const execs = Array.isArray(tc.executions) ? tc.executions : [];
+                execs.forEach(ex => {
+                    totalExecutions++;
+                    const cls = this.getExecutionStatusClass(ex.status);
+                    if (cls === 'success') passCount++;
+                    else if (cls === 'failed') failCount++;
+                });
+            });
+        });
+        const considered = passCount + failCount;
+        const passRate = considered ? (passCount / considered) : 0;
+        const failRate = considered ? (failCount / considered) : 0;
+
+        return `
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测试报告 - ${reportData.date_range.start_date} 至 ${reportData.date_range.end_date}</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 20px; background: #f8fafc; }
+        .report-container { max-width: 1200px; margin: 0 auto; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+        
+        /* 新的头部布局样式 */
+        .report-header { background: linear-gradient(135deg, #5b67e6, #6e3fb0); color: white; padding: 32px; }
+        .header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+        .header-left { display: flex; align-items: center; gap: 12px; }
+        .header-left h1 { margin: 0; font-size: 28px; font-weight: 700; }
+        .latest-badge { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: 500; }
+        .header-right { text-align: right; opacity: 0.95; font-size: 14px; }
+        .header-right .time-info { display: flex; flex-direction: column; gap: 4px; align-items: flex-end; }
+        .header-right .time-info .time-item { display: flex; align-items: center; gap: 8px; }
+        .header-right .time-info .time-item i { width: 16px; }
+        
+        /* 产品包信息区域 */
+        .product-packages-section { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; margin-bottom: 20px; overflow: hidden; }
+        .packages-header { padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; background: rgba(255,255,255,0.05); }
+        .packages-header:hover { background: rgba(255,255,255,0.1); }
+        .packages-title { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; }
+        .packages-count { font-size: 12px; background: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 999px; }
+        .packages-toggle { transition: transform 0.2s ease; }
+        .packages-toggle.collapsed { transform: rotate(-90deg); }
+        .packages-content { padding: 12px 16px; background: rgba(255,255,255,0.08); display: none; }
+        .packages-content.expanded { display: block; }
+        .package-item { display: inline-block; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); padding: 4px 10px; border-radius: 999px; font-size: 12px; margin: 2px 4px 2px 0; }
+        
+        /* 测试指标概览 */
+        .test-metrics { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+        .metric-item { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); padding: 8px 16px; border-radius: 999px; text-align: center; min-width: 80px; }
+        .metric-label { font-size: 12px; opacity: 0.9; margin-bottom: 2px; }
+        .metric-value { font-size: 20px; font-weight: 700; }
+        .metric-value.pass-rate { color: #4ade80; }
+        .metric-value.fail-rate { color: #f87171; }
+        
+        .report-content { padding: 32px; }
+        .report-product-group { border: 1px solid #e5e7eb; border-left: 4px solid #6366f1; border-radius: 10px; margin-bottom: 24px; overflow: hidden; background: #ffffff; box-shadow: 0 4px 10px rgba(15, 23, 42, 0.03); }
+        .report-product-header { background: linear-gradient(135deg, #fbfbff 0%, #f4f4ff 100%); padding: 18px 20px; border-bottom: 1px solid #e5e7eb; cursor: pointer; display: flex; align-items: center; justify-content: space-between; }
+        .report-product-header:hover { background: #eef2f7; }
+        .report-product-header:focus, .report-test-case-header:focus, .report-execution-meta:focus { outline: 2px solid #93c5fd; outline-offset: 2px; }
+        .report-product-title { display:flex; align-items:center; gap:10px; }
+        .report-product-title i { color:#6366f1; }
+        .report-product-title h3 { margin: 0; font-size: 18px; color: #0f172a; font-weight: 700; }
+        .report-product-info { display: flex; align-items: center; gap: 12px; color: #475569; }
+        .click-hint { font-size: 12px; color: #64748b; background: #eef2ff; padding: 2px 8px; border-radius: 999px; border: 1px solid #c7d2fe; }
+        .hint-expand { display: none; }
+        .report-product-content { display: none; }
+        .report-product-content.expanded { display: block; }
+        .report-test-case { border-bottom: 1px dashed #e5e7eb; background:#f6f7fb; }
+        .report-test-case-header { padding: 16px 20px; background: white; cursor: pointer; display: flex; align-items: center; justify-content: space-between; }
+        .report-test-case-header:hover { background: #ebebee; }
+        .report-test-case-title { display:flex; align-items:center; gap:10px; }
+        .report-test-case-title h4 { margin: 0; font-size: 15px; color: #0f172a; font-weight: 600; }
+        .report-test-case-title .tag { font-size: 12px; color:#4f46e5; background:#eef2ff; border:1px solid #c7d2fe; padding:2px 8px; border-radius:999px; }
+        .report-test-case-info { display: flex; align-items: center; gap: 12px; color: #475569; }
+        .report-test-case-info .meta { color:#64748b; }
+        .badge { font-size:12px; padding:2px 8px; border-radius:999px; border:1px solid transparent; }
+        .badge-count { background:#ecfeff; color:#0e7490; border-color:#a5f3fc; }
+        .badge-record { background:#f0fdf4; color:#166534; border-color:#bbf7d0; }
+        .report-test-case-content { display: none; }
+        .report-test-case-content.expanded { display: block; }
+        .report-execution-item { padding: 20px; border-bottom: 1px solid #f3f4f6; display: flex; gap: 20px; background:#ffffff; }
+        .report-execution-meta { width: 220px; flex-shrink: 0; cursor: pointer; background: #f5f7fb; border: 1px dashed #e5e7eb; border-radius: 8px; padding: 12px; }
+        .report-execution-meta:hover { background: #eef2f7; border-color: #cbd5e1; }
+        .report-execution-status { padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; margin-bottom: 8px; display: inline-block; }
+        .report-execution-status.success { background: #dcfce7; color: #166534; }
+        .report-execution-status.failed { background: #fef2f2; color: #dc2626; }
+        .report-execution-status.running { background: #fef3c7; color: #d97706; }
+        .report-execution-time { font-size: 12px; color: #6b7280; line-height: 1.5; }
+        .report-execution-logs { flex: 1; font-family: 'Courier New', monospace; font-size: 13px; line-height: 1.6; }
+        .report-log-image { max-width: 100%; max-height: 300px; margin: 8px 0; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .report-product-toggle, .report-test-case-toggle, .exec-toggle { transition: transform .2s ease; margin-left: 8px; }
+        .report-product-toggle.collapsed, .report-test-case-toggle.collapsed, .exec-toggle.collapsed { transform: rotate(-90deg); }
+        /* state-driven hint visibility */
+        .report-product-content.expanded ~ .dummy { }
+        /* rely on aria-expanded on header/meta to show correct hint */
+        .report-product-header[aria-expanded="true"] .hint-collapse { display: inline-block; }
+        .report-product-header[aria-expanded="true"] .hint-expand { display: none; }
+        .report-product-header[aria-expanded="false"] .hint-collapse { display: none; }
+        .report-product-header[aria-expanded="false"] .hint-expand { display: inline-block; }
+        .report-test-case-header[aria-expanded="true"] .hint-collapse { display: inline-block; }
+        .report-test-case-header[aria-expanded="true"] .hint-expand { display: none; }
+        .report-test-case-header[aria-expanded="false"] .hint-collapse { display: none; }
+        .report-test-case-header[aria-expanded="false"] .hint-expand { display: inline-block; }
+        .report-execution-meta[aria-expanded="true"] .hint-collapse { display: inline-block; }
+        .report-execution-meta[aria-expanded="true"] .hint-expand { display: none; }
+        .report-execution-meta[aria-expanded="false"] .hint-collapse { display: none; }
+        .report-execution-meta[aria-expanded="false"] .hint-expand { display: inline-block; }
+        .packages-header[aria-expanded="true"] .packages-toggle { transform: rotate(0deg); }
+        .packages-header[aria-expanded="false"] .packages-toggle { transform: rotate(-90deg); }
+        .report-execution-list { padding: 0; }
+        .report-execution-item { padding: 0; border-bottom: 1px solid #f3f4f6; display: block; background: transparent; position: relative; }
+        .report-execution-item::before { content: ''; position: absolute; left: 8px; top: 22px; width: 8px; height: 8px; border-radius: 50%; background: #94a3b8; }
+        .report-execution-item.success::before { background: #22c55e; }
+        .report-execution-item.failed::before { background: #ef4444; }
+        .report-execution-item.running::before { background: #f59e0b; }
+        .report-execution-meta { width: auto; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 20px 14px 24px; background: #ffffff; border: none; border-bottom: 1px dashed #e5e7eb; border-radius: 0; }
+        .report-execution-left { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+        .report-execution-time { font-size: 12px; color: #6b7280; display: inline-flex; gap: 12px; }
+        .report-execution-right { display: inline-flex; align-items: center; gap: 10px; }
+        .report-execution-logs { font-family: 'Courier New', monospace; font-size: 13px; line-height: 1.6; padding: 12px 20px 12px 24px; background: #f3f4f6; max-height: 0; opacity: 0; overflow: hidden; transition: max-height .28s ease, opacity .22s ease; }
+        .report-execution-logs.expanded { max-height: 1200px; opacity: 1; }
+    </style>
+</head>
+<body>
+    <div class="report-container">
+        <div class="report-header">
+            <div class="header-top">
+                <div class="header-left">
+                    <h1>自动化测试报告</h1>
+                    <span class="latest-badge">最新</span>
+                </div>
+                <div class="header-right">
+                    <div class="time-info">
+                        <div class="time-item">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>${reportData.date_range.start_date} 至 ${reportData.date_range.end_date}</span>
+                        </div>
+                        <div class="time-item">
+                            <i class="fas fa-clock"></i>
+                            <span>${new Date().toLocaleString('zh-CN')}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="product-packages-section">
+                <div class="packages-header" onclick="togglePackagesSection()" aria-expanded="false">
+                    <div class="packages-title">
+                        <i class="fas fa-cube"></i>
+                        <span>产品</span>
+                        <span class="packages-count">${(reportData.selected_packages || []).length} 个</span>
+                    </div>
+                    <i class="fas fa-chevron-down packages-toggle collapsed"></i>
+                </div>
+                <div class="packages-content" id="packagesContent">
+                    ${(reportData.selected_packages || []).map(sp => {
+                        const info = (reportData.selected_products_info || {})[sp];
+                        return `<span class="package-item">${info ? `${info.package_name}（ID: ${info.product_id}）` : sp}</span>`;
+                    }).join('')}
+                </div>
+            </div>
+            
+            <div class="test-metrics">
+                <div class="metric-item">
+                    <div class="metric-label">测试案例</div>
+                    <div class="metric-value">${totalCases}</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-label">执行数</div>
+                    <div class="metric-value">${totalExecutions}</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-label">成功数</div>
+                    <div class="metric-value success-count">${passCount}</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-label">失败数</div>
+                    <div class="metric-value fail-count">${failCount}</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-label">通过率</div>
+                    <div class="metric-value pass-rate">${(passRate*100).toFixed(1)}%</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-label">失败率</div>
+                    <div class="metric-value fail-rate">${(failRate*100).toFixed(1)}%</div>
+                </div>
+            </div>
+        </div>
+        <div class="report-content">
+            ${reportContent}
+        </div>
+    </div>
+    <script>
+    function togglePackagesSection() {
+        const content = document.getElementById('packagesContent');
+        const header = document.querySelector('.packages-header');
+        const toggle = document.querySelector('.packages-toggle');
+        
+        const isExpanded = content.classList.contains('expanded');
+        if (isExpanded) {
+            content.classList.remove('expanded');
+            toggle.classList.add('collapsed');
+            header.setAttribute('aria-expanded', 'false');
+        } else {
+            content.classList.add('expanded');
+            toggle.classList.remove('collapsed');
+            header.setAttribute('aria-expanded', 'true');
+        }
+        content.style.display = content.classList.contains('expanded') ? 'block' : 'none';
+    }
+    
+    function toggleReportStep(stepId){
+      var c=document.getElementById(stepId+'-content');
+      var t=document.getElementById(stepId+'-toggle');
+      if(!c) return; var hide = (c.style.display==='none'||c.style.display==='');
+      c.style.display = hide ? 'block' : 'none';
+      if(t){ if(hide){ t.classList.add('expanded'); } else { t.classList.remove('expanded'); } }
+    }
+    function switchReportMethodTab(stepId, methodName, el){
+      var content=document.getElementById(stepId+'-content'); if(!content) return;
+      var tabs=content.querySelectorAll('.log-test-method-tab');
+      var panels=content.querySelectorAll('.log-test-method-panel');
+      tabs.forEach(function(tab){ tab.classList.remove('active'); });
+      panels.forEach(function(p){ p.style.display='none'; });
+      if(el) el.classList.add('active');
+      var target=content.querySelector('[data-method="'+methodName+'"]');
+      if(target) target.style.display='block';
+    }
+    function toggleReportProductGroup(safePkg){
+      var c=document.getElementById('content-'+safePkg); var t=document.getElementById('toggle-'+safePkg); var h=document.getElementById('header-'+safePkg);
+      if(!c) return; var expanded=c.classList.contains('expanded');
+      if(expanded){ c.classList.remove('expanded'); if(t) t.classList.add('collapsed'); if(h) h.setAttribute('aria-expanded','false'); }
+      else { c.classList.add('expanded'); if(t) t.classList.remove('collapsed'); if(h) h.setAttribute('aria-expanded','true'); }
+      c.style.display = c.classList.contains('expanded') ? 'block' : 'none';
+    }
+    function toggleReportTestCase(safePkg, safeKey){
+      var c=document.getElementById('content-'+safePkg+'-'+safeKey); var t=document.getElementById('toggle-'+safePkg+'-'+safeKey); var h=document.getElementById('header-'+safePkg+'-'+safeKey);
+      if(!c) return; var expanded=c.classList.contains('expanded');
+      if(expanded){ c.classList.remove('expanded'); if(t) t.classList.add('collapsed'); if(h) h.setAttribute('aria-expanded','false'); }
+      else { c.classList.add('expanded'); if(t) t.classList.remove('collapsed'); if(h) h.setAttribute('aria-expanded','true'); }
+      c.style.display = c.classList.contains('expanded') ? 'block' : 'none';
+    }
+    function toggleReportExecution(execId){
+      var c=document.getElementById(execId+'-logs'); var t=document.getElementById(execId+'-toggle'); var m=document.getElementById(execId+'-meta');
+      if(!c) return; var willExpand=!c.classList.contains('expanded');
+      c.classList.toggle('expanded', willExpand);
+      if(t){ t.classList.toggle('collapsed', !willExpand); }
+      if(m){ m.setAttribute('aria-expanded', willExpand ? 'true' : 'false'); }
+    }
+    // 兼容：导出报告中使用了 dashboardManager.toggleXXX 的 onclick
+    window.dashboardManager = {
+      toggleReportProductGroup: toggleReportProductGroup,
+      toggleReportTestCase: toggleReportTestCase,
+      toggleReportExecution: toggleReportExecution
+    };
+    </script>
+</body>
+</html>
+        `;
+    }
+
+    // 生成执行唯一键用于DOM元素ID
+    getExecutionKey(execution, index) {
+        const raw = execution && (execution.id || execution.execution_id || execution.run_id || execution.uuid || execution._id || execution.exec_id || execution.start_time || '')
+            || index;
+        return String(raw).toString().replace(/[^\w-]/g, '-');
+    }
 }
 
 // 全局仪表盘管理器实例
@@ -1459,6 +2937,9 @@ let dashboardManager = null;
 function initDashboard() {
     dashboardManager = new DashboardManager();
     dashboardManager.init();
+    // 提供全局函数用于报告中的展开/收起以及方法切换
+    window.toggleReportStep = (stepId) => dashboardManager.toggleReportStep(stepId);
+    window.switchReportMethodTab = (stepId, methodName, el) => dashboardManager.switchReportMethodTab(stepId, methodName, el);
 }
 
 // 加载仪表盘页面
@@ -1485,3 +2966,17 @@ function updateNavigation(activePage) {
         document.getElementById('dashboardNav').classList.add('active');
     }
 } 
+
+// 添加外部点击事件监听器
+document.addEventListener('click', function(e) {
+    // 关闭产品包名下拉框
+    const dropdown = document.getElementById('productPackagesDropdown');
+    const header = document.querySelector('.multi-select-header');
+    
+    if (dropdown && header && dropdown.classList.contains('open')) {
+        if (!dropdown.contains(e.target) && !header.contains(e.target)) {
+            dropdown.classList.remove('open');
+            header.classList.remove('open');
+        }
+    }
+}); 

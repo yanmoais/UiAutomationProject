@@ -2194,23 +2194,23 @@ body::before {
 /* 复制步骤按钮样式 */
 .step-copy-container {
     position: absolute;
-    bottom: 0;
+    bottom: 0; /* 贴合测试步骤底部 */
     left: 0;
     right: 0;
     height: 0;
-    overflow: hidden;
+    overflow: visible; /* 让按钮能显示在外部 */
     transition: height 0.3s ease;
-    background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.95) 20%, rgba(255,255,255,1) 100%);
+    background: transparent;
     border-radius: 0 0 12px 12px;
     display: flex;
-    align-items: flex-end;
+    align-items: flex-end; /* 底部对齐 */
     justify-content: center;
-    padding-bottom: 12px;
+    padding-bottom: 8px; /* 添加少量底部间距 */
     z-index: 10;
 }
 
 .test-step:hover .step-copy-container {
-    height: 50px;
+    height: 45px; /* 稍微减少高度避免过度突出 */
 }
 
 .step-copy-btn {
@@ -2226,8 +2226,8 @@ body::before {
     gap: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-    transform: translateY(10px);
+    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.4), 0 2px 8px rgba(0, 0, 0, 0.15);
+    transform: translateY(15px); /* 从底部向上滑动 */
     opacity: 0;
     min-width: 120px;
     justify-content: center;
@@ -2241,13 +2241,13 @@ body::before {
 
 .step-copy-btn:hover {
     background: linear-gradient(135deg, #5a6fd8, #6b46a3);
-    box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5), 0 3px 12px rgba(0, 0, 0, 0.2);
     transform: translateY(-2px);
 }
 
 .step-copy-btn:active {
     transform: translateY(0);
-    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4), 0 1px 4px rgba(0, 0, 0, 0.1);
 }
 
 .step-copy-btn i {
@@ -9119,6 +9119,15 @@ body::before {
     gap: 2rem;
 }
 
+/* 顶部活动区域特殊样式 */
+.activity-section.top-section {
+    margin-bottom: 2.5rem;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.02), rgba(118, 75, 162, 0.01));
+    border-radius: 24px;
+    padding: 1.5rem;
+    border: 1px solid rgba(102, 126, 234, 0.08);
+}
+
 .activity-card {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(15px);
@@ -9351,6 +9360,11 @@ body::before {
         grid-template-columns: 1fr;
     }
     
+    .activity-section.top-section {
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    
     .quick-actions {
         grid-template-columns: 1fr;
     }
@@ -9474,4 +9488,992 @@ body::before {
     color: #d1d5db;
     background-color: #1f2937;
     border-color: #374151;
+}
+
+/* 拖拽功能样式 */
+.drag-handle {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #94a3b8;
+    cursor: grab;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    margin-right: 0.5rem;
+    position: relative;
+    /* 增强拖拽手柄的视觉效果 */
+    border: 1px solid transparent;
+}
+
+.drag-handle:hover {
+    color: #667eea;
+    background-color: #f1f5f9;
+    border-color: #e2e8f0;
+    transform: scale(1.1);
+}
+
+.drag-handle:active {
+    cursor: grabbing;
+    background-color: #e2e8f0;
+    transform: scale(1.05);
+}
+
+/* 拖拽时的特殊样式 */
+.drag-handle:hover::after {
+    content: "点击拖拽";
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    white-space: nowrap;
+    z-index: 1000;
+    opacity: 0.9;
+    pointer-events: none;
+}
+
+.drag-handle i {
+    font-size: 14px;
+}
+
+/* 拖拽状态样式 */
+.test-step.dragging {
+    opacity: 0.5;
+    transform: rotate(2deg) scale(0.98);
+    z-index: 1000;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+}
+
+.test-step.drag-over {
+    border-color: #667eea;
+    background-color: #f0f4ff;
+    box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
+    transform: scale(1.02);
+}
+
+.test-step.drag-over::before {
+    opacity: 1;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.test-step.drag-over-top {
+    border-top: 3px solid #667eea;
+    box-shadow: 0 -4px 12px rgba(102, 126, 234, 0.2);
+}
+
+.test-step.drag-over-bottom {
+    border-bottom: 3px solid #667eea;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+}
+
+/* 拖拽时的动画效果 */
+.test-step {
+    transition: all 0.2s ease;
+}
+
+.test-step:not(.dragging) {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 高亮效果增强 */
+.step-highlight {
+    animation: stepHighlight 2s ease-out;
+}
+
+@keyframes stepHighlight {
+    0% {
+        background-color: #fef3c7;
+        border-color: #f59e0b;
+        transform: scale(1.02);
+    }
+    100% {
+        background-color: white;
+        border-color: #e2e8f0;
+        transform: scale(1);
+    }
+}
+
+/* 拖拽手柄在不同状态下的样式 */
+.test-step:hover .drag-handle {
+    color: #667eea;
+    background-color: rgba(102, 126, 234, 0.1);
+}
+
+.test-step.dragging .drag-handle {
+    color: #4f46e5;
+    background-color: rgba(79, 70, 229, 0.2);
+}
+
+/* 自定义操作区域样式 */
+.custom-actions-section {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+}
+
+.custom-actions-header {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    padding: 16px 20px;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.custom-actions-header i {
+    color: #667eea;
+    font-size: 18px;
+}
+
+.custom-actions-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1e293b;
+    flex: 1;
+}
+
+.custom-actions-count {
+    background: #667eea;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    min-width: 20px;
+    text-align: center;
+}
+
+/* 自定义操作拖拽样式 */
+.quick-action-btn {
+    cursor: grab;
+    transition: all 0.3s ease;
+}
+
+/* 导出报告弹窗样式 */
+.multi-select-container {
+    position: relative;
+    width: 100%;
+}
+
+.multi-select-header {
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 12px 16px;
+    background: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.3s ease;
+}
+
+.multi-select-header:hover {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.multi-select-header i {
+    color: #64748b;
+    transition: transform 0.3s ease;
+}
+
+.multi-select-header.open i {
+    transform: rotate(180deg);
+}
+
+.multi-select-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    z-index: 1000;
+    display: none;
+    max-height: 300px;
+    overflow: hidden;
+}
+
+.multi-select-dropdown.open {
+    display: block;
+}
+
+.multi-select-search {
+    padding: 12px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.multi-select-search input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.multi-select-options {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.multi-select-option {
+    padding: 10px 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background-color 0.2s ease;
+}
+
+.multi-select-option:hover {
+    background-color: #f8fafc;
+}
+
+.multi-select-option.selected {
+    background-color: #eff6ff;
+    color: #1e40af;
+}
+
+.multi-select-option input[type="checkbox"] {
+    margin: 0;
+    width: 16px;
+    height: 16px;
+}
+
+.selected-packages-info {
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: #f8fafc;
+    border-radius: 6px;
+    font-size: 12px;
+    color: #64748b;
+}
+
+/* 报告详情弹窗样式 */
+.modal-report-header {
+    background: linear-gradient(135deg, #5b67e6, #6e3fb0);
+    color: white;
+    padding: 24px;
+    margin: -20px -20px 20px -20px;
+    border-radius: 8px 8px 0 0;
+}
+
+.modal-report-header .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+}
+
+.modal-report-header .header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.modal-report-header .header-left h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    color: white;
+}
+
+.modal-report-header .latest-badge {
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 500;
+    color: white;
+}
+
+.modal-report-header .header-right {
+    text-align: right;
+    opacity: 0.95;
+    font-size: 13px;
+}
+
+.modal-report-header .time-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: flex-end;
+}
+
+.modal-report-header .time-info .time-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255,255,255,0.95);
+}
+
+.modal-report-header .time-info .time-item i {
+    width: 16px;
+    color: rgba(255,255,255,0.8);
+}
+
+.modal-report-header .product-packages-section {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
+    margin-bottom: 16px;
+    overflow: hidden;
+}
+
+.modal-report-header .packages-header {
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    background: rgba(255,255,255,0.05);
+    transition: background 0.2s ease;
+}
+
+.modal-report-header .packages-header:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+.modal-report-header .packages-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: white;
+}
+
+.modal-report-header .packages-count {
+    font-size: 11px;
+    background: rgba(255,255,255,0.2);
+    padding: 2px 8px;
+    border-radius: 999px;
+    color: white;
+}
+
+.modal-report-header .packages-toggle {
+    transition: transform 0.2s ease;
+    color: rgba(255,255,255,0.8);
+}
+
+.modal-report-header .packages-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.modal-report-header .packages-content {
+    padding: 10px 14px;
+    background: rgba(255,255,255,0.08);
+    display: none;
+}
+
+.modal-report-header .packages-content.expanded {
+    display: block;
+}
+
+.modal-report-header .package-item {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    margin: 2px 4px 2px 0;
+    color: white;
+}
+
+.modal-report-header .test-metrics {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.modal-report-header .metric-item {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    padding: 8px 14px;
+    border-radius: 999px;
+    text-align: center;
+    min-width: 70px;
+}
+
+.modal-report-header .metric-label {
+    font-size: 11px;
+    opacity: 0.9;
+    margin-bottom: 2px;
+    color: rgba(255,255,255,0.9);
+}
+
+.modal-report-header .metric-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: white;
+}
+
+.modal-report-header .metric-value.success-count {
+    color: #4ade80;
+}
+
+.modal-report-header .metric-value.fail-count {
+    color: #f87171;
+}
+
+.modal-report-header .metric-value.pass-rate {
+    color: #4ade80;
+}
+
+.modal-report-header .metric-value.fail-rate {
+    color: #f87171;
+}
+
+.report-toolbar {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 16px 20px;
+    background: #f8fafc;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #e2e8f0;
+}
+
+.report-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    row-gap: 8px;
+}
+.report-meta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+
+.report-stats {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.report-stat {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+    background: #eef2ff;
+    color: #4f46e5;
+    border: 1px solid #c7d2fe;
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: 12px;
+}
+
+.report-stat .label {
+    color: #6366f1;
+}
+
+.report-stat .value {
+    color: #0f172a;
+    font-weight: 700;
+    font-size: 13px;
+}
+
+.report-date-range {
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.report-product-count {
+    color: #64748b;
+    font-size: 14px;
+}
+
+.report-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.report-content-container {
+    max-height: 70vh;
+    overflow-y: auto;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background: white;
+}
+
+/* 报告产品包分组样式 */
+.report-product-group {
+    border-bottom: 1px solid #e2e8f0;
+    background: #f8fafc;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.report-product-group:last-child {
+    border-bottom: none;
+}
+
+.report-product-header {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    padding: 16px 20px;
+    border-bottom: 1px solid #e2e8f0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.3s ease;
+    border-left: 4px solid #667eea;
+    border-radius: 8px 8px 0 0;
+}
+
+.report-product-header:hover {
+    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+}
+
+.report-product-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.report-product-title i {
+    color: #667eea;
+    font-size: 18px;
+}
+
+.report-product-title h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.report-product-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 14px;
+    color: #64748b;
+}
+
+.report-product-toggle {
+    color: #64748b;
+    transition: transform 0.3s ease;
+}
+
+.report-product-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.report-product-content {
+    display: none;
+    padding: 16px 20px;
+    background: white;
+    border-radius: 0 0 8px 8px;
+    border: 1px solid #e2e8f0;
+    border-top: none;
+}
+
+.report-product-content.expanded {
+    display: block;
+}
+
+/* 报告测试案例样式 */
+.report-test-case {
+    border: 2px solid #e2e8f0;
+    background: white;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    position: relative;
+    overflow: hidden;
+}
+
+.report-test-case:last-child {
+    margin-bottom: 20px;
+}
+
+.report-test-case-header {
+    padding: 16px 24px;
+    background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.3s ease;
+    border-bottom: 2px solid #e2e8f0;
+    border-radius: 10px 10px 0 0;
+    position: relative;
+}
+
+.report-test-case-header::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(135deg, #8b5cf6, #6366f1);
+    border-radius: 2px 0 0 2px;
+}
+
+.report-test-case-header:hover {
+    background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+}
+
+.report-test-case-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.report-test-case-title i {
+    color: #8b5cf6;
+    font-size: 16px;
+    padding: 8px;
+    background: rgba(139, 92, 246, 0.1);
+    border-radius: 6px;
+}
+
+.report-test-case-title h4 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1e293b;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.report-test-case-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.report-test-case-toggle {
+    color: #9ca3af;
+    font-size: 12px;
+    transition: transform 0.3s ease;
+}
+
+.report-test-case-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.report-test-case-content {
+    display: none;
+    background: #fafbfc;
+    padding: 20px 24px;
+    border-radius: 0 0 10px 10px;
+}
+
+.report-test-case-content.expanded {
+    display: block;
+}
+
+/* 报告执行记录样式 */
+.report-execution-list {
+    padding: 0;
+    margin-left: 20px;
+    border-left: 2px solid #e2e8f0;
+    padding-left: 20px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dashed #e5e7eb;
+}
+
+.report-execution-item {
+    padding: 14px 18px;
+    border: 1px solid #e2e8f0;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background: white;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+    position: relative;
+    overflow: hidden;
+    margin-left: 10px;
+}
+
+.report-execution-item:first-child {
+    margin-top: 8px;
+}
+
+.report-execution-item::before {
+    content: '';
+    position: absolute;
+    left: -41px;
+    top: 22px;
+    width: 8px;
+    height: 8px;
+    background: #94a3b8;
+    border-radius: 50%;
+    border: 2px solid white;
+    box-shadow: 0 0 0 1px #e2e8f0;
+}
+
+.report-execution-item:last-child {
+    margin-bottom: 10px;
+}
+
+.report-execution-item.success::before {
+    background: #22c55e;
+}
+
+.report-execution-item.failed::before {
+    background: #ef4444;
+}
+
+.report-execution-item.running::before {
+    background: #f59e0b;
+}
+
+.report-execution-meta {
+    width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 20px 14px 40px; /* 左侧内边距从 24px 增加到 40px，可根据需要调整数值 */
+    background: #ffffff;
+    border: none;
+    border-bottom: 1px dashed #e5e7eb;
+    border-radius: 0;
+    /* 已移除无效的 border-left: -20px; */
+  }
+
+.report-execution-meta:hover {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+}
+
+.report-execution-status {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.report-execution-status.success {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.report-execution-status.failed {
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+.report-execution-status.running {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.report-execution-time {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.report-execution-logs {
+    flex: 1;
+    min-width: 0;
+}
+
+/* 直接显示图片的样式 */
+.report-log-image {
+    display: block;
+    max-width: 100%;
+    max-height: 300px;
+    margin: 8px 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.report-log-image:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    transform: scale(1.02);
+}
+
+.quick-action-btn:active {
+    cursor: grabbing;
+}
+
+.quick-action-btn[draggable="true"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* 自定义操作容器样式 */
+.custom-actions-container {
+    min-height: 120px;
+    background: transparent;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: visible;
+}
+
+.custom-actions-container.drag-over {
+    background-color: rgba(102, 126, 234, 0.05);
+    border-radius: 8px;
+}
+
+/* 自定义操作占位符 */
+.custom-actions-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 120px;
+    color: #94a3b8;
+    font-size: 14px;
+    gap: 8px;
+    padding: 20px;
+    text-align: center;
+}
+
+.custom-actions-placeholder i {
+    font-size: 24px;
+    opacity: 0.7;
+}
+
+/* 自定义操作网格 */
+.custom-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 16px;
+    padding: 20px;
+}
+
+/* 自定义操作项 */
+.custom-action-item {
+    position: relative;
+    border-radius: 8px;
+    overflow: visible;
+    margin: 8px;
+}
+
+.custom-action-btn {
+    width: 100%;
+    height: 80px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.2;
+}
+
+.custom-action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.custom-action-btn i {
+    font-size: 20px;
+}
+
+/* 移除按钮 */
+.custom-action-remove {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 24px;
+    height: 24px;
+    background: #ef4444;
+    border: 3px solid white;
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    opacity: 0;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.custom-action-item:hover .custom-action-remove {
+    opacity: 1;
+}
+
+.custom-action-remove:hover {
+    background: #dc2626;
+    transform: scale(1.1);
+}
+
+/* 通知样式 */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: white;
+    padding: 16px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 10000;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    max-width: 300px;
+    border-left: 4px solid #e2e8f0;
+}
+
+.notification.show {
+    transform: translateX(0);
+}
+
+.notification-success {
+    border-left-color: #10b981;
+    color: #059669;
+}
+
+.notification-warning {
+    border-left-color: #f59e0b;
+    color: #d97706;
+}
+
+.notification-info {
+    border-left-color: #3b82f6;
+    color: #2563eb;
+}
+
+.notification i {
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+.notification span {
+    font-size: 14px;
+    font-weight: 500;
 }
