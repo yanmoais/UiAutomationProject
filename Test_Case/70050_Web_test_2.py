@@ -86,6 +86,53 @@ async def test_70050(browser_args):
                 time.sleep(1)  # 每次操作后等待1秒
 
             
+            # 测试步骤2: 图片 (操作次数: 1)
+            with allure.step("测试步骤2: 图片"):
+                log_info(f"开始测试步骤2 图片 的操作==============")
+
+                
+                # 页面滚动子步骤
+                with allure.step(f"测试步骤2: 图片 - 页面滚动准备"):
+                    # 需要等待1S后再操作滚动
+                    time.sleep(1)
+                    # 游戏操作前先滚动页面确保图片可见
+                    # 此功能需要由编写者确认需要滚动到的页面位置是什么，默认参数：delta_x=0, delta_y=1100
+                    # 请根据实际的页面滚动进行调整到图片可见
+                    await ui_operations.page_mouse_scroll(delta_x=0, delta_y=1500)
+                
+                # 图片操作子步骤
+                with allure.step(f"测试步骤2: 图片 - 游戏图片click 操作"):
+                    # 执行游戏图片操作 1 次
+                    for attempt in range(1):
+                        # 检查浏览器是否已关闭（即使是游戏操作也需要检查浏览器状态）
+                        if await ui_operations.is_browser_closed():
+                            log_info("检测到浏览器已关闭，测试被用户中断")
+                            raise Exception("BROWSER_CLOSED_BY_USER")
+                        
+                        try:
+                            time.sleep(3)
+                            success = await ui_operations.click_image_with_fallback(
+                                "Game_Img/1759042809_Snipaste_2025-09-01_15-59-25.png", 
+                                confidence=0.5, 
+                                timeout=10
+                            )
+                            
+                            if success:
+                                log_info(f"第{attempt + 1}次操作完成")
+                            else:
+                                log_info(f"第{attempt + 1}次尝试：没有找到图片 Game_Img/1759042809_Snipaste_2025-09-01_15-59-25.png")
+                                if attempt == 1 - 1:  # 最后一次尝试失败
+                                    log_info(f"所有 {attempt + 1} 次尝试都失败，无法找到图片")
+                                raise Exception(f"图片定位失败：无法找到图片 Game_Img/1759042809_Snipaste_2025-09-01_15-59-25.png")
+                        except Exception as e:
+                            log_info(f"第{attempt + 1}次图片定位失败")
+                            if attempt == 1 - 1:  # 最后一次尝试失败
+                                log_info(f"所有 1 次尝试都失败")
+                                
+                            raise Exception(f"图片定位失败：无法找到图片 Game_Img/1759042809_Snipaste_2025-09-01_15-59-25.png")
+                time.sleep(1)  # 每次操作后等待1秒
+
+            
             # 等待测试完成
             time.sleep(3)
             
@@ -94,7 +141,7 @@ async def test_70050(browser_args):
                 log_info("检测到浏览器已关闭，test_70050 无法截图")
                 raise Exception("BROWSER_CLOSED_BY_USER")
             
-            await ui_operations.page_screenshot(f"70050","over_test_test_step_1")
+            await ui_operations.page_screenshot(f"70050","over_test_test_step_2")
             time.sleep(2)
             
             # 输出图片识别统计信息
