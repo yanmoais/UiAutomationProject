@@ -1,0 +1,439 @@
+/* Excel导入功能专用样式 */
+
+/* 模态框容器 */
+.excel-import-container {
+    padding: 20px 0;
+}
+
+/* 上传区域样式 */
+.excel-import-upload-section {
+    margin-bottom: 30px;
+}
+
+.excel-import-upload-area {
+    border: 2px dashed #e2e8f0;
+    border-radius: 12px;
+    padding: 40px 20px;
+    text-align: center;
+    background: #f8fafc;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.excel-import-upload-area:hover {
+    border-color: #4299e1;
+    background: #ebf8ff;
+}
+
+.excel-import-upload-area.dragover {
+    border-color: #4299e1;
+    background: #ebf8ff;
+    box-shadow: 0 0 0 4px rgba(66, 153, 225, 0.1);
+}
+
+.excel-import-upload-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.excel-import-upload-icon {
+    font-size: 3rem;
+    color: #a0aec0;
+    margin-bottom: 10px;
+}
+
+.excel-import-upload-area h3 {
+    margin: 0;
+    color: #2d3748;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.excel-import-upload-area p {
+    margin: 0;
+    color: #718096;
+    font-size: 0.9rem;
+}
+
+/* 文件信息显示 */
+.excel-import-file-info {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f7fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+}
+
+.excel-import-file-details {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.excel-import-file-icon {
+    font-size: 2rem;
+    color: #38a169;
+}
+
+.excel-import-file-text {
+    flex: 1;
+}
+
+.excel-import-file-name {
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 5px;
+}
+
+.excel-import-file-size {
+    font-size: 0.875rem;
+    color: #718096;
+}
+
+/* 预览区域样式 */
+.excel-import-preview {
+    margin-top: 30px;
+    padding: 20px;
+    background: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.excel-import-preview h4 {
+    margin: 0 0 20px 0;
+    color: #2d3748;
+    font-size: 1.1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.excel-import-preview-table-container {
+    background: white;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+    overflow-x: auto;
+    max-height: 400px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
+.excel-import-preview-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+}
+
+.excel-import-preview-table th {
+    background: #f7fafc;
+    padding: 12px 8px;
+    text-align: left;
+    border-bottom: 2px solid #e2e8f0;
+    font-weight: 600;
+    color: #2d3748;
+    white-space: nowrap;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.excel-import-preview-table td {
+    padding: 10px 8px;
+    border-bottom: 1px solid #f1f5f9;
+    vertical-align: top;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.excel-import-preview-table tr:hover {
+    background: #f8fafc;
+}
+
+/* 状态指示器 */
+.excel-import-preview-table .excel-import-status-cell {
+    text-align: center;
+}
+
+.excel-import-status-indicator {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    font-size: 0.75rem;
+}
+
+.excel-import-status-valid {
+    background: #c6f6d5;
+    color: #2f855a;
+}
+
+.excel-import-status-invalid {
+    background: #fed7d7;
+    color: #c53030;
+}
+
+/* 导入统计信息 */
+.excel-import-stats {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 15px;
+    background: white;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+}
+
+.excel-import-stats-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.875rem;
+    color: #4a5568;
+    font-weight: 500;
+}
+
+.excel-import-stats-item i {
+    font-size: 1rem;
+}
+
+.excel-import-stats-item:first-child i {
+    color: #4299e1;
+}
+
+.excel-import-stats-item:nth-child(2) i {
+    color: #38a169;
+}
+
+.excel-import-stats-item:last-child i {
+    color: #ed8936;
+}
+
+/* Excel导入专用按钮样式 - 与主界面按钮保持一致的设计风格 */
+.excel-import-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.65rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    outline: none;
+}
+
+.excel-import-action-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.excel-import-action-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.excel-import-action-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s, height 0.3s;
+}
+
+.excel-import-action-btn:active::before {
+    width: 300px;
+    height: 300px;
+}
+
+.excel-import-action-btn i {
+    margin-right: 0.5rem;
+}
+
+/* Excel导入按钮 - 蓝色主题 */
+.excel-import-btn-primary {
+    background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(66, 153, 225, 0.4);
+}
+
+.excel-import-btn-primary:hover {
+    background: linear-gradient(135deg, #3182ce 0%, #2c5aa0 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(66, 153, 225, 0.3);
+}
+
+.excel-import-btn-primary:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 6px rgba(66, 153, 225, 0.2);
+}
+
+/* 下载模板按钮 - 绿色主题 */
+.excel-import-btn-success {
+    background: linear-gradient(135deg, #38a169 0%, #2f855a 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(56, 161, 105, 0.4);
+}
+
+.excel-import-btn-success:hover {
+    background: linear-gradient(135deg, #2f855a 0%, #276749 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(56, 161, 105, 0.3);
+}
+
+.excel-import-btn-success:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 6px rgba(56, 161, 105, 0.2);
+}
+
+/* 错误提示样式 */
+.excel-import-error {
+    background: #fed7d7;
+    color: #c53030;
+    padding: 10px 15px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    border: 1px solid #feb2b2;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.excel-import-warning {
+    background: #feebc8;
+    color: #c05621;
+    padding: 10px 15px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    border: 1px solid #f6d55c;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .excel-import-upload-area {
+        padding: 30px 15px;
+    }
+    
+    .excel-import-upload-icon {
+        font-size: 2.5rem;
+    }
+    
+    .excel-import-stats {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .excel-import-file-details {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+    
+    .excel-import-preview-table-container {
+        font-size: 0.8rem;
+    }
+    
+    .excel-import-preview-table th,
+    .excel-import-preview-table td {
+        padding: 8px 6px;
+        max-width: 120px;
+    }
+}
+
+/* 加载状态样式 */
+.excel-import-loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    border-radius: 8px;
+}
+
+.excel-import-loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #e2e8f0;
+    border-top: 4px solid #4299e1;
+    border-radius: 50%;
+    animation: excel-import-spin 1s linear infinite;
+}
+
+@keyframes excel-import-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.excel-import-loading-text {
+    margin-left: 15px;
+    color: #4a5568;
+    font-weight: 500;
+} 
+
+/* 确保Excel导入弹窗正确居中显示 */
+#excelImportModal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    animation: fadeIn 0.3s ease;
+}
+
+#excelImportModal.show {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Excel导入弹窗的内容容器 */
+#excelImportModal .modal-content.medium {
+    background: white;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 1400px;
+    max-height: 100vh;
+    overflow-y: auto;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1);
+    animation: slideInUp 0.3s ease;
+    margin: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    #excelImportModal .modal-content.medium {
+        width: 95%;
+        max-width: none;
+        margin: 0.5rem;
+    }
+} 
