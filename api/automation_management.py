@@ -5073,7 +5073,7 @@ from Base_ENV.config import *
                                 resolved_email = (addr_list[0] or {}).get('email', '')
                                 resolved_password = (addr_list[0] or {}).get('password', '')
                         except Exception:
-                            log_info(f"[{task_id}] 登录步骤{j+1} 操作失败")
+                            log_info(f"[{{task_id}}] 登录步骤{j+1} 操作失败")
                             pass
                         email_selector = auth_cfg.get('email_selector', '').replace('"', "'")
                         password_selector = auth_cfg.get('password_selector', '').replace('"', "'")
@@ -5138,7 +5138,7 @@ from Base_ENV.config import *
                                 resolved_email = (addr_list[0] or {}).get('email', '')
                                 resolved_password = (addr_list[0] or {}).get('password', '')
                         except Exception:
-                            log_info(f"[{task_id}] 登录步骤{j+1} 操作失败")
+                            log_info(f"[{{task_id}}] 登录步骤{j+1} 操作失败")
                             pass
                         email_selector = auth_cfg.get('email_selector', '').replace('"', "'")
                         password_selector = auth_cfg.get('password_selector', '').replace('"', "'")
@@ -5501,7 +5501,7 @@ from Base_ENV.config import *
                                 resolved_email = (addr_list[0] or {}).get('email', '')
                                 resolved_password = (addr_list[0] or {}).get('password', '')
                         except Exception:
-                            log_info(f"[{task_id}] 登录步骤{j+1} 操作失败")
+                            log_info(f"[{{task_id}}] 登录步骤{j+1} 操作失败")
                             pass
                         email_selector = auth_cfg.get('email_selector', '').replace('"', "'")
                         password_selector = auth_cfg.get('password_selector', '').replace('"', "'")
@@ -5567,7 +5567,7 @@ from Base_ENV.config import *
                                 resolved_email = (addr_list[0] or {}).get('email', '')
                                 resolved_password = (addr_list[0] or {}).get('password', '')
                         except Exception:
-                            log_info(f"[{task_id}] 登录步骤{j+1} 操作失败")
+                            log_info(f"[{{task_id}}] 登录步骤{j+1} 操作失败")
                             pass
                         email_selector = auth_cfg.get('email_selector', '').replace('"', "'")
                         password_selector = auth_cfg.get('password_selector', '').replace('"', "'")
@@ -5652,7 +5652,7 @@ from Base_ENV.config import *
                                         resolved_email = (addr_list[0] or {}).get('email', '')
                                         resolved_password = (addr_list[0] or {}).get('password', '')
                             except Exception:
-                                log_info(f"[{task_id}] 登录步骤{j+1} 操作失败")
+                                log_info(f"[{{task_id}}] 登录步骤{j+1} 操作失败")
                                 pass
                             email_selector = auth_cfg.get('email_selector', '').replace('"', "'")
                             password_selector = auth_cfg.get('password_selector', '').replace('"', "'")
