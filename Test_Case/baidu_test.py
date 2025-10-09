@@ -32,7 +32,7 @@ async def test_baidu_searcher(page, **elem):
         full_image_path = BASE_DIR + game_img_path
         log_info(f"尝试点击图片: {full_image_path}")
         
-        click_result = await ui_ops.click_image(full_image_path, confidence=0.7, timeout=10)
+        click_result = await ui_ops.click_image_with_fallback(full_image_path, confidence=0.5, timeout=10)
         if click_result:
             log_info("图片点击成功！")
         else:

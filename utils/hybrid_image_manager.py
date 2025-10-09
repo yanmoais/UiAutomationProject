@@ -127,21 +127,21 @@ class HybridImageManager:
             
             return None
     
-    async def click_image(self, page, image_path: str, confidence: float = None, 
-                         timeout: int = None) -> bool:
-        """点击图片，使用任务隔离确保并发安全"""
-        position = await self.find_image(page, image_path, confidence, timeout)
-        if position:
-            try:
-                # 使用锁机制确保点击操作的原子性
-                async with self._lock:
-                    await page.mouse.click(position[0], position[1])
-                    log_info(f"[{self.task_id}] 点击图片成功: {image_path} at {position}")
-                    return True
-            except Exception as e:
-                log_info(f"[{self.task_id}] 点击图片失败: {image_path}, 错误: {e}")
-                return False
-        return False
+    # async def click_image(self, page, image_path: str, confidence: float = None,
+    #                      timeout: int = None) -> bool:
+    #     """点击图片，使用任务隔离确保并发安全"""
+    #     position = await self.find_image(page, image_path, confidence, timeout)
+    #     if position:
+    #         try:
+    #             # 使用锁机制确保点击操作的原子性
+    #             async with self._lock:
+    #                 await page.mouse.click(position[0], position[1])
+    #                 log_info(f"[{self.task_id}] 点击图片成功: {image_path} at {position}")
+    #                 return True
+    #         except Exception as e:
+    #             log_info(f"[{self.task_id}] 点击图片失败: {image_path}, 错误: {e}")
+    #             return False
+    #     return False
     
     def get_image_stats(self) -> Dict[str, Any]:
         """获取图片识别统计信息，包含任务ID"""
@@ -173,16 +173,16 @@ class HybridImageManager:
         }
         log_info(f"[{self.task_id}] 统计信息已重置")
     
-    async def _find_with_screenshot(self, page, image_path: str, confidence: float, 
-                                  timeout: int) -> Optional[Tuple[int, int]]:
-        """使用截图识别查找图片"""
-        try:
-            return await self.screenshot_recognition.find_image(
-                page, image_path, confidence, timeout
-            )
-        except Exception as e:
-            log_info(f"[{self.task_id}] 截图识别发生错误: {e}")
-            return None
+    # async def _find_with_screenshot(self, page, image_path: str, confidence: float,
+    #                               timeout: int) -> Optional[Tuple[int, int]]:
+    #     """使用截图识别查找图片"""
+    #     try:
+    #         return await self.screenshot_recognition.find_image(
+    #             page, image_path, confidence, timeout
+    #         )
+    #     except Exception as e:
+    #         log_info(f"[{self.task_id}] 截图识别发生错误: {e}")
+    #         return None
     
     def _find_with_pyautogui(self, image_path: str, confidence: float, region: Optional[Tuple[int, int, int, int]] = None) -> Optional[Tuple[int, int]]:
         """使用pyautogui查找图片（可限定区域）"""

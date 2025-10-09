@@ -52,13 +52,13 @@ class UIOperations:
     #     return await self.image_manager.wait_for_image(
     #         self.page, image_path, timeout, confidence
     #     )
-
-    async def click_image(self, image_path: str, confidence: float = None,
-                          timeout: int = None) -> bool:
-        """点击图片"""
-        return await self.image_manager.click_image(
-            self.page, image_path, confidence, timeout
-        )
+    #
+    # async def click_image(self, image_path: str, confidence: float = None,
+    #                       timeout: int = None) -> bool:
+    #     """点击图片"""
+    #     return await self.image_manager.click_image(
+    #         self.page, image_path, confidence, timeout
+    #     )
 
     async def click_image_with_fallback(self, image_path: str, confidence: float = None,
                                         timeout: int = None, max_retries: int = None) -> bool:

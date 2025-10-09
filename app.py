@@ -107,17 +107,25 @@ def create_app():
     @app.route('/download/excel-template')
     def download_excel_template():
         try:
-            # 模板文件路径
-            template_path = os.path.join(BASE_DIR, 'Test_Data', 'Excel_model', '测试步骤模板_202509291556.xlsx')
+            import glob
+            from datetime import datetime
             
-            if not os.path.exists(template_path):
-                log_error(f"Excel模板文件不存在: {template_path}")
+            # 模板目录
+            template_dir = os.path.join(BASE_DIR, 'Test_Data', 'Excel_model')
+            
+            # 查找所有 .xlsx 文件
+            template_files = glob.glob(os.path.join(template_dir, '*.xlsx'))
+            
+            if not template_files:
+                log_error(f"Excel模板目录中没有找到模板文件: {template_dir}")
                 return "模板文件不存在", 404
+            
+            # 选择最新修改的文件
+            template_path = max(template_files, key=os.path.getmtime)
             
             log_info(f"下载Excel模板: {template_path}")
             
             # 生成带时间戳的文件名
-            from datetime import datetime
             timestamp = datetime.now().strftime('%Y%m%d%H%M')
             download_filename = f'测试步骤模板_{timestamp}.xlsx'
             

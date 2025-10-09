@@ -58,13 +58,13 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div class="nav-item" id="interfaceAutomation">
+                <div class="nav-item" id="interfaceAutomation">
                     <div class="nav-header" onclick="toggleNavItem('interfaceAutomation')">
                         <i class="fas fa-network-wired"></i>
                         <span>接口自动化测试平台</span>
                         <i class="fas fa-chevron-down nav-arrow"></i>
                     </div>
-                </div> -->
+                </div>
             </nav>
             <button class="sidebar-expand-btn" id="sidebarExpandBtn" title="展开侧边栏">
                 <i class="fas fa-angle-right"></i>
@@ -150,7 +150,7 @@
                 <h2>项目编辑</h2>
                 <span class="close" onclick="closeModal()">&times;</span>
             </div>
-            <form id="projectForm" class="modal-body">
+            <form id="projectForm" class="modal-body" autocomplete="off">
                 <!-- 第一行：产品包名和图片上传 -->
                 <div class="form-group full-width">
                     <label for="productPackageName">产品包名 <span class="required">*</span></label>
@@ -251,7 +251,7 @@
                 <h2 id="automation-modal-title">自动化配置</h2>
                 <span class="close" onclick="automationManagement.closeModal()">&times;</span>
             </div>
-            <form id="automationForm" class="modal-body" novalidate>
+            <form id="automationForm" class="modal-body" novalidate autocomplete="off">
                 <!-- 第一行：流程名称 -->
                 <div class="form-group full-width">
                     <label for="processName">流程名称 <span class="required">*</span></label>
@@ -485,7 +485,7 @@
                     <!-- 搜索框 - 单独在顶部 -->
                     <div class="import-search-section-top">
                         <div class="search-box-top">
-                            <input type="text" id="projectSearchInput" placeholder="搜索项目、测试案例或测试步骤..." class="form-control">
+                            <input type="text" id="projectSearchInput" placeholder="搜索项目、测试案例或测试步骤..." class="form-control" autocomplete="off">
                             <button type="button" class="search-btn" onclick="automationManagement.performSearch()">
                                 <i class="fas fa-search"></i>
                             </button>
@@ -1135,7 +1135,7 @@
                 <span class="close" onclick="dashboardManager.closeExportReportModal()">&times;</span>
             </div>
             <div class="modal-body">
-                <form id="exportReportForm">
+                <form id="exportReportForm" autocomplete="off">
                     <div class="form-group">
                         <label for="exportProductPackages">产品 <span class="required">*</span></label>
                         <div class="multi-select-container">
