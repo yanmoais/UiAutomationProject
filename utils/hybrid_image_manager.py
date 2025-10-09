@@ -90,7 +90,7 @@ class HybridImageManager:
                             log_info(f"[{self.task_id}] pyautogui识别失败: {e}")
                             self.stats['pyautogui_failures'] += 1
                     
-                    # 方法3: 如果截图优先但失败，尝试pyautogui
+                    # 方法3: 如果截图优先但失败，再次尝试Playwright截图识别
                     if (self.config['use_screenshot'] and not self.config['screenshot_first'] and 
                         self.config['use_pyautogui_fallback']):
                         try:

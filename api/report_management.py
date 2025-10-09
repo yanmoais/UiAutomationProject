@@ -120,6 +120,7 @@ def generate_test_report():
                 ap.id as project_id,
                 ap.process_name,
                 ap.product_ids,
+                ap.product_package_names,
                 ap.system,
                 ap.environment,
                 ap.product_address,
@@ -134,10 +135,7 @@ def generate_test_report():
             FROM automation_projects ap
             LEFT JOIN automation_executions e ON ap.id = e.project_id
             WHERE ({' OR '.join(package_conditions)})
-            AND (
-                e.start_time >= ? AND e.start_time <= ?
-                OR e.start_time IS NULL
-            )
+            AND e.start_time >= ? AND e.start_time <= ?
             ORDER BY ap.process_name, e.start_time DESC
         ''')
         
@@ -163,17 +161,18 @@ def generate_test_report():
             project_id = row[0]
             process_name = row[1]
             product_ids = row[2] or ''
-            system = row[3]
-            environment = row[4]
-            product_address = row[5]
-            project_created_at = row[6]
-            execution_id = row[7]
-            status = row[8]
-            start_time = row[9]
-            end_time = row[10]
-            log_message = row[11]
-            detailed_log = row[12]
-            executed_by = row[13]
+            product_package_names = row[3] or ''
+            system = row[4]
+            environment = row[5]
+            product_address = row[6]
+            project_created_at = row[7]
+            execution_id = row[8]
+            status = row[9]
+            start_time = row[10]
+            end_time = row[11]
+            log_message = row[12]
+            detailed_log = row[13]
+            executed_by = row[14]
             
             # 创建测试案例键
             test_case_key = f"{project_id}_{process_name}"
@@ -184,6 +183,7 @@ def generate_test_report():
                     'project_id': project_id,
                     'process_name': process_name,
                     'product_ids': product_ids,
+                    'product_package_names': product_package_names,
                     'system': system,
                     'environment': environment,
                     'product_address': product_address,

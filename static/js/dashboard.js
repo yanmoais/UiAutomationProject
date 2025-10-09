@@ -1955,28 +1955,40 @@ class DashboardManager {
             return matches ? matches.map(m => String(m)) : [];
         };
 
+        // 解析测试案例中的 product_package_names
+        const parsePackageNames = (value) => {
+            if (!value) return [];
+            try {
+                const arr = JSON.parse(String(value));
+                if (Array.isArray(arr)) return arr.map(v => String(v));
+            } catch (_) {}
+            const s = String(value);
+            // 回退：粗略从 [name1,name2] 中提取引号内的片段
+            const nameMatches = s.match(/"([^"]+)"/g);
+            if (nameMatches) {
+                return nameMatches.map(x => x.replace(/(^\"|\"$)/g, ''));
+            }
+            return [s];
+        };
+
         // 将测试案例分配到对应的产品包组
         Object.keys(flatCases).forEach(testCaseKey => {
             const testCase = flatCases[testCaseKey];
             const ids = parseProductIds(testCase.product_ids);
 
-            let assigned = false;
             if (selectedCombos.length > 0) {
+                const pkgNames = parsePackageNames(testCase.product_package_names);
                 comboToFriendly.forEach((friendlyName, combo) => {
                     const info = selectedInfo[combo];
                     const pid = info ? String(info.product_id) : '';
-                    if (pid && ids.includes(pid)) {
+                    const pkg = info ? String(info.package_name) : '';
+                    if (pid && pkg && ids.includes(pid) && pkgNames.includes(pkg)) {
                         byPackage[friendlyName][testCaseKey] = testCase;
-                        assigned = true;
                     }
                 });
-            }
-
-            // 如果未能根据product_id匹配，则放入"所选产品"或第一个组作为兜底
-            if (!assigned) {
-                const groups = Object.keys(byPackage);
-                const fallbackGroup = groups.includes('所选产品') ? '所选产品' : groups[0];
-                byPackage[fallbackGroup][testCaseKey] = testCase;
+            } else {
+                // 未选择特定组合时，保留到“所选产品”组
+                byPackage['所选产品'][testCaseKey] = testCase;
             }
         });
 
@@ -2448,12 +2460,12 @@ class DashboardManager {
         if (screenshotMatch) {
             const imagePath = screenshotMatch[2];
             const fileName = imagePath.split('\\').pop() || imagePath.split('/').pop();
-            const relativePath = `file:///D:/UiAutomationProject/IMG_LOGS/${fileName}`;
+            const relativePath = `/IMG_LOGS/${fileName}`;
             
-            // 直接显示图片，而不是链接
+            // 直接显示图片，点击在当前页面放大
             formatted = formatted.replace(
                 new RegExp(imagePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'),
-                `<br><img src="${relativePath}" class="report-log-image" alt="测试截图" onclick="window.open('${relativePath}', '_blank')" /><br>`
+                `<br><img src="${relativePath}" class="report-log-image" alt="测试截图" onclick="previewReportImage(this)" /><br>`
             );
         } else {
             // 处理其他截图格式
@@ -2464,12 +2476,12 @@ class DashboardManager {
             
             if (imagePath) {
                 const fileName = imagePath.split('\\').pop() || imagePath.split('/').pop();
-                const relativePath = `file:///D:/UiAutomationProject/IMG_LOGS/${fileName}`;
+                const relativePath = `/IMG_LOGS/${fileName}`;
                 
-                // 直接显示图片
+                // 直接显示图片，点击在当前页面放大
                 formatted = formatted.replace(
                     new RegExp(imagePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'),
-                    `<br><img src="${relativePath}" class="report-log-image" alt="测试截图" onclick="window.open('${relativePath}', '_blank')" /><br>`
+                    `<br><img src="${relativePath}" class="report-log-image" alt="测试截图" onclick="previewReportImage(this)" /><br>`
                 );
             }
         }
@@ -2606,15 +2618,17 @@ class DashboardManager {
         }
     }
 
-    // 下载测试报告
-    downloadTestReport() {
+    // 下载测试报告（将图片内嵌为dataURL，便于离线查看）
+    async downloadTestReport() {
         if (!this.currentReportData) {
             showToast('没有可下载的报告数据', 'warning');
             return;
         }
 
         try {
-            const reportHtml = this.generateFullReportHTML(this.currentReportData);
+            let reportHtml = this.generateFullReportHTML(this.currentReportData);
+            // 将报告中的图片路径转换为data URL，保证离线可见
+            reportHtml = await this.embedImagesIntoHtml(reportHtml);
             const blob = new Blob([reportHtml], { type: 'text/html;charset=utf-8' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -2627,6 +2641,65 @@ class DashboardManager {
             console.error('下载报告失败:', error);
             showToast('下载报告失败', 'error');
         }
+    }
+
+    // 将报告HTML中的图片转为dataURL内嵌
+    async embedImagesIntoHtml(html) {
+        if (!html) return html;
+        try {
+            // 提取所有<img ... src="...">
+            const imgTagRegex = /<img\s+[^>]*src=["']([^"']+)["'][^>]*>/gi;
+            const srcList = new Set();
+            let match;
+            while ((match = imgTagRegex.exec(html)) !== null) {
+                const rawSrc = match[1];
+                const normalized = this.normalizeReportImageUrl(rawSrc);
+                if (normalized) srcList.add(JSON.stringify({ raw: rawSrc, url: normalized }));
+            }
+
+            // 并发拉取并替换
+            const tasks = Array.from(srcList).map(async itemStr => {
+                const item = JSON.parse(itemStr);
+                try {
+                    const res = await fetch(item.url, { cache: 'no-store' });
+                    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                    const blob = await res.blob();
+                    const dataUrl = await new Promise(resolve => {
+                        const fr = new FileReader();
+                        fr.onload = () => resolve(fr.result);
+                        fr.readAsDataURL(blob);
+                    });
+                    // 替换所有等于该src的地方
+                    const safeRaw = item.raw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                    const re = new RegExp(`(<img\\s+[^>]*src=["'])${safeRaw}(["'][^>]*>)`, 'g');
+                    html = html.replace(re, `$1${dataUrl}$2`);
+                } catch (e) {
+                    console.warn('嵌入图片失败:', item.url, e);
+                }
+            });
+
+            await Promise.all(tasks);
+            return html;
+        } catch (e) {
+            console.warn('处理报告图片失败:', e);
+            return html;
+        }
+    }
+
+    // 规范化报告图片URL：将本地file路径转为服务端可获取的相对路径
+    normalizeReportImageUrl(src) {
+        if (!src) return '';
+        try {
+            // 先处理 file:///.../IMG_LOGS/<name>.png
+            const fileUrlMatch = src.match(/IMG_LOGS[\\\/]([^"'>]+\.png)/i);
+            if (fileUrlMatch) {
+                const name = fileUrlMatch[1].split('\\').pop().split('/').pop();
+                return `/IMG_LOGS/${name}`;
+            }
+            // 已经是服务端路由
+            if (src.startsWith('/IMG_LOGS/')) return src;
+        } catch (_) {}
+        return '';
     }
 
     // 打印测试报告
@@ -2781,6 +2854,12 @@ class DashboardManager {
         .report-execution-right { display: inline-flex; align-items: center; gap: 10px; }
         .report-execution-logs { font-family: 'Courier New', monospace; font-size: 13px; line-height: 1.6; padding: 12px 20px 12px 24px; background: #f3f4f6; max-height: 0; opacity: 0; overflow: hidden; transition: max-height .28s ease, opacity .22s ease; }
         .report-execution-logs.expanded { max-height: 1200px; opacity: 1; }
+        /* 图片预览遮罩 */
+        .img-preview-mask { position: fixed; inset: 0; background: rgba(0,0,0,.7); display: none; align-items: center; justify-content: center; z-index: 9999; }
+        .img-preview-mask.show { display: flex; }
+        .img-preview-content { max-width: 90vw; max-height: 90vh; }
+        .img-preview-content img { max-width: 100%; max-height: 100%; border-radius: 8px; box-shadow: 0 6px 24px rgba(0,0,0,.35); }
+        .img-preview-close { position: fixed; top: 20px; right: 24px; color: #fff; font-size: 22px; cursor: pointer; background: rgba(255,255,255,.15); padding: 6px 10px; border-radius: 6px; }
     </style>
 </head>
 <body>
@@ -2916,6 +2995,26 @@ class DashboardManager {
       toggleReportTestCase: toggleReportTestCase,
       toggleReportExecution: toggleReportExecution
     };
+
+    // 图片预览：在当前页面放大查看
+    var __imgPreviewMask = null;
+    function ensurePreviewMask(){
+      if(__imgPreviewMask) return __imgPreviewMask;
+      var mask = document.createElement('div');
+      mask.className = 'img-preview-mask';
+      mask.innerHTML = '<div class="img-preview-content"><img alt="预览"/></div><div class="img-preview-close">关闭</div>';
+      document.body.appendChild(mask);
+      mask.addEventListener('click', function(e){ if(e.target===mask || e.target.classList.contains('img-preview-close')) hidePreview(); });
+      __imgPreviewMask = mask; return mask;
+    }
+    function showPreview(src){
+      var mask = ensurePreviewMask();
+      var img = mask.querySelector('img');
+      img.src = src; mask.classList.add('show');
+    }
+    function hidePreview(){ if(__imgPreviewMask) __imgPreviewMask.classList.remove('show'); }
+    function previewReportImage(imgEl){ if(!imgEl) return; showPreview(imgEl.src); }
+    window.previewReportImage = previewReportImage;
     </script>
 </body>
 </html>
