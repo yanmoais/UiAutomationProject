@@ -19,6 +19,7 @@ from utils.ui_operations import UIOperations
 from typing import Tuple, List
 from Base_ENV.config import *
 
+
 async def test_SC(browser_args):
     """
     为 test_SC 创建完全独立的浏览器实例，使用指定的浏览器参数
@@ -60,8 +61,8 @@ async def test_SC(browser_args):
                 with allure.step("测试步骤1: 点击开始按钮 - click 操作 (//*[@type='button' and text()='START'])"):
                     time.sleep(1)
                     
-                    # 执行Web元素操作 1 次
-                    for attempt in range(1):
+                # 执行Web元素操作 1 次
+                for attempt in range(1):
                         # 检查浏览器是否已关闭
                         if await ui_operations.is_browser_closed():
                             log_info("检测到浏览器已关闭，测试被用户中断")
@@ -69,7 +70,7 @@ async def test_SC(browser_args):
                             raise Exception("BROWSER_CLOSED_BY_USER")
                         
                         try:
-                            log_info(f"[{task_id}]  执行第1次操作: click on //*[@type='button' and text()='START']")
+                            log_info(f"执行第{attempt + 1}次操作: click on //*[@type='button' and text()='START']")
                             # 使用安全操作机制，带重试
                             await ui_operations.elem_click("//*[@type='button' and text()='START']")
                             time.sleep(1)  # 每次操作后等待1秒
@@ -86,7 +87,6 @@ async def test_SC(browser_args):
                 time.sleep(1)  # 每次操作后等待1秒
 
             
-            
             # 测试步骤2: 点击同意按钮 (操作次数: 1)
             with allure.step("测试步骤2: 点击同意按钮"):
                 log_info(f"开始测试步骤2 点击同意按钮 的操作==============")
@@ -98,8 +98,8 @@ async def test_SC(browser_args):
                 with allure.step("测试步骤2: 点击同意按钮 - click 操作 (//*[text()='Accept'])"):
                     time.sleep(1)
                     
-                    # 执行Web元素操作 1 次
-                    for attempt in range(1):
+                # 执行Web元素操作 1 次
+                for attempt in range(1):
                         # 检查浏览器是否已关闭
                         if await ui_operations.is_browser_closed():
                             log_info("检测到浏览器已关闭，测试被用户中断")
@@ -107,7 +107,7 @@ async def test_SC(browser_args):
                             raise Exception("BROWSER_CLOSED_BY_USER")
                         
                         try:
-                            log_info(f"[{task_id}]  执行第1次操作: click on //*[text()='Accept']")
+                            log_info(f"执行第{attempt + 1}次操作: click on //*[text()='Accept']")
                             # 使用安全操作机制，带重试
                             await ui_operations.elem_click("//*[text()='Accept']")
                             time.sleep(1)  # 每次操作后等待1秒
@@ -123,11 +123,9 @@ async def test_SC(browser_args):
                                 
                 time.sleep(1)  # 每次操作后等待1秒
 
-            
             # 测试步骤3: 点击图片，进入游戏 (操作次数: 1)
             with allure.step("测试步骤3: 点击图片，进入游戏"):
                 log_info(f"开始测试步骤3 点击图片，进入游戏 的操作==============")
-
                 
                 # 页面滚动子步骤
                 with allure.step(f"测试步骤3: 点击图片，进入游戏 - 页面滚动准备"):
@@ -144,39 +142,37 @@ async def test_SC(browser_args):
                     for attempt in range(1):
                         # 检查浏览器是否已关闭（即使是游戏操作也需要检查浏览器状态）
                         if await ui_operations.is_browser_closed():
-                            log_info("检测到浏览器已关闭，测试被用户中断")
+                            log_info(f"[{task_id}] 检测到浏览器已关闭，test_SC 测试被用户中断")
                             raise Exception("BROWSER_CLOSED_BY_USER")
                         
                         try:
+                            log_info(f"[test_SC] 执行第{attempt + 1}次图片操作: click on Game_Img/1760154418_MoonlitWolf.png")
                             time.sleep(3)
                             success = await ui_operations.click_image_with_fallback(
-                                "Game_Img/1759128096_Snipaste_2025-09-02_14-53-04.png", 
+                                "Game_Img/1760154418_MoonlitWolf.png", 
                                 confidence=0.5, 
                                 timeout=10
                             )
-                            
                             if success:
-                                log_info(f"第{attempt + 1}次操作完成")
+                                log_info(f"[{task_id}] test_SC 第{attempt + 1}次操作完成")
                             else:
-                                log_info(f"第{attempt + 1}次尝试：没有找到图片 Game_Img/1759128096_Snipaste_2025-09-02_14-53-04.png")
+                                log_info(f"[{task_id}] test_SC 第{attempt + 1}次尝试：没有找到图片 Game_Img/1760154418_MoonlitWolf.png")
                                 if attempt == 1 - 1:  # 最后一次尝试失败
-                                    log_info(f"所有 {attempt + 1} 次尝试都失败，无法找到图片")
-                                raise Exception(f"图片定位失败：无法找到图片 Game_Img/1759128096_Snipaste_2025-09-02_14-53-04.png")
+                                    log_info(f"[{task_id}] test_SC 所有 1 次尝试都失败，无法找到图片")
+                                raise Exception(f"图片定位失败：无法找到图片 Game_Img/1760154418_MoonlitWolf.png")
                         except Exception as e:
-                            log_info(f"第{attempt + 1}次图片定位失败")
+                            log_info(f"[{task_id}] test_SC 第{attempt + 1}次图片定位失败")
                             if attempt == 1 - 1:  # 最后一次尝试失败
-                                log_info(f"所有 1 次尝试都失败")
-                                
-                            raise Exception(f"图片定位失败：无法找到图片 Game_Img/1759128096_Snipaste_2025-09-02_14-53-04.png")
-                time.sleep(1)  # 每次操作后等待1秒
-
+                                log_info(f"[{task_id}] test_SC 所有 1 次尝试都失败")
+                            raise Exception(f"图片定位失败：无法找到图片 Game_Img/1760154418_MoonlitWolf.png")
+                        time.sleep(1)  # 每次操作后等待1秒
             
             # 等待测试完成
-            time.sleep(10)
+            time.sleep(2)
             
             # 最终检查浏览器状态
             if await ui_operations.is_browser_closed():
-                log_info("检测到浏览器已关闭，test_SC 无法截图")
+                log_info(f"检测到浏览器已关闭，test_SC 测试被用户中断")
                 raise Exception("BROWSER_CLOSED_BY_USER")
             
             await ui_operations.page_screenshot(f"SC","over_test_test_step_3")
@@ -201,7 +197,6 @@ async def test_SC(browser_args):
                 await context.close()
             if browser:
                 await browser.close()
-
 
 
 @pytest.mark.asyncio

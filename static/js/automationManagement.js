@@ -2654,9 +2654,12 @@ class AutomationManagement {
             const projectsList = document.getElementById('projectsList');
             if (!projectsList) return;
             
-            // 从缓存的数据中查找对应产品的项目 - 使用产品ID进行精确匹配
-            const productGroup = this.productGroupsData.find(group => 
-                group.product_id === productId
+            // 从缓存的数据中查找对应产品的项目
+            // 修复：当多个产品包共享同一 product_id 时，需同时匹配 product_name，避免误匹配到其他包下的项目
+            const productGroup = this.productGroupsData.find(group =>
+                String(group.product_id) === String(productId) && String(group.product_name) === String(productName)
+            ) || this.productGroupsData.find(group =>
+                String(group.product_id) === String(productId)
             );
             
             if (!productGroup || !productGroup.projects) {
@@ -6011,9 +6014,12 @@ class AutomationManagement {
             const projectsList = document.getElementById('projectsList');
             if (!projectsList) return;
             
-            // 从缓存的数据中查找对应产品的项目 - 使用产品ID进行精确匹配
-            const productGroup = this.productGroupsData.find(group => 
-                group.product_id === productId
+            // 从缓存的数据中查找对应产品的项目
+            // 修复：当多个产品包共享同一 product_id 时，需同时匹配 product_name，避免误匹配到其他包下的项目
+            const productGroup = this.productGroupsData.find(group =>
+                String(group.product_id) === String(productId) && String(group.product_name) === String(productName)
+            ) || this.productGroupsData.find(group =>
+                String(group.product_id) === String(productId)
             );
             
             if (!productGroup || !productGroup.projects) {

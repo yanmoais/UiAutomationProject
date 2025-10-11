@@ -26,7 +26,7 @@ async def test_baidu_searcher(page, **elem):
     await base_page.page_mouse_scroll()
     await asyncio.sleep(3)
     # 游戏图片匹配操作 - 使用改进的UIOperations
-    ui_ops = UIOperations(page)
+    ui_ops = UIOperations(base_page)
     try:
         # 使用改进的图片点击功能
         full_image_path = BASE_DIR + game_img_path
