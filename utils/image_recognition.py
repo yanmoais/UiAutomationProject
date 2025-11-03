@@ -25,6 +25,16 @@ class ImageRecognition:
         # 优先使用配置中的多尺度参数；默认不放大，避免多实例时模板大于分屏截图
         self.scale_factors = getattr(UIConfig, 'SCALE_FACTORS', [1.0, 0.9, 0.8, 0.7, 0.6, 0.5])
         self.confidence_levels = getattr(UIConfig, 'CONFIDENCE_LEVELS', [0.7, 0.6, 0.5, 0.4, 0.3, 0.25, 0.2])
+        self.absolute_min_confidence = getattr(UIConfig, 'MIN_ABSOLUTE_CONFIDENCE', 0.6)
+        # 最近一次匹配信息（用于点击后再验证是否消失/移动）
+        self.last_match_info: Dict[str, Any] = {
+            'path': None,
+            'position': None,
+            'score': None,
+            'scale': None,
+            'threshold': None,
+            'ts': 0.0,
+        }
         
         log_info(f"创建ImageRecognition实例: {self.task_id}")
     
@@ -48,8 +58,8 @@ class ImageRecognition:
         if timeout is None:
             timeout = self.config['timeout']
         
-        max_attempts = self.config.get('max_retry_attempts', 3)
-        retry_delay = self.config.get('retry_delay', 1.0)
+        max_attempts = self.config.get('max_retry_attempts', 5)
+        retry_delay = self.config.get('retry_delay', 3.0)
         
         # 使用锁机制确保并发安全
         async with self._lock:
@@ -91,6 +101,57 @@ class ImageRecognition:
                         log_info(f"[{self.task_id}] 所有重试都失败，返回None")
                         return None
             
+            return None
+
+    async def quick_check_presence(self, page, template_path: str, confidence: float = None,
+                                   scales: Optional[List[float]] = None) -> Optional[Tuple[int, int]]:
+        """
+        快速检测模板是否存在：单次截图，少量尺度，严格阈值。
+        仅用于点击后验证/遮挡物检测，避免重试和复杂退避。
+        """
+        try:
+            if confidence is None:
+                confidence = self.config.get('confidence', 0.6)
+            confidence = max(float(confidence), float(self.absolute_min_confidence))
+
+            screenshot = await self._get_page_screenshot(page, use_cache=False)
+            if screenshot is None:
+                return None
+            template = self._load_template(template_path)
+            if template is None:
+                return None
+            template_gray = cv2.cvtColor(template, cv2.COLOR_BGR2GRAY)
+            screenshot_gray = cv2.cvtColor(screenshot, cv2.COLOR_BGR2GRAY)
+
+            if not scales:
+                scales = [1.0, 0.9, 0.8]
+
+            for scale_factor in scales:
+                # 尺度调整
+                if scale_factor != 1.0:
+                    h, w = template_gray.shape[:2]
+                    new_h, new_w = int(h * scale_factor), int(w * scale_factor)
+                    if new_h < 10 or new_w < 10:
+                        continue
+                    scaled_template = cv2.resize(template_gray, (new_w, new_h))
+                else:
+                    scaled_template = template_gray
+
+                # 模板尺寸校验
+                img_h, img_w = screenshot_gray.shape[:2]
+                tpl_h, tpl_w = scaled_template.shape[:2]
+                if tpl_h > img_h or tpl_w > img_w:
+                    continue
+
+                result = cv2.matchTemplate(screenshot_gray, scaled_template, cv2.TM_CCOEFF_NORMED)
+                _min_val, max_val, _min_loc, max_loc = cv2.minMaxLoc(result)
+                if max_val >= confidence:
+                    center_x = max_loc[0] + tpl_w // 2
+                    center_y = max_loc[1] + tpl_h // 2
+                    return (int(center_x), int(center_y))
+            return None
+        except Exception as e:
+            log_info(f"[{self.task_id}] 快速存在性检测失败: {e}")
             return None
     
     async def _get_page_screenshot(self, page, use_cache: bool = True) -> Optional[np.ndarray]:
@@ -144,8 +205,10 @@ class ImageRecognition:
             # 转灰度，增强跨分辨率鲁棒性
             template_gray = cv2.cvtColor(template, cv2.COLOR_BGR2GRAY)
             
-            # 根据尝试次数调整置信度策略
-            confidence_strategy = self._get_confidence_strategy(base_confidence, attempt)
+            # 根据尝试次数调整置信度策略，并与绝对最小置信度对齐
+            confidence_strategy = [c for c in self._get_confidence_strategy(base_confidence, attempt) if c >= self.absolute_min_confidence]
+            if not confidence_strategy:
+                confidence_strategy = [self.absolute_min_confidence]
             
             # 多尺度匹配
             for scale_factor in self.scale_factors:
@@ -224,14 +287,30 @@ class ImageRecognition:
             result = cv2.matchTemplate(screenshot_gray, template, cv2.TM_CCOEFF_NORMED)
             min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
             
-            if max_val >= confidence:
+            # 绝对最小置信度保护
+            if max_val >= max(confidence, self.absolute_min_confidence):
                 # 计算中心位置
                 h, w = template.shape[:2]
                 center_x = max_loc[0] + w // 2
                 center_y = max_loc[1] + h // 2
                 
                 scale_info = f" (缩放: {scale_factor:.1f})" if scale_factor != 1.0 else ""
-                log_info(f"[{self.task_id}] 模板匹配成功: {template_path}, 置信度: {max_val:.3f}, 阈值: {confidence}{scale_info}")
+                
+                # 置信度安全检查：如果置信度过低，发出警告
+                if max_val < max(0.65, self.absolute_min_confidence):
+                    log_info(f"[{self.task_id}] ⚠️ 警告：置信度较低可能误匹配！{template_path}, 置信度: {max_val:.3f}, 阈值: {confidence}{scale_info}")
+                else:
+                    log_info(f"[{self.task_id}] 模板匹配成功: {template_path}, 置信度: {max_val:.3f}, 阈值: {confidence}{scale_info}")
+                
+                # 记录最近一次匹配信息
+                self.last_match_info.update({
+                    'path': template_path,
+                    'position': (int(center_x), int(center_y)),
+                    'score': float(max_val),
+                    'scale': float(scale_factor),
+                    'threshold': float(confidence),
+                    'ts': time.time(),
+                })
                 return (int(center_x), int(center_y))
             else:
                 scale_info = f" (缩放: {scale_factor:.1f})" if scale_factor != 1.0 else ""
@@ -245,20 +324,24 @@ class ImageRecognition:
     def _load_template(self, template_path: str) -> Optional[np.ndarray]:
         """加载模板图片，使用任务隔离的缓存"""
         try:
-            # 检查缓存
-            if template_path in self.template_cache:
-                log_info(f"[{self.task_id}] 使用缓存的模板: {template_path}")
-                return self.template_cache[template_path]
+            # 规范化路径，避免路径分隔符混用导致cv2.imread失败
+            import os
+            normalized_path = os.path.normpath(template_path)
+            
+            # 检查缓存（使用规范化路径作为key）
+            if normalized_path in self.template_cache:
+                log_info(f"[{self.task_id}] 使用缓存的模板: {normalized_path}")
+                return self.template_cache[normalized_path]
             
             # 加载新模板
-            log_info(f"[{self.task_id}] 加载新模板: {template_path}")
-            template = cv2.imread(template_path)
+            log_info(f"[{self.task_id}] 加载新模板: {normalized_path}")
+            template = cv2.imread(normalized_path)
             if template is not None:
-                self.template_cache[template_path] = template
-                log_info(f"[{self.task_id}] 模板已缓存: {template_path}")
+                self.template_cache[normalized_path] = template
+                log_info(f"[{self.task_id}] 模板已缓存: {normalized_path}")
                 return template
             else:
-                log_info(f"[{self.task_id}] 无法加载模板: {template_path}")
+                log_info(f"[{self.task_id}] 无法加载模板: {normalized_path}")
                 return None
                 
         except Exception as e:

@@ -58,7 +58,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div class="nav-item" id="interfaceAutomation">
+                <div class="nav-item" id="interfaceAutomation">
                     <div class="nav-header" onclick="toggleNavItem('interfaceAutomation')">
                         <i class="fas fa-network-wired"></i>
                         <span>接口自动化测试平台</span>
@@ -71,7 +71,7 @@
                         <span>测试案例管理平台</span>
                         <i class="fas fa-chevron-down nav-arrow"></i>
                     </div>
-                </div> -->
+                </div>
             </nav>
             <button class="sidebar-expand-btn" id="sidebarExpandBtn" title="展开侧边栏">
                 <i class="fas fa-angle-right"></i>
@@ -1053,6 +1053,36 @@
                         <button class="btn-primary" onclick="automationManagement.saveCustomAssertion()">保存</button>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 遮挡物模板配置弹窗 -->
+    <div id="blockerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-shield-alt"></i> 遮挡物模板配置</h2>
+                <span class="close" onclick="automationManagement.closeBlockerModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>模板图片上传（可批量）</label>
+                    <div class="upload-section">
+                        <input type="file" id="blocker-file-input" accept="image/*" multiple style="display:none;" onchange="automationManagement.handleBlockerFilesSelected(event)">
+                        <button type="button" class="upload-btn" onclick="automationManagement.triggerBlockerFileInput()">
+                            <i class="fas fa-upload"></i> 选择图片
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>已选模板</label>
+                    <div id="blocker-image-grid" class="image-grid"></div>
+                </div>
+                <small class="form-text text-muted">提示：保存仅会将新图片按 { name, path, confidence } 追加到配置；若名称（去除时间戳前缀）重复则跳过。</small>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="automationManagement.closeBlockerModal()">取消</button>
+                <button type="button" class="btn btn-primary" onclick="automationManagement.saveBlockerTemplates()">保存</button>
             </div>
         </div>
     </div>

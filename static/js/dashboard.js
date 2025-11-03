@@ -252,19 +252,21 @@ class DashboardManager {
         return isNaN(parsed) ? NaN : parsed;
     }
 
-    // 将时间值格式化为 yyyy/MM/dd HH:mm:ss
+    // 将时间值格式化为 yyyy/MM/dd HH:mm:ss（使用 UTC 时区避免时差问题）
     formatDateTimeYMDHMS(value) {
-        const ms = this.toTimestampMs(value);
-        if (isNaN(ms)) return '';
-        const d = new Date(ms);
-        const pad = (n) => String(n).padStart(2, '0');
-        const y = d.getFullYear();
-        const m = pad(d.getMonth() + 1);
-        const day = pad(d.getDate());
-        const hh = pad(d.getHours());
-        const mm = pad(d.getMinutes());
-        const ss = pad(d.getSeconds());
-        return `${y}/${m}/${day} ${hh}:${mm}:${ss}`;
+        if (!value) return '';
+        const date = new Date(value);
+        // 使用 UTC 时区，与自动化管理页面保持一致
+        return date.toLocaleString('zh-CN', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false,
+            timeZone: 'UTC'
+        }).replace(/\//g, '/');
     }
 
     // 判断一个时间字符串是否明确为UTC（包含 Z 或 GMT 或 +00:00）

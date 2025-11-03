@@ -75,6 +75,10 @@ class AutomationManagement {
         this.selectedImportSteps = [];
         this.currentProjectSteps = [];
         this.productGroupsData = [];
+        
+        // 遮挡物配置弹窗状态
+        this.currentBlockerIndex = null;
+        this.blockerModalImages = [];
     }
 
     // 页面销毁时的清理
@@ -7271,6 +7275,8 @@ class AutomationManagement {
             operation_params: '',
             operation_count: 1,
             pause_time: 1,
+            // 遮挡物处理：仅对游戏操作有效，默认否
+            blocker_enabled: 'no',
             // 断言设置相关字段
             assertion_enabled: 'no',
             assertion_type: 'ui',
@@ -7527,38 +7533,6 @@ class AutomationManagement {
                                                 <button class="timing-btn" data-timing="on_failure" onclick="setScreenshotTiming(${index}, 'on_failure')">失败时</button>
                                             </div>
                                         </div>
-                                        
-                                        <div class="form-group">
-                                            <label>图片格式</label>
-                                            <select id="screenshot-format-${index}" class="form-control">
-                                                <option value="png">PNG</option>
-                                                <option value="jpg">JPG</option>
-                                                <option value="webp">WebP</option>
-                                            </select>
-                                        </div>
-                                        
-                                        <div class="form-group">
-                                            <label>图片质量 (1-100)</label>
-                                            <input type="number" id="screenshot-quality-${index}" class="form-control" value="90" min="1" max="100">
-                                        </div>
-                                        
-                                        <div class="form-group">
-                                            <label>文件名前缀</label>
-                                            <input type="text" id="screenshot-prefix-${index}" class="form-control" value="screenshot_step" placeholder="screenshot_step">
-                                        </div>
-                                        
-                                        <div class="form-group">
-                                            <label>
-                                                <input type="checkbox" id="screenshot-full-page-${index}" style="margin-right: 0.5rem;">
-                                                全页面截图
-                                            </label>
-                                        </div>
-                                        
-                                        <div class="form-group">
-                                            <label>保存路径</label>
-                                            <input type="text" id="screenshot-path-${index}" class="form-control" value="screenshots/" placeholder="screenshots/">
-                                        </div>
-                                        
                                         <div class="screenshot-inline-footer">
                                             <button class="btn-secondary" onclick="closeInlineScreenshotModal(${index})">取消</button>
                                             <button class="btn-primary" onclick="automationManagement.saveScreenshotConfig()">保存</button>
@@ -7568,6 +7542,33 @@ class AutomationManagement {
                             </div>` : ''
                         }
                     </div>
+                    <!-- 遮挡物处理功能 -->
+                    <div class="form-group blocker-group">
+                        <label>
+                            <i class="fas fa-shield-alt" style="color: #f59e0b; margin-right: 0.5rem;"></i>
+                            遮挡物处理
+                        </label>
+                        <div class="blocker-controls">
+                            <select class="form-control blocker-select" onchange="automationManagement.toggleBlocker(${index}, this.value)">
+                                <option value="no" ${(step.blocker_enabled || 'no') === 'no' ? 'selected' : ''}>否</option>
+                                <option value="yes" ${step.blocker_enabled === 'yes' ? 'selected' : ''}>是</option>
+                            </select>
+                            <button type="button"
+                                    class="tab-config-btn blocker-config-btn ${step.blocker_enabled === 'yes' ? 'enabled' : 'disabled'}"
+                                    onclick="automationManagement.openBlockerModal(${index})"
+                                    ${step.blocker_enabled !== 'yes' ? 'disabled' : ''}>
+                                <i class="fas fa-cog"></i>
+                                <span>配置</span>
+                            </button>
+                        </div>
+                        ${step.blocker_enabled === 'yes' ? 
+                            `<div class="blocker-status">
+                                <i class="fas fa-info-circle"></i>
+                                <span>已启用 - 点击配置按钮进行详细设置</span>
+                            </div>` : ''
+                        }
+                    </div>
+                    
                 </div>
                 <!-- 复制步骤按钮 -->
                 <div class="step-copy-container">
@@ -7770,6 +7771,10 @@ class AutomationManagement {
             // 清除复制步骤的图片路径，要求用户重新上传
             copiedStep.operation_params = '';
         }
+        // 复制遮挡物处理字段，若不存在则初始化为'no'
+        if (!Object.prototype.hasOwnProperty.call(copiedStep, 'blocker_enabled')) {
+            copiedStep.blocker_enabled = 'no';
+        }
 
         // 将复制的步骤添加到最后面，而不是在当前步骤后插入
         this.testSteps.push(copiedStep);
@@ -7833,6 +7838,13 @@ class AutomationManagement {
         
         // 注意：重新计算标签页索引已经在updateTestStep中处理了
         // 重新渲染以更新状态显示
+        this.renderTestSteps();
+    }
+
+    // 切换遮挡物处理
+    toggleBlocker(index, value) {
+        this.updateTestStep(index, 'blocker_enabled', value);
+        // 仅更新数据与UI，无额外副作用
         this.renderTestSteps();
     }
 
@@ -8283,6 +8295,163 @@ class AutomationManagement {
         }
         
         this.currentAssertionIndex = null;
+    }
+
+    // 打开遮挡物模板配置弹窗
+    openBlockerModal(index) {
+        this.currentBlockerIndex = index;
+        this.blockerModalImages = [];
+        const grid = document.getElementById('blocker-image-grid');
+        if (grid) grid.innerHTML = '';
+
+        const modal = document.getElementById('blockerModal');
+        if (modal) {
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+    }
+
+    // 关闭遮挡物模板配置弹窗
+    closeBlockerModal() {
+        const modal = document.getElementById('blockerModal');
+        if (modal) {
+            modal.classList.remove('show');
+            document.body.style.overflow = '';
+        }
+        this.currentBlockerIndex = null;
+        this.blockerModalImages = [];
+    }
+
+    // 触发选择文件
+    triggerBlockerFileInput() {
+        const input = document.getElementById('blocker-file-input');
+        if (input) input.click();
+    }
+
+    // 选择文件回调（可批量）
+    async handleBlockerFilesSelected(event) {
+        const files = (event && event.target && event.target.files) ? Array.from(event.target.files) : [];
+        if (!files.length) return;
+        for (const file of files) {
+            try {
+                await this.uploadBlockerImage(file);
+            } catch (e) {
+                showToast(`上传失败: ${file && file.name ? file.name : ''}`, 'error');
+            }
+        }
+        this.renderBlockerImageGrid();
+        // 清空input，便于重复选择相同文件
+        if (event && event.target) event.target.value = '';
+    }
+
+    // 上传单个遮挡物图片到 Game_Img
+    async uploadBlockerImage(file) {
+        const formData = new FormData();
+        formData.append('image', file);
+        const resp = await fetch('/api/automation/upload-image', {
+            method: 'POST',
+            body: formData
+        }).then(r => r.json()).catch(() => ({ success: false, message: '网络错误' }));
+        if (!resp || !resp.success || !resp.data || !resp.data.file_path) {
+            throw new Error((resp && resp.message) || '上传失败');
+        }
+        const filePath = resp.data.file_path; // 例如: Game_Img/1761050313_nest.png
+        const previewUrl = filePath.startsWith('/') ? filePath : ('/' + filePath);
+        const name = this.computeBlockerNameFromPath(filePath);
+        this.blockerModalImages.push({ name, path: filePath, preview: previewUrl });
+    }
+
+    // 计算模板名称：去掉时间戳前缀与扩展名
+    computeBlockerNameFromPath(p) {
+        try {
+            const base = (p || '').split('\\').pop().split('/').pop();
+            const noExt = base.replace(/\.[^.]+$/, '');
+            // 去掉类似 1761050313_ 的时间戳前缀
+            return noExt.replace(/^\d+_/, '');
+        } catch (_) {
+            return 'template_' + Math.random().toString(36).slice(2, 7);
+        }
+    }
+
+    // 渲染缩略图网格
+    renderBlockerImageGrid() {
+        const grid = document.getElementById('blocker-image-grid');
+        if (!grid) return;
+        grid.innerHTML = (this.blockerModalImages || []).map((it, idx) => `
+            <div class="blocker-thumb">
+                <div class="thumb-img-wrap">
+                    <img src="${it.preview}" alt="${it.name}" onclick="automationManagement.previewImage('${it.preview.replace(/'/g, "&#39;")}')">
+                    <button class="thumb-remove" title="移除" onclick="automationManagement.removeBlockerImage(${idx})">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="thumb-name" title="${it.name}">${it.name}</div>
+            </div>
+        `).join('');
+    }
+
+    // 预览：确保遮罩存在
+    ensureImagePreviewMask() {
+        if (this.__imagePreviewMask) return this.__imagePreviewMask;
+        const mask = document.createElement('div');
+        mask.className = 'img-preview-mask';
+        mask.innerHTML = '<div class="img-preview-content"><img alt="预览图"/></div><div class="img-preview-close">关闭</div>';
+        document.body.appendChild(mask);
+        mask.addEventListener('click', (e) => {
+            if (e.target === mask || e.target.classList.contains('img-preview-close')) {
+                this.hideImagePreview();
+            }
+        });
+        this.__imagePreviewMask = mask;
+        return mask;
+    }
+
+    // 展示预览
+    previewImage(src) {
+        const mask = this.ensureImagePreviewMask();
+        const img = mask.querySelector('img');
+        img.src = src || '';
+        mask.classList.add('show');
+    }
+
+    // 隐藏预览
+    hideImagePreview() {
+        if (this.__imagePreviewMask) this.__imagePreviewMask.classList.remove('show');
+    }
+
+    // 从列表移除
+    removeBlockerImage(index) {
+        if (!Array.isArray(this.blockerModalImages)) return;
+        this.blockerModalImages.splice(index, 1);
+        this.renderBlockerImageGrid();
+    }
+
+    // 保存模板：仅将新文件同步追加到 BLOCKER_TEMPLATES
+    async saveBlockerTemplates() {
+        try {
+            const items = Array.isArray(this.blockerModalImages) ? this.blockerModalImages : [];
+            if (items.length === 0) {
+                // 无图片，则不更新配置，直接关闭即可
+                this.closeBlockerModal();
+                return;
+            }
+            const paths = items.map(it => it.path);
+            const resp = await fetch('/api/automation/blockers/update-templates', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ paths })
+            }).then(r => r.json());
+            if (resp && resp.success) {
+                const added = (resp.data && typeof resp.data.added_count === 'number') ? resp.data.added_count : 0;
+                const skipped = (resp.data && typeof resp.data.skipped_count === 'number') ? resp.data.skipped_count : 0;
+                showToast(`模板已更新：新增 ${added} 项，跳过 ${skipped} 项`, 'success');
+                this.closeBlockerModal();
+            } else {
+                showToast((resp && resp.message) || '更新模板失败', 'error');
+            }
+        } catch (e) {
+            showToast('更新模板失败', 'error');
+        }
     }
 
     // 登录/注册配置：打开弹框
@@ -9756,6 +9925,15 @@ class AutomationManagement {
                             showToast(`第${i + 1}步的图片上传失败: ${uploadError.message}`, 'error');
                             return;
                         }
+                    }
+                }
+            }
+            // 确保遮挡物处理字段被传递（仅游戏操作需要），默认'no'
+            for (let i = 0; i < updatedTestSteps.length; i++) {
+                const step = updatedTestSteps[i] || {};
+                if (step.operation_type === 'game') {
+                    if (!Object.prototype.hasOwnProperty.call(step, 'blocker_enabled')) {
+                        step.blocker_enabled = 'no';
                     }
                 }
             }
@@ -15361,5 +15539,4 @@ window.debugAutomationButtons = function() {
     }
 };
 
-// 确保automationManagement对象在全局作用域中可用
-window.automationManagement = null; 
+// 确保automationManagement对象在全局作用域中可用window.automationManagement = null; 

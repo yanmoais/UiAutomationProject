@@ -1,1 +1,493 @@
-
+新人引导:
+  70050_Web_test_3.py:
+    by_address:
+      https://h7055.slotcash666.com/:
+        email: yanglingzhen
+        password: azhen
+    by_order: []
+    by_slot: {}
+    product_address_slots: {}
+    by_step:
+    - step_index: 0
+      step_name: 登陆个人测试账号
+      operation_event: login
+      by_address:
+        https://h7055.slotcash666.com/:
+          email: yanglingzhen
+          password: azhen
+      by_order: []
+      by_slot: {}
+      product_address_slots: {}
+    - step_index: 0
+      step_name: 登陆个人测试账号
+      operation_event: login
+      by_address:
+        https://h7055.slotcash666.com/:
+          email: yanglingzhen
+          password: azhen
+      by_order: []
+      by_slot: {}
+      product_address_slots: {}
+新手引导:
+  70055_Web_test.py:
+    by_address:
+      https://h7055.slotcash666.com/:
+        email: yanglingzhen
+        password: azhen
+      https://t50guide.slotcash666.com/:
+        email: yanglingzhen
+        password: azhen
+    by_order: []
+    by_slot: {}
+    product_address_slots: {}
+    by_step:
+    - step_index: 0
+      step_name: 登陆个人测试账号
+      operation_event: login
+      by_address:
+        https://h7055.slotcash666.com/:
+          email: yanglingzhen
+          password: azhen
+      by_order: []
+      by_slot: {}
+      product_address_slots: {}
+    - step_index: 0
+      step_name: 登陆个人测试账号
+      operation_event: login
+      by_address:
+        https://t50guide.slotcash666.com/:
+          email: yanglingzhen
+          password: azhen
+      by_order: []
+      by_slot: {}
+      product_address_slots: {}
+    - step_index: 0
+      step_name: 登陆个人测试账号
+      operation_event: login
+      by_address:
+        https://t50guide.slotcash666.com/:
+          email: yanglingzhen
+          password: azhen
+      by_order: []
+      by_slot: {}
+      product_address_slots: {}
+    - step_index: 0
+      step_name: 登陆个人测试账号
+      operation_event: login
+      by_address:
+        https://t50guide.slotcash666.com/:
+          email: yanglingzhen
+          password: azhen
+      by_order: []
+      by_slot: {}
+      product_address_slots: {}
+    - step_index: 0
+      step_name: 登陆个人测试账号
+      operation_event: login
+      by_address:
+        https://t50guide.slotcash666.com/:
+          email: yanglingzhen
+          password: azhen
+      by_order: []
+      by_slot: {}
+      product_address_slots: {}
+    - step_index: 0
+      step_name: 登陆个人测试账号
+      operation_event: login
+      by_address:
+        https://t50guide.slotcash666.com/:
+          email: yanglingzhen
+          password: azhen
+      by_order: []
+      by_slot: {}
+      product_address_slots: {}
+    - step_index: 0
+      step_name: 登陆个人测试账号
+      operation_event: login
+      by_address:
+        https://t50guide.slotcash666.com/:
+          email: yanglingzhen
+          password: azhen
+      by_order: []
+      by_slot: {}
+      product_address_slots: {}
+    - step_index: 0
+      step_name: 登陆个人测试账号
+      operation_event: login
+      by_address:
+        https://t50guide.slotcash666.com/:
+          email: yanglingzhen
+          password: azhen
+      by_order: []
+      by_slot: {}
+      product_address_slots: {}
+    - step_index: 0
+      step_name: 登陆个人测试账号
+      operation_event: login
+      by_address:
+        https://t50guide.slotcash666.com/:
+          email: yanglingzhen
+          password: azhen
+      by_order: []
+      by_slot: {}
+      product_address_slots: {}
+    - step_index: 0
+      step_name: 登陆个人测试账号
+      operation_event: login
+      by_address:
+        https://t50guide.slotcash666.com/:
+          email: yanglingzhen
+          password: azhen
+      by_order: []
+      by_slot: {}
+      product_address_slots: {}
+    - step_index: 0
+      step_name: 登陆个人测试账号
+      operation_event: login
+      by_address:
+        https://t50guide.slotcash666.com/:
+          email: yanglingzhen
+          password: azhen
+      by_order: []
+      by_slot: {}
+      product_address_slots: {}
+    - step_index: 0
+      step_name: 登陆个人测试账号
+      operation_event: login
+      by_address:
+        https://t50guide.slotcash666.com/:
+          email: yanglingzhen
+          password: azhen
+      by_order: []
+      by_slot: {}
+      product_address_slots: {}
+    - step_index: 0
+      step_name: 登陆个人测试账号
+      operation_event: login
+      by_address:
+        https://t50guide.slotcash666.com/:
+          email: yanglingzhen
+          password: azhen
+      by_order: []
+      by_slot: {}
+      product_address_slots: {}
+    - step_index: 0
+      step_name: 登陆个人测试账号
+      operation_event: login
+      by_address:
+        https://t50guide.slotcash666.com/:
+          email: yanglingzhen
+          password: azhen
+      by_order: []
+      by_slot: {}
+      product_address_slots: {}
+    - step_index: 0
+      step_name: 登陆个人测试账号
+      operation_event: login
+      by_address:
+        https://t50guide.slotcash666.com/:
+          email: yanglingzhen
+          password: azhen
+      by_order: []
+      by_slot: {}
+      product_address_slots: {}
+    - step_index: 0
+      step_name: 登陆个人测试账号
+      operation_event: login
+      by_address:
+        https://t50guide.slotcash666.com/:
+          email: yanglingzhen
+          password: azhen
+      by_order: []
+      by_slot: {}
+      product_address_slots: {}
+    - step_index: 0
+      step_name: 登陆个人测试账号
+      operation_event: login
+      by_address:
+        https://t50guide.slotcash666.com/:
+          email: yanglingzhen
+          password: azhen
+      by_order: []
+      by_slot: {}
+      product_address_slots: {}
+    - step_index: 0
+      step_name: 登陆个人测试账号
+      operation_event: login
+      by_address:
+        https://t50guide.slotcash666.com/:
+          email: yanglingzhen
+          password: azhen
+      by_order: []
+      by_slot: {}
+      product_address_slots: {}
+    - step_index: 0
+      step_name: 登陆个人测试账号
+      operation_event: login
+      by_address:
+        https://t50guide.slotcash666.com/:
+          email: yanglingzhen
+          password: azhen
+      by_order: []
+      by_slot: {}
+      product_address_slots: {}
+    - step_index: 0
+      step_name: 登陆个人测试账号
+      operation_event: login
+      by_address:
+        https://t50guide.slotcash666.com/:
+          email: yanglingzhen
+          password: azhen
+      by_order: []
+      by_slot: {}
+      product_address_slots: {}
+    - step_index: 0
+      step_name: 登陆个人测试账号
+      operation_event: login
+      by_address:
+        https://t50guide.slotcash666.com/:
+          email: yanglingzhen
+          password: azhen
+      by_order: []
+      by_slot: {}
+      product_address_slots: {}
+    - step_index: 0
+      step_name: 登陆个人测试账号
+      operation_event: login
+      by_address:
+        https://t50guide.slotcash666.com/:
+          email: yanglingzhen
+          password: azhen
+      by_order: []
+      by_slot: {}
+      product_address_slots: {}
+    - step_index: 0
+      step_name: 登陆个人测试账号
+      operation_event: login
+      by_address:
+        https://t50guide.slotcash666.com/:
+          email: yanglingzhen
+          password: azhen
+      by_order: []
+      by_slot: {}
+      product_address_slots: {}
+    - step_index: 0
+      step_name: 登陆个人测试账号
+      operation_event: login
+      by_address:
+        https://t50guide.slotcash666.com/:
+          email: yanglingzhen
+          password: azhen
+      by_order: []
+      by_slot: {}
+      product_address_slots: {}
+    - step_index: 0
+      step_name: 登陆个人测试账号
+      operation_event: login
+      by_address:
+        https://t50guide.slotcash666.com/:
+          email: yanglingzhen
+          password: azhen
+      by_order: []
+      by_slot: {}
+      product_address_slots: {}
+    - step_index: 0
+      step_name: 登陆个人测试账号
+      operation_event: login
+      by_address:
+        https://t50guide.slotcash666.com/:
+          email: yanglingzhen
+          password: azhen
+      by_order: []
+      by_slot: {}
+      product_address_slots: {}
+    - step_index: 0
+      step_name: 登陆个人测试账号
+      operation_event: login
+      by_address:
+        https://t50guide.slotcash666.com/:
+          email: yanglingzhen
+          password: azhen
+      by_order: []
+      by_slot: {}
+      product_address_slots: {}
+    - step_index: 0
+      step_name: 登陆个人测试账号
+      operation_event: login
+      by_address:
+        https://t50guide.slotcash666.com/:
+          email: yanglingzhen
+          password: azhen
+      by_order: []
+      by_slot: {}
+      product_address_slots: {}
+    - step_index: 0
+      step_name: 登陆个人测试账号
+      operation_event: login
+      by_address:
+        https://t50guide.slotcash666.com/:
+          email: yanglingzhen
+          password: azhen
+      by_order: []
+      by_slot: {}
+      product_address_slots: {}
+    - step_index: 0
+      step_name: 登陆个人测试账号
+      operation_event: login
+      by_address:
+        https://t50guide.slotcash666.com/:
+          email: yanglingzhen
+          password: azhen
+      by_order: []
+      by_slot: {}
+      product_address_slots: {}
+    - step_index: 0
+      step_name: 登陆个人测试账号
+      operation_event: login
+      by_address:
+        https://t50guide.slotcash666.com/:
+          email: yanglingzhen
+          password: azhen
+      by_order: []
+      by_slot: {}
+      product_address_slots: {}
+    - step_index: 0
+      step_name: 登陆个人测试账号
+      operation_event: login
+      by_address:
+        https://t50guide.slotcash666.com/:
+          email: yanglingzhen
+          password: azhen
+      by_order: []
+      by_slot: {}
+      product_address_slots: {}
+    - step_index: 0
+      step_name: 登陆个人测试账号
+      operation_event: login
+      by_address:
+        https://t50guide.slotcash666.com/:
+          email: yanglingzhen
+          password: azhen
+      by_order: []
+      by_slot: {}
+      product_address_slots: {}
+SDSADSA:
+  70055_Web_test_2.py:
+    by_address:
+      https://t50guide.slotcash666.com/:
+        email: yanglingzhen
+        password: azhen
+    by_order: []
+    by_slot: {}
+    product_address_slots: {}
+    by_step:
+    - step_index: 0
+      step_name: 登陆个人测试账号
+      operation_event: login
+      by_address:
+        https://t50guide.slotcash666.com/:
+          email: yanglingzhen
+          password: azhen
+      by_order: []
+      by_slot: {}
+      product_address_slots: {}
+EWQ:
+  70055_Web_test_2.py:
+    by_address:
+      https://t50guide.slotcash666.com/:
+        email: yanglingzhen
+        password: azhen
+    by_order: []
+    by_slot: {}
+    product_address_slots: {}
+    by_step:
+    - step_index: 0
+      step_name: 登陆个人测试账号
+      operation_event: login
+      by_address:
+        https://t50guide.slotcash666.com/:
+          email: yanglingzhen
+          password: azhen
+      by_order: []
+      by_slot: {}
+      product_address_slots: {}
+    - step_index: 0
+      step_name: 登陆个人测试账号
+      operation_event: login
+      by_address:
+        https://t50guide.slotcash666.com/:
+          email: yanglingzhen
+          password: azhen
+      by_order: []
+      by_slot: {}
+      product_address_slots: {}
+    - step_index: 0
+      step_name: 登陆个人测试账号
+      operation_event: login
+      by_address:
+        https://t50guide.slotcash666.com/:
+          email: yanglingzhen
+          password: azhen
+      by_order: []
+      by_slot: {}
+      product_address_slots: {}
+    - step_index: 0
+      step_name: 登陆个人测试账号
+      operation_event: login
+      by_address:
+        https://t50guide.slotcash666.com/:
+          email: yanglingzhen
+          password: azhen
+      by_order: []
+      by_slot: {}
+      product_address_slots: {}
+' 新手引导':
+  70055_Web_test_2.py:
+    by_address:
+      https://t50guide.slotcash666.com/:
+        email: yanglingzhen
+        password: azhen
+    by_order: []
+    by_slot: {}
+    product_address_slots: {}
+    by_step:
+    - step_index: 0
+      step_name: 登陆个人测试账号
+      operation_event: login
+      by_address:
+        https://t50guide.slotcash666.com/:
+          email: yanglingzhen
+          password: azhen
+      by_order: []
+      by_slot: {}
+      product_address_slots: {}
+    - step_index: 0
+      step_name: 登陆个人测试账号
+      operation_event: login
+      by_address:
+        https://t50guide.slotcash666.com/:
+          email: yanglingzhen
+          password: azhen
+      by_order: []
+      by_slot: {}
+      product_address_slots: {}
+    - step_index: 0
+      step_name: 登陆个人测试账号
+      operation_event: login
+      by_address:
+        https://t50guide.slotcash666.com/:
+          email: yanglingzhen
+          password: azhen
+      by_order: []
+      by_slot: {}
+      product_address_slots: {}
+    - step_index: 0
+      step_name: 登陆个人测试账号
+      operation_event: login
+      by_address:
+        https://t50guide.slotcash666.com/:
+          email: yanglingzhen
+          password: azhen
+      by_order: []
+      by_slot: {}
+      product_address_slots: {}

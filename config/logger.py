@@ -303,7 +303,7 @@ def read_test_execution_logs(start_line: int, end_line: int, log_file: str = Non
         selected_lines = lines[start_line - 1:end_line]
         
         # 过滤系统管理日志，只保留测试执行相关的日志
-        # 减少过度过滤，保留更多有用的测试执行信息
+        # 放宽过滤范围：在超时/失败场景下保留清理、超时等关键信息
         filtered_lines = []
         system_keywords = [
             # 系统管理相关，需要过滤
@@ -314,12 +314,13 @@ def read_test_execution_logs(start_line: int, end_line: int, log_file: str = Non
             '检测到多个测试方法',
             '执行pytest命令',
             '进程已添加到running_tests',
-            '准备更新项目',
-            '项目状态已更新为',
-            '项目已从运行列表中移除',
+            # 以下关键词在问题定位时有价值，保留（不加入过滤列表）
+            # '准备更新项目',
+            # '项目状态已更新为',
+            # '项目已从运行列表中移除',
             '进程正常结束',
-            '详细日志已更新',
-            '详细日志已存储到执行记录',
+            # '详细日志已更新',
+            # '详细日志已存储到执行记录',
             '监控线程已启动',
             '星火自动化测试平台启动中',
             '正在创建Flask应用',

@@ -51,8 +51,8 @@ class HybridImageManager:
         if timeout is None:
             timeout = self.config['timeout']
         
-        max_attempts = self.config.get('max_retry_attempts', 3)
-        retry_delay = self.config.get('retry_delay', 1.0)
+        max_attempts = self.config.get('max_retry_attempts', 5)
+        retry_delay = self.config.get('retry_delay', 3.0)
         
         # 使用锁机制确保并发安全
         async with self._lock:
@@ -187,27 +187,37 @@ class HybridImageManager:
     def _find_with_pyautogui(self, image_path: str, confidence: float, region: Optional[Tuple[int, int, int, int]] = None) -> Optional[Tuple[int, int]]:
         """使用pyautogui查找图片（可限定区域）"""
         try:
+            # 规范化路径：统一路径分隔符，避免混用正斜杠和反斜杠
+            normalized_path = os.path.normpath(image_path)
+            
             # 使用任务特定的日志标识
-            log_info(f"[{self.task_id}] 使用pyautogui查找图片: {image_path}, 区域: {region}")
+            log_info(f"[{self.task_id}] 使用pyautogui查找图片: {normalized_path}, 区域: {region}")
             if region:
-                position = pyautogui.locateCenterOnScreen(image_path, confidence=confidence, region=region)
+                position = pyautogui.locateCenterOnScreen(normalized_path, confidence=confidence, region=region)
             else:
-                position = pyautogui.locateCenterOnScreen(image_path, confidence=confidence)
+                position = pyautogui.locateCenterOnScreen(normalized_path, confidence=confidence)
             if position:
-                log_info(f"[{self.task_id}] pyautogui找到图片: {image_path} at {position}")
+                log_info(f"[{self.task_id}] pyautogui找到图片: {normalized_path} at {position}")
                 return (position.x, position.y)
             else:
-                log_info(f"[{self.task_id}] pyautogui未找到图片: {image_path}")
+                log_info(f"[{self.task_id}] pyautogui未找到图片: {normalized_path}")
                 return None
         except Exception as e:
             log_info(f"[{self.task_id}] pyautogui查找图片时发生错误: {e}")
             return None
     
     def _build_image_path(self, image_path: str) -> str:
-        """构建完整的图片路径"""
+        """构建完整的图片路径并规范化"""
+        # 先规范化输入路径，避免路径分隔符混用
+        image_path = os.path.normpath(image_path)
+        
+        # 如果是绝对路径，直接返回规范化后的路径
         if image_path.startswith('/') or ':' in image_path:
             return image_path
-        return os.path.join(BASE_DIR, image_path)
+        
+        # 相对路径：拼接基础目录并规范化
+        full_path = os.path.join(BASE_DIR, image_path)
+        return os.path.normpath(full_path)
     
     async def _get_window_region(self, page) -> Optional[Tuple[int, int, int, int]]:
         """获取当前页面窗口在屏幕坐标系下的区域，用于限定pyautogui搜索范围"""
@@ -230,4 +240,4 @@ class HybridImageManager:
             return region
         except Exception as e:
             log_info(f"[{self.task_id}] 获取窗口区域失败，降级为全屏: {e}")
-            return None 
+            return None

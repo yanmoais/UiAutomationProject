@@ -164,7 +164,7 @@ def read_product_address_slots(project_name: str, file_name: str) -> Dict[str, s
 def generate_unique_accounts_for_addresses(addresses: List[str]) -> Dict[str, Dict[str, str]]:
     """为给定地址列表生成唯一的邮箱与密码。
     - 邮箱：使用 Faker.unique.email 保证本次调用内唯一性，必要时退化到 username+随机数 方案
-    - 密码：固定 '123456'（与前端兼容）
+    - 密码：固定 '123456789'（与前端兼容）
     返回按地址去重后的映射；重复地址只保留一个账号。
     """
     unique_accounts: Dict[str, Dict[str, str]] = {}
@@ -197,7 +197,7 @@ def generate_unique_accounts_for_addresses(addresses: List[str]) -> Dict[str, Di
         if not email_value:
             email_value = f"user{faker.random_number(digits=8)}@example.com"
 
-        password_value = '123456'
+        password_value = '123456789'
 
         unique_accounts[addr_str] = {
             'email': email_value,
@@ -236,7 +236,7 @@ def generate_unique_accounts_list_for_addresses(addresses: List[str]) -> List[Di
         if not email_value:
             email_value = f"user{faker.random_number(digits=8)}@example.com"
 
-        password_value = '123456'
+        password_value = '123456789'
 
         accounts_list.append({
             'email': email_value,

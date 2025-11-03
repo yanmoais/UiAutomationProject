@@ -16,6 +16,7 @@ from flask import current_app
 from werkzeug.utils import secure_filename
 from config.logger import log_error, log_info
 from utils.image_upload_manager import image_upload_manager
+import re
 from utils.file_manager import file_manager
 from utils.auth_accounts import read_accounts, write_accounts
 from utils.auth_accounts import generate_unique_accounts_for_addresses, generate_unique_accounts_list_for_addresses
@@ -1808,6 +1809,84 @@ def upload_test_image():
             'message': f'上传图片失败: {str(e)}'
         }), 500
 
+
+@automation_bp.route('/blockers/update-templates', methods=['POST'])
+def update_blocker_templates():
+    """将新上传的遮挡物模板图片追加到 config/ui_config.py 的 BLOCKER_TEMPLATES
+    - 仅追加新模板：按 name 去重，name 来源于文件名去除时间戳前缀与扩展名
+    - 格式：{ 'name': 'nest', 'path': 'Game_Img/xxx.png', 'confidence': 0.7 }
+    """
+    try:
+        data = request.get_json(silent=True) or {}
+        paths = data.get('paths') or []
+        if not isinstance(paths, list):
+            return jsonify({'success': False, 'message': '参数错误：paths 应为数组'}), 400
+
+        cfg_path = os.path.join('config', 'ui_config.py')
+        if not os.path.exists(cfg_path):
+            return jsonify({'success': False, 'message': '配置文件不存在'}), 500
+
+        with open(cfg_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+
+        start_marker = 'BLOCKER_TEMPLATES = ['
+        start_idx = content.find(start_marker)
+        if start_idx == -1:
+            return jsonify({'success': False, 'message': '未找到 BLOCKER_TEMPLATES 定义'}), 500
+
+        # 查找与起始位置最近的列表结尾
+        # 优先尝试找到以 ]\n 结束的方括号
+        end_idx = content.find(']\n', start_idx)
+        if end_idx == -1:
+            end_idx = content.find(']', start_idx)
+            if end_idx == -1:
+                return jsonify({'success': False, 'message': 'BLOCKER_TEMPLATES 解析失败'}), 500
+
+        list_text = content[start_idx:end_idx + 1]
+
+        # 解析已有 name 集合
+        existing_names = set(m.group(1) for m in re.finditer(r"\{\s*'name'\s*:\s*'([^']+)'", list_text))
+
+        def compute_name(p: str) -> str:
+            base = os.path.basename(p or '')
+            base_no_ext = re.sub(r"\.[^.]+$", '', base)
+            return re.sub(r"^\d+_", '', base_no_ext)
+
+        new_entries = []
+        skipped = 0
+        for p in paths:
+            if not p or not isinstance(p, str):
+                skipped += 1
+                continue
+            name = compute_name(p)
+            if not name or name in existing_names:
+                skipped += 1
+                continue
+            new_entries.append(f"        {{ 'name': '{name}', 'path': '{p}', 'confidence': 0.7 }}")
+            existing_names.add(name)
+
+        if not new_entries:
+            return jsonify({'success': True, 'message': '无新增模板', 'data': {'added_count': 0, 'skipped_count': skipped}})
+
+        # 在列表结束方括号前插入新条目，保留缩进与风格
+        before = content[:end_idx]
+        # 确保末尾有逗号或列表开头
+        trimmed = before.rstrip()
+        if not trimmed.endswith('[') and not trimmed.endswith(','):
+            before = trimmed + ',\n'
+        else:
+            before = trimmed + '\n'
+
+        updated = before + (',\n'.join(new_entries)) + content[end_idx:]
+
+        with open(cfg_path, 'w', encoding='utf-8') as f:
+            f.write(updated)
+
+        return jsonify({'success': True, 'message': '模板更新成功', 'data': {'added_count': len(new_entries), 'skipped_count': skipped}})
+    except Exception as e:
+        log_error(f"更新 BLOCKER_TEMPLATES 失败: {e}")
+        return jsonify({'success': False, 'message': f'更新失败: {str(e)}'}), 500
+
 def generate_test_code(automation_id, data):
     """生成测试代码文件"""
     try:
@@ -2722,6 +2801,30 @@ def generate_assertion_code(step, step_index):
 def generate_single_test_file(filename, data, product_id):
     """生成单个测试文件"""
     try:
+        # 修复前端传递的 screenshot_config 为 null 的问题
+        # 当 screenshot_enabled 为 "no" 时，前端会传 screenshot_config: null
+        # 我们需要补全默认配置，避免代码生成时出现空值
+        for step in data.get('test_steps', []):
+            if step.get('screenshot_config') is None or not step.get('screenshot_config'):
+                # 从旧的扁平化字段读取（如果有的话）
+                old_timing = step.get('screenshot_timing', '').strip()
+                old_format = step.get('screenshot_format', '').strip()
+                old_quality = step.get('screenshot_quality', '')
+                old_full_page = step.get('screenshot_full_page', '')
+                old_path = step.get('screenshot_path', '').strip()
+                old_prefix = step.get('screenshot_prefix', '').strip()
+                
+                # 构建默认配置（如果旧字段也为空，使用合理的默认值）
+                step['screenshot_config'] = {
+                    'timing': old_timing if old_timing else 'after',
+                    'format': old_format if old_format else 'png',
+                    'quality': int(old_quality) if old_quality and str(old_quality).isdigit() else 90,
+                    'full_page': old_full_page == 'yes' if old_full_page else False,
+                    'path': old_path if old_path else 'screenshots/',
+                    'prefix': old_prefix if old_prefix else 'screenshot_step'
+                }
+                log_info(f"[FIX] 步骤 '{step.get('step_name', 'unknown')}' 的 screenshot_config 从 null 修复为: {step['screenshot_config']}")
+        
         file_path = os.path.join('Test_Case', filename)
         
         # 获取产品地址
@@ -2815,8 +2918,10 @@ async def test_''' + product_id.replace("-", "_") + '''(browser_args):
             
             # 获取截图配置
             screenshot_enabled = step.get('screenshot_enabled', 'NO').upper()
-            screenshot_config = step.get('screenshot_config', {})
-            screenshot_timing = screenshot_config.get('timing', 'after')
+            screenshot_config = step.get('screenshot_config') or {}  # 处理None的情况
+            # 获取timing，如果为空字符串则使用默认值'after'
+            screenshot_timing = screenshot_config.get('timing') or 'after'
+            log_info(f"步骤{i+1}的截图设置: screenshot_enabled: {screenshot_enabled}, screenshot_timing: {screenshot_timing}")
 
             # 安全地转换数字字段，确保它们是有效的正整数
             try:
@@ -2870,7 +2975,7 @@ async def test_''' + product_id.replace("-", "_") + '''(browser_args):
                     code_content += assertion_code
                 
                 # 添加步骤前截图代码
-                if screenshot_enabled == 'YES' and (screenshot_timing == 'before' or screenshot_timing == 'both'):
+                if screenshot_enabled in ['YES','yes'] and (screenshot_timing == 'before' or screenshot_timing == 'both'):
                     code_content += '''
                 # 步骤前截图
                 with allure.step("测试步骤''' + str(i+1) + ''': 步骤前截图"):
@@ -2878,7 +2983,7 @@ async def test_''' + product_id.replace("-", "_") + '''(browser_args):
 '''
                 
                 # 根据截图设置动态生成失败截图代码
-                if screenshot_enabled == 'YES' and screenshot_timing == 'on_failure':
+                if screenshot_enabled in ['YES','yes'] and screenshot_timing == 'on_failure':
                     failure_screenshot_code = '''
                             try:
                                 # 失败时截图
@@ -2892,7 +2997,7 @@ async def test_''' + product_id.replace("-", "_") + '''(browser_args):
                     failure_screenshot_code = ''
                 
                 # 根据截图设置动态生成步骤后截图代码  
-                if screenshot_enabled == 'YES' and (screenshot_timing == 'after' or screenshot_timing == 'both'):
+                if screenshot_enabled in ['YES','yes'] and (screenshot_timing == 'after' or screenshot_timing == 'both'):
                     after_screenshot_code = '''
                 # 步骤后截图
                 with allure.step("测试步骤''' + str(i+1) + ''': 步骤后截图"):
@@ -3014,6 +3119,7 @@ async def test_''' + product_id.replace("-", "_") + '''(browser_args):
                 # 图片操作子步骤
                 with allure.step(f"测试步骤''' + str(i+1) + ''': ''' + step_name + ''' - 游戏图片''' + operation_event + ''' 操作"):
                     # 执行游戏图片操作 ''' + str(operation_count) + ''' 次
+                    await asyncio.sleep(7)
                     for attempt in range(''' + str(operation_count) + '''):
                         # 检查浏览器是否已关闭（即使是游戏操作也需要检查浏览器状态）
                         if await ui_operations.is_browser_closed():
@@ -3023,10 +3129,11 @@ async def test_''' + product_id.replace("-", "_") + '''(browser_args):
                         try:
                             log_info(f"[test_''' + product_id.replace("-", "_") + '''] 执行第{attempt + 1}次图片操作: ''' + operation_event + ''' on ''' + img_path + '''")
                             time.sleep(''' + str(pause_time) + ''')
-                            success = await ui_operations.click_image_with_fallback(
+                        success = await ui_operations.click_image_with_fallback(
                                 "''' + img_path + '''", 
-                                confidence=0.5, 
-                                timeout=10
+                                confidence=0.7, 
+                            timeout=10,
+                            is_open=''' + ("True" if "blocker_enabled" in step and step.get('blocker_enabled') == 'yes' else "False") + '''
                             )
                             if success:
                                 log_info(f"[{task_id}] test_''' + product_id.replace("-", "_") + ''' 第{attempt + 1}次操作完成")
@@ -3091,6 +3198,30 @@ async def test_''' + product_id.replace("-", "_") + '''(browser_args):
 def update_single_test_file(filename, data, product_id):
     """更新单个测试文件"""
     try:
+        # 修复前端传递的 screenshot_config 为 null 的问题
+        # 当 screenshot_enabled 为 "no" 时，前端会传 screenshot_config: null
+        # 我们需要补全默认配置，避免代码生成时出现空值
+        for step in data.get('test_steps', []):
+            if step.get('screenshot_config') is None or not step.get('screenshot_config'):
+                # 从旧的扁平化字段读取（如果有的话）
+                old_timing = step.get('screenshot_timing', '').strip()
+                old_format = step.get('screenshot_format', '').strip()
+                old_quality = step.get('screenshot_quality', '')
+                old_full_page = step.get('screenshot_full_page', '')
+                old_path = step.get('screenshot_path', '').strip()
+                old_prefix = step.get('screenshot_prefix', '').strip()
+                
+                # 构建默认配置（如果旧字段也为空，使用合理的默认值）
+                step['screenshot_config'] = {
+                    'timing': old_timing if old_timing else 'after',
+                    'format': old_format if old_format else 'png',
+                    'quality': int(old_quality) if old_quality and str(old_quality).isdigit() else 90,
+                    'full_page': old_full_page == 'yes' if old_full_page else False,
+                    'path': old_path if old_path else 'screenshots/',
+                    'prefix': old_prefix if old_prefix else 'screenshot_step'
+                }
+                log_info(f"[FIX] 步骤 '{step.get('step_name', 'unknown')}' 的 screenshot_config 从 null 修复为: {step['screenshot_config']}")
+        
         file_path = os.path.join('Test_Case', filename)
         # 获取产品地址
         product_address = data.get('product_address', '')
@@ -3252,11 +3383,13 @@ async def test_''' + product_id.replace("-", "_") + '''(browser_args):
                 
                 # 生成截图代码变量
                 screenshot_enabled = step.get('screenshot_enabled', 'NO').upper()
-                screenshot_config = step.get('screenshot_config', {})
-                screenshot_timing = screenshot_config.get('timing', 'none')
+                screenshot_config = step.get('screenshot_config') or {}  # 处理None的情况
+                # 获取timing，如果为空字符串则使用默认值'none'
+                screenshot_timing = screenshot_config.get('timing') or 'none'
+                log_info(f"步骤{i+1}的截图设置: screenshot_enabled: {screenshot_enabled}, screenshot_timing: {screenshot_timing}")
                 
                 # 步骤前截图代码
-                if screenshot_enabled == 'YES' and screenshot_timing in ['before', 'both']:
+                if screenshot_enabled in ['YES','yes'] and screenshot_timing in ['before', 'both']:
                     before_screenshot_code = '''
                 # 步骤前截图
                 with allure.step("测试步骤''' + str(i+1) + ''': ''' + step_name + ''' - 步骤前截图"):
@@ -3270,7 +3403,7 @@ async def test_''' + product_id.replace("-", "_") + '''(browser_args):
                     before_screenshot_code = ''
                 
                 # 步骤后截图代码
-                if screenshot_enabled == 'YES' and screenshot_timing in ['after', 'both']:
+                if screenshot_enabled in ['YES','yes'] and screenshot_timing in ['after', 'both']:
                     after_screenshot_code = '''
                 # 步骤后截图
                 with allure.step("测试步骤''' + str(i+1) + ''': ''' + step_name + ''' - 步骤后截图"):
@@ -3284,7 +3417,7 @@ async def test_''' + product_id.replace("-", "_") + '''(browser_args):
                     after_screenshot_code = ''
                 
                 # 失败截图代码
-                if screenshot_enabled == 'YES' and screenshot_timing == 'on_failure':
+                if screenshot_enabled in ['YES','yes'] and screenshot_timing == 'on_failure':
                     failure_screenshot_code = '''
                                 # 操作失败截图
                                     with allure.step("测试步骤''' + str(i+1) + ''': ''' + step_name + ''' - 操作失败截图"):
@@ -3377,11 +3510,14 @@ async def test_''' + product_id.replace("-", "_") + '''(browser_args):
                     click_action = 'pyautogui.click(center_x, center_y)'
                 
                 # 生成截图代码
-                screenshot_enabled = step.get('screenshot_enabled', 'NO')
-                screenshot_timing = step.get('screenshot_timing', 'none')
+                screenshot_enabled = step.get('screenshot_enabled', 'NO').upper()
+                screenshot_config = step.get('screenshot_config') or {}  # 处理None的情况
+                # 获取timing，如果为空字符串则使用默认值'none'
+                screenshot_timing = screenshot_config.get('timing') or step.get('screenshot_timing') or 'none'
+                log_info(f"步骤{i+1}的截图设置: screenshot_enabled: {screenshot_enabled}, screenshot_timing: {screenshot_timing}")
                 
                 # 步骤前截图代码
-                if screenshot_enabled == 'YES' and screenshot_timing in ['before', 'both']:
+                if screenshot_enabled in ['YES','yes'] and screenshot_timing in ['before', 'both']:
                     before_screenshot_code = '''
                 # 步骤前截图
                 with allure.step("测试步骤''' + str(i+1) + ''': ''' + step_name + ''' - 步骤前截图"):
@@ -3395,7 +3531,7 @@ async def test_''' + product_id.replace("-", "_") + '''(browser_args):
                     before_screenshot_code = ''
                 
                 # 步骤后截图代码
-                if screenshot_enabled == 'YES' and screenshot_timing in ['after', 'both']:
+                if screenshot_enabled in ['YES','yes'] and screenshot_timing in ['after', 'both']:
                     after_screenshot_code = '''
                 # 步骤后截图
                 with allure.step("测试步骤''' + str(i+1) + ''': ''' + step_name + ''' - 步骤后截图"):
@@ -3409,7 +3545,7 @@ async def test_''' + product_id.replace("-", "_") + '''(browser_args):
                     after_screenshot_code = ''
                 
                 # 失败截图代码
-                if screenshot_enabled == 'YES' and screenshot_timing == 'on_failure':
+                if screenshot_enabled in ['YES','yes'] and screenshot_timing == 'on_failure':
                     failure_screenshot_code = '''
                                 # 操作失败截图
                                 with allure.step("测试步骤''' + str(i+1) + ''': ''' + step_name + ''' - 操作失败截图"):
@@ -3445,6 +3581,7 @@ async def test_''' + product_id.replace("-", "_") + '''(browser_args):
                 # 图片操作子步骤
                 with allure.step(f"测试步骤''' + str(i+1) + ''': ''' + step_name + ''' - 游戏图片''' + operation_event + ''' 操作"):
                     # 执行游戏图片操作 ''' + str(operation_count) + ''' 次
+                    await asyncio.sleep(7)
                     for attempt in range(''' + str(operation_count) + '''):
                         # 检查浏览器是否已关闭（即使是游戏操作也需要检查浏览器状态）
                         if await ui_operations.is_browser_closed():
@@ -3455,8 +3592,9 @@ async def test_''' + product_id.replace("-", "_") + '''(browser_args):
                             time.sleep(''' + str(pause_time) + ''')
                             success = await ui_operations.click_image_with_fallback(
                                 "''' + img_path + '''", 
-                                confidence=0.5, 
-                                timeout=10
+                                confidence=0.7, 
+                                timeout=10,
+                                is_open=''' + ("True" if "blocker_enabled" in step and step.get('blocker_enabled') == 'yes' else "False") + '''
                             )
                             
                             if success:
@@ -3974,7 +4112,73 @@ def run_pytest_file(filename, project_id=None):
                     process.wait(timeout=5)
                 except subprocess.TimeoutExpired:
                     process.kill()
-                # 超时后清理running_tests记录
+                # 超时情况下，尽力收集并保存本次执行期间的详细日志到执行记录
+                try:
+                    execution_id = None
+                    # 优先从运行内存结构获取
+                    if project_id and project_id in running_tests:
+                        execution_id = running_tests[project_id].get('execution_id')
+                    # 如未获取到，则从数据库回溯最近一条记录
+                    if not execution_id and project_id:
+                        with get_db_connection_with_retry() as conn:
+                            query = adapt_query_placeholders('''
+                                SELECT id FROM automation_executions 
+                                WHERE project_id = ? AND status = 'running'
+                                ORDER BY start_time DESC LIMIT 1
+                            ''')
+                            execution_results = execute_query_with_results(conn, query, (project_id,))
+                            if execution_results:
+                                execution_id = execution_results[0][0]
+                            else:
+                                query2 = adapt_query_placeholders('''
+                                    SELECT id FROM automation_executions 
+                                    WHERE project_id = ? AND start_time >= DATE_SUB(NOW(), INTERVAL 5 MINUTE)
+                                    ORDER BY start_time DESC LIMIT 1
+                                ''')
+                                recent_results = execute_query_with_results(conn, query2, (project_id,))
+                                if recent_results:
+                                    execution_id = recent_results[0][0]
+                    if execution_id:
+                        # 读取测试执行期间新增的日志内容（过滤系统日志）
+                        end_line_number = get_log_file_line_count()
+                        try:
+                            from config.logger import read_test_execution_logs
+                            if end_line_number > start_line_number:
+                                test_execution_log = read_test_execution_logs(start_line_number + 1, end_line_number)
+                            else:
+                                test_execution_log = "未检测到新的日志内容"
+                        except Exception as _:
+                            test_execution_log = "读取日志失败"
+                        # 合并已有详细日志内容
+                        try:
+                            with get_db_connection_with_retry() as conn:
+                                query = adapt_query_placeholders('SELECT detailed_log FROM automation_executions WHERE id = ?')
+                                log_results = execute_query_with_results(conn, query, (execution_id,))
+                                row = log_results[0] if log_results else None
+                                existing_log = row[0] if row and row[0] else ""
+                        except Exception:
+                            existing_log = ""
+                        complete_detailed_log = (
+                            f"{existing_log}\n\n=== 进程超时，收集的测试执行日志 (行数范围: {start_line_number + 1}-{end_line_number}) ===\n"
+                            f"{test_execution_log}\n"
+                        )
+                        update_execution_detailed_log(execution_id, complete_detailed_log)
+                        log_info(f"进程超时，已保存详细日志到执行记录 {execution_id}")
+                except Exception as log_collect_error:
+                    log_info(f"超时后收集日志失败: {log_collect_error}")
+                # 超时后：更新执行记录状态与结束时间，避免UI无状态且无日志
+                try:
+                    if project_id and project_id in running_tests:
+                        exec_id_for_timeout = running_tests[project_id].get('execution_id')
+                    else:
+                        exec_id_for_timeout = None
+                    if exec_id_for_timeout:
+                        end_time_str = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                        update_execution_record(exec_id_for_timeout, status='failed', end_time=end_time_str,
+                                                log_message='进程执行超时，已被系统终止')
+                except Exception as _:
+                    pass
+                # 最后清理running_tests记录
                 if project_id and project_id in running_tests:
                     del running_tests[project_id]
                     log_info(f"超时后清理项目 {project_id} 的运行记录")
@@ -4075,12 +4279,18 @@ def run_pytest_file(filename, project_id=None):
                     existing_log = row[0] if row and row[0] else ""
                 
                 # 组合完整的详细日志
-                if existing_log and "监控线程收集的日志" in existing_log:
-                    # 如果监控线程已经收集了日志，补充pytest输出
-                    complete_detailed_log = f"{existing_log}\n\n=== 主执行线程补充的pytest输出 ===\n{detailed_log}"
-                    log_info(f"监控线程已收集部分日志，主执行线程补充pytest输出")
+                if existing_log:
+                    # 任何已有详细日志（监控线程或之前阶段写入），都进行追加而非覆盖
+                    complete_detailed_log = f"{existing_log}\n\n=== 主执行线程补充的输出 ===\n{detailed_log}\n"
+                    # 若尚未包含过程日志，则补充过程日志片段
+                    if "测试执行过程日志" not in existing_log:
+                        complete_detailed_log = (
+                            f"{existing_log}\n\n=== 测试执行过程日志 (行数范围: {start_line_number + 1}-{end_line_number}) ===\n"
+                            f"{test_execution_log}\n\n=== 主执行线程补充的输出 ===\n{detailed_log}\n"
+                        )
+                    log_info(f"检测到已有详细日志，采用追加模式写入")
                 else:
-                    # 如果没有现有日志或监控线程未收集，创建完整日志
+                    # 没有现有日志，创建完整日志
                     complete_detailed_log = f"=== 测试执行过程日志 (行数范围: {start_line_number + 1}-{end_line_number}) ===\n{test_execution_log}\n\n=== pytest输出 ===\n{detailed_log}"
                 
                 # 更新执行记录的detailed_log字段
@@ -4932,11 +5142,12 @@ from Base_ENV.config import *
                 if operation_type == 'web':
                     # 生成截图代码变量
                     screenshot_enabled = step.get('screenshot_enabled', 'NO').upper()
-                    screenshot_config = step.get('screenshot_config', {})
-                    screenshot_timing = screenshot_config.get('timing', 'none')
+                    screenshot_config = step.get('screenshot_config') or {}  # 处理None的情况
+                    # 获取timing，如果为空字符串则使用默认值'none'
+                    screenshot_timing = screenshot_config.get('timing') or 'none'
                     
                     # 步骤前截图代码
-                    if screenshot_enabled == 'YES' and screenshot_timing in ['before', 'both']:
+                    if screenshot_enabled in ['YES','yes'] and screenshot_timing in ['before', 'both']:
                         before_screenshot_code = '''
                 # 步骤前截图
                 with allure.step("测试步骤''' + str(j+1) + ''': ''' + step_name + ''' - 步骤前截图"):
@@ -4950,7 +5161,7 @@ from Base_ENV.config import *
                         before_screenshot_code = ''
                     
                     # 步骤后截图代码
-                    if screenshot_enabled == 'YES' and screenshot_timing in ['after', 'both']:
+                    if screenshot_enabled in ['YES','yes'] and screenshot_timing in ['after', 'both']:
                         after_screenshot_code = '''
                 # 步骤后截图
                 with allure.step("测试步骤''' + str(j+1) + ''': ''' + step_name + ''' - 步骤后截图"):
@@ -4963,7 +5174,7 @@ from Base_ENV.config import *
                     else:
                         after_screenshot_code = ''
                     # 失败截图代码
-                    if screenshot_enabled == 'YES' and screenshot_timing == 'on_failure':
+                    if screenshot_enabled in ['YES','yes'] and screenshot_timing == 'on_failure':
                         failure_screenshot_code = '''
                         # 操作失败截图
                             with allure.step("测试步骤''' + str(i+1) + ''': ''' + step_name + ''' - 操作失败截图"):
@@ -5194,6 +5405,7 @@ from Base_ENV.config import *
                 # 请根据实际的页面滚动进行调整到图片可见
                 await ui_operations.page_mouse_scroll(delta_x=0, delta_y=1500)
                 # 执行游戏图片操作 {operation_count} 次
+                await asyncio.sleep(7)
                 for attempt in range({operation_count}):
                     # 检查浏览器是否已关闭（即使是游戏操作也需要检查浏览器状态）
                     if await ui_operations.is_browser_closed():
@@ -5203,8 +5415,9 @@ from Base_ENV.config import *
                         time.sleep({pause_time})
                         success = await ui_operations.click_image_with_fallback(
                             "{img_path}",
-                            confidence=0.5, 
-                            timeout=10
+                            confidence=0.7, 
+                            timeout=10,
+                            is_open=''' + ("True" if "blocker_enabled" in step and step.get('blocker_enabled') == 'yes' else "False") + '''
                         )
                         if success:
                             log_info(f"[{{task_id}}] 第{attempt + 1}次操作完成")
@@ -5249,7 +5462,6 @@ from Base_ENV.config import *
             if browser:
                 await browser.close()
             
-
 '''
         
         # 生成动态并发执行函数
@@ -5365,11 +5577,12 @@ from Base_ENV.config import *
                 if operation_type == 'web':
                     # 生成截图代码变量
                     screenshot_enabled = step.get('screenshot_enabled', 'NO').upper()
-                    screenshot_config = step.get('screenshot_config', {})
-                    screenshot_timing = screenshot_config.get('timing', 'none')
+                    screenshot_config = step.get('screenshot_config') or {}  # 处理None的情况
+                    # 获取timing，如果为空字符串则使用默认值'none'
+                    screenshot_timing = screenshot_config.get('timing') or 'none'
                     
                     # 步骤前截图代码
-                    if screenshot_enabled == 'YES' and screenshot_timing in ['before', 'both']:
+                    if screenshot_enabled in ['YES','yes'] and screenshot_timing in ['before', 'both']:
                         before_screenshot_code = '''
                 # 步骤前截图
                 with allure.step("测试步骤''' + str(j+1) + ''': ''' + step_name + ''' - 步骤前截图"):
@@ -5382,7 +5595,7 @@ from Base_ENV.config import *
                     else:
                         before_screenshot_code = ''
                     # 步骤后截图代码
-                    if screenshot_enabled == 'YES' and screenshot_timing in ['after', 'both']:
+                    if screenshot_enabled in ['YES','yes'] and screenshot_timing in ['after', 'both']:
                         after_screenshot_code = '''
                 # 步骤后截图
                 with allure.step("测试步骤''' + str(j+1) + ''': ''' + step_name + ''' - 步骤后截图"):
@@ -5395,7 +5608,7 @@ from Base_ENV.config import *
                     else:
                         after_screenshot_code = ''
                     # 失败截图代码
-                    if screenshot_enabled == 'YES' and screenshot_timing == 'on_failure':
+                    if screenshot_enabled in ['YES','yes'] and screenshot_timing == 'on_failure':
                         failure_screenshot_code = '''
                             # 操作失败截图
                             with allure.step("测试步骤''' + str(i+1) + ''': ''' + step_name + ''' - 操作失败截图"):
@@ -5687,24 +5900,72 @@ from Base_ENV.config import *
                             if attempt == ''' + str(operation_count) + ''' - 1:  # 最后一次尝试失败
                                 log_info(f"[{task_id}] 所有 '''+ str(operation_count) + ''' 次尝试都失败")
                                 ''' + failure_screenshot_code + '''
-                            raise Exception(f"元素操作失败：无法找到元素 '''+ operation_params + '''")
                 time.sleep(1)  # 每次操作后等待1秒
+''' + after_screenshot_code + '''
             
 '''
-            code_content += '''            # 等待测试完成
+                if operation_type == 'game':
+                    img_path = operation_params.replace('\\', '/')
+                    # 根据操作事件选择对应的pyautogui方法
+                    if operation_event == 'double_click':
+                        click_action = 'pyautogui.doubleClick(center_x, center_y)'
+                    else:
+                        click_action = 'pyautogui.click(center_x, center_y)'
+                    code_content += f'''            
+            # 测试步骤{j+1}: {step_name} (操作次数: {operation_count})
+            with allure.step("{step_name} - 游戏图片{operation_event} 操作 ({img_path})"):
+                # 需要等待1S后再操作滚动
+                time.sleep(1)
+                # 游戏操作前先滚动页面确保图片可见
+                # 此功能需要由编写者确认需要滚动到的页面位置是什么，默认参数：delta_x=0, delta_y=1100
+                # 请根据实际的页面滚动进行调整到图片可见
+                await ui_operations.page_mouse_scroll(delta_x=0, delta_y=1500)
+                # 执行游戏图片操作 {operation_count} 次
+                await asyncio.sleep(7)
+                for attempt in range({operation_count}):
+                    # 检查浏览器是否已关闭（即使是游戏操作也需要检查浏览器状态）
+                    if await ui_operations.is_browser_closed():
+                        log_info(f"[{{task_id}}] 检测到浏览器已关闭，{function_name} 测试被用户中断")
+                        raise Exception("BROWSER_CLOSED_BY_USER")
+                    try:
+                        time.sleep({pause_time})
+                        success = await ui_operations.click_image_with_fallback(
+                            "{img_path}",
+                            confidence=0.7, 
+                            timeout=10,
+                            is_open=''' + ("True" if "blocker_enabled" in step and step.get('blocker_enabled') == 'yes' else "False") + '''
+                        )
+                        if success:
+                            log_info(f"[{{task_id}}] 第{attempt + 1}次操作完成")
+                        else:
+                            log_info(f"[{{task_id}}] 第{attempt + 1}次尝试：没有找到图片 {img_path}")
+                            if attempt == {operation_count - 1}:  # 最后一次尝试失败
+                                log_info(f"[{{task_id}}]  所有 {operation_count} 次尝试都失败，无法找到图片")
+                            raise Exception(f"图片定位失败：无法找到图片 {img_path}")
+                    except Exception as e:
+                        log_info(f"[{{task_id}}]  第{attempt + 1}次图片定位失败")
+                        if attempt == {operation_count - 1}:  # 最后一次尝试失败
+                            log_info(f"[{{task_id}}]  所有 {operation_count} 次尝试都失败")
+                        raise Exception(f"图片定位失败：无法找到图片 {img_path}")
+                    time.sleep(1)  # 每次操作后等待1秒
+'''
+            code_content += f'''            # 等待测试完成
             time.sleep(3)
             # 最终检查浏览器状态
             if await ui_operations.is_browser_closed():
                 log_info("检测到浏览器已关闭，''' + function_name + ''' 无法截图")
                 raise Exception("BROWSER_CLOSED_BY_USER")
+            
             await ui_operations.page_screenshot("''' + function_name + '''","over_test_test_step_''' + str(j+1) + '''")
             time.sleep(2)
+            
             # 输出图片识别统计信息
             stats = ui_operations.get_image_stats()
             log_info(f"[{task_id}] 图片识别统计: 截图识别成功 {stats['screenshot_success']} 次, "
                     f"pyautogui成功 {stats['pyautogui_success']} 次, "
                     f"总成功率 {stats['success_rate']:.2%}")
             log_info(f"[{task_id}] ''' + function_name + ''' 完成")
+            
         except Exception as e:
             log_info(f"[{task_id}] ''' + function_name + ''' 失败")
             raise e
@@ -5716,8 +5977,6 @@ from Base_ENV.config import *
                 await context.close()
             if browser:
                 await browser.close()
-            
-
 '''
         
         # 生成动态并发执行函数
